@@ -23,7 +23,7 @@ namespace TrainingVSTO
             {
                 Workbooks.clearWorksheet();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

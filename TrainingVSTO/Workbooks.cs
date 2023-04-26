@@ -39,14 +39,14 @@ namespace TrainingVSTO
         public static void clearWorksheet()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            string text = currentSheet.Cells.Text.ToString();
+            var text = currentSheet.Columns[1].Value;
 
-            if (text != string.Empty)
+            if (text != null)
             {
                 currentSheet.Columns.Rows.Clear();
+                text = null;
             }
         }
-
         public static void ReadAndWriteArq(string path)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
