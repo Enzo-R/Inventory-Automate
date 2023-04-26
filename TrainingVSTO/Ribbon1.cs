@@ -15,7 +15,7 @@ namespace TrainingVSTO
     {
         private void AbreModeloClick(object sender, RibbonControlEventArgs e)
         {
-            Workbooks.CriandoM7Diario();
+            Files.CreateM7D();
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {

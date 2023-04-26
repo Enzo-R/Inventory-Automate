@@ -13,29 +13,7 @@ namespace TrainingVSTO
 {
     public class Workbooks
     {
-        //classe responsavel por manipular e criar objetos e intancias do excel
-
-        public static void CriandoM7Diario()
-        {
-            // Criar uma nova instância do Excel
-            Excel.Application excelApp = new Excel.Application();
-            excelApp.Visible = true;
-            Workbook wb = new Workbook();
-            //wb.Save();
-            Worksheet worksheet = new Worksheet();
-            worksheet.Name = "M7 Dayli";
-
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-
-
-
-
-            //Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            //var _ = currentSheet.ExportAsFixedFormat().Columns[2, 10];
-
-
-
-        }
+        //classe responsavel por manipular e criar elementos dentro do Excel
         public static void clearWorksheet()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
