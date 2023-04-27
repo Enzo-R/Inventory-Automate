@@ -14,7 +14,13 @@ namespace TrainingVSTO
     public class Workbooks
     {
         //classe responsavel por manipular e criar elementos dentro do Excel
-        public static void clearWorksheet()
+        public static void SheetSelect(string sheet)
+        {
+            Worksheet originalSheet = Globals.ThisAddIn.Application.ActiveWorkbook.Sheets[sheet];
+            originalSheet.Select();
+
+        }
+        public static void ClearWorksheet()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
             var text = currentSheet.Columns[1].Value;
@@ -67,6 +73,11 @@ namespace TrainingVSTO
             position.Value = conteudo;
 
         }
-        
+        public static void GetData()
+        {
+            Worksheet M7 = Globals.ThisAddIn.getActiveWorksheet();
+
+        }
+
     }
 }

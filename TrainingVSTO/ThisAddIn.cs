@@ -14,6 +14,7 @@ namespace TrainingVSTO
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            Files.OpenM7();
         }
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
@@ -28,9 +29,9 @@ namespace TrainingVSTO
             return (Excel.Workbook)Application.ActiveWorkbook;
 
         }
-        public Excel.Workbook getActiveApp()
+        public Excel.Application getActiveApp()
         {
-            return (Excel.Workbook)Application.Application;
+            return (Excel.Application)Application.Application;
 
         }
 

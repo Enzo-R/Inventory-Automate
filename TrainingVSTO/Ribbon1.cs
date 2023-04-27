@@ -29,9 +29,12 @@ namespace TrainingVSTO
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
+            string sh = "Original";
+            Workbooks.SheetSelect(sh);
+
             try
             {
-                Workbooks.clearWorksheet();
+                Workbooks.ClearWorksheet();
             }
             catch (Exception ex)
             {

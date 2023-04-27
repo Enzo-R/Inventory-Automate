@@ -14,18 +14,30 @@ namespace TrainingVSTO
     {
         //classe responsavel por manipular arquivos e criar intancias do excel
 
+        public static void OpenM7()
+        {
+            string path = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\AbreModelo7 - Rev1 - Copia.xlsm";
+            Application excelApp = (Excel.Application)Globals.ThisAddIn.getActiveApp();
+            excelApp.Visible = true;
+            Workbook workbook = excelApp.Workbooks.Open(path);
+            Worksheet worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+
+        }
+
         public static void CreateM7D(string text)
         {
             string path = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\modelo.xlsx";
             string FileName = "inventárioDia" + text;
 
-            // Create a new instence of Excel
+            // Create a new instence of Excel and open selected workbook
             Application excelApp = new Excel.Application();
             excelApp.Visible = true;
-
-            // Open a new workbook and sheets
             Workbook workbook = excelApp.Workbooks.Open(path);
             Worksheet worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+
+            // Put the M7 data to a new file model
+
+
 
 
             //Globals.Worksheet.PrintPreview();
