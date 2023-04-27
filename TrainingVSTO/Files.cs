@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,14 +16,19 @@ namespace TrainingVSTO
 
         public static void CreateM7D()
         {
+            string path = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\modelo.xlsx";
+
             // Create a new instence of Excel
             Application excelApp = new Excel.Application();
             excelApp.Visible = true;
 
-            // Create a new workboob and sheets
-            Workbook workbook = excelApp.Workbooks.Add();
+            // Open a new workbook and sheets
+            Workbook workbook = excelApp.Workbooks.Open(path);
             Worksheet worksheet = (Excel.Worksheet)workbook.ActiveSheet;
-            worksheet.Name = "M7";
+            
+            //worksheet.Name = "M7";
+
+            //Globals.Worksheet.PrintPreview();
 
             //wb.Save();
             //var _ = worksheet.ExportAsFixedFormat().Columns[2, 10];

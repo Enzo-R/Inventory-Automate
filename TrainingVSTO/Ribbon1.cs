@@ -30,15 +30,16 @@ namespace TrainingVSTO
             finally 
             {
                 OpenFileDialog openFile = new OpenFileDialog();
-                //openFile.Filter = "texto (*.txt)|.txt";
-                openFile.Title = "Open the data";
-                openFile.ShowDialog();
-                var path = openFile.FileName;
+                openFile.Filter = "text (*.txt)|*.txt";
+                openFile.Title = "Open the file";
 
-                if (path != string.Empty)
+                // Exibir o diálogo e verificar se o usuário clicou em "OK"
+                if (openFile.ShowDialog() == DialogResult.OK)
                 {
+                    string path = openFile.FileName;
                     Workbooks.ReadAndWriteArq(path);
                 }
+
             }
         }
     }

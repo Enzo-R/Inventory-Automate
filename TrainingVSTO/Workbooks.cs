@@ -28,19 +28,44 @@ namespace TrainingVSTO
         public static void ReadAndWriteArq(string path)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            var arq = File.ReadAllText(path);
 
-            try
+            //string[] linhas = File.ReadAllLines(path);
+
+            ////Escrever os dados do arquivo de texto na planilha Excel
+            //for (int i = 0; i < linhas.Length; i++)
+            //{
+            //    string[] colunas = linhas[i].Split('\t');// Separador de colunas no arquivo de texto, neste caso é o TAB
+            //    for (int j = 0; j < colunas.Length; j++)
+            //    {
+            //        var arq = currentSheet.Cells[i + 1, j + 1].Value = colunas[j];
+            //    }
+            //}
+
+            void releaseObject(object obj)
             {
-                var cell = currentSheet.Range["A1"].Value2 = arq;
-                cell.Columns.AutoFit();
-
+                try
+                {
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                    obj = null;
+                }
+                catch (Exception ex)
+                {
+                    obj = null;
+                    MessageBox.Show("Ocorreu um erro ao liberar o objeto do Excel: " + ex.ToString());
+                }
+                finally
+                {
+                    GC.Collect();
+                }
             }
-            catch (Exception ex)
-            {
+            releaseObject(currentSheet);
 
-               MessageBox.Show(ex.Message);
-            }
+            //range.PasteSpecial(XlPasteType.xlPasteAll);
+            //como copiar o conteudo de um arquivo de texto
+            string conteudo = File.ReadAllText(path);
+            Range position = currentSheet.Columns[1];
+            position.Value = conteudo;
+
         }
     }
 }
