@@ -9,7 +9,7 @@ using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace TrainingVSTO
+namespace TrainingVSTO.Models
 {
     public class Workbooks
     {
@@ -17,10 +17,9 @@ namespace TrainingVSTO
         public static void SheetSelect(string sheet)
         {
             Worksheet originalSheet = Globals.ThisAddIn.Application.ActiveWorkbook.Sheets[sheet];
-            originalSheet.Select();
-
+            originalSheet.Activate();
         }
-        public static void ClearWorksheet()
+        public static void ClearCurrentWorksheet()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
             var text = currentSheet.Columns[1].Value;
@@ -73,9 +72,16 @@ namespace TrainingVSTO
             position.Value = conteudo;
 
         }
-        public static void GetData()
+        public static void GetData(string sheet)
         {
-            Worksheet M7 = Globals.ThisAddIn.getActiveWorksheet();
+            SheetSelect(sheet);
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+
+            Range dados = currentSheet.Columns[2, 11].Rows[2000].Value;
+
+  
+            M7.Data = dados;
+
 
         }
 

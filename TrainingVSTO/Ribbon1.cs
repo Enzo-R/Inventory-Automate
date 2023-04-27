@@ -15,11 +15,13 @@ namespace TrainingVSTO
     {
         private void AbreModeloClick(object sender, RibbonControlEventArgs e)
         {
+            string m7ef = "M7 EF";
             string day = editBox1.Text;
+            Models.Workbooks.GetData(m7ef);
 
             if (day != "")
             {
-                Files.CreateM7D(day);
+                Models.Files.CreateM7D(day);
             }
             else
             {
@@ -30,11 +32,11 @@ namespace TrainingVSTO
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
             string sh = "Original";
-            Workbooks.SheetSelect(sh);
+            Models.Workbooks.SheetSelect(sh);
 
             try
             {
-                Workbooks.ClearWorksheet();
+                Models.Workbooks.ClearCurrentWorksheet();
             }
             catch (Exception ex)
             {
@@ -50,7 +52,7 @@ namespace TrainingVSTO
                 if (openFile.ShowDialog() == DialogResult.OK)
                 {
                     string path = openFile.FileName;
-                    Workbooks.ReadAndWriteArq(path);
+                    Models.Workbooks.ReadAndWriteArq(path);
                 }
 
             }

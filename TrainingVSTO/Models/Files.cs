@@ -8,7 +8,7 @@ using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace TrainingVSTO
+namespace TrainingVSTO.Models
 {
     public class Files
     {
@@ -24,10 +24,11 @@ namespace TrainingVSTO
 
         }
 
-        public static void CreateM7D(string text)
+        public static void CreateM7D(string day)
         {
             string path = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\modelo.xlsx";
-            string FileName = "inventárioDia" + text;
+            string FileName = "inventárioDia" + day;
+            string m7 = "M7 EF";
 
             // Create a new instence of Excel and open selected workbook
             Application excelApp = new Excel.Application();
@@ -36,7 +37,7 @@ namespace TrainingVSTO
             Worksheet worksheet = (Excel.Worksheet)workbook.ActiveSheet;
 
             // Put the M7 data to a new file model
-
+            
 
 
 

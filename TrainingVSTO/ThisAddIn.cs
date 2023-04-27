@@ -14,7 +14,7 @@ namespace TrainingVSTO
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-            Files.OpenM7();
+            Models.Files.OpenM7();
         }
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
