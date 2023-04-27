@@ -72,7 +72,7 @@
             // 
             // editBox1
             // 
-            this.editBox1.Label = "M7:";
+            this.editBox1.Label = "Day:";
             this.editBox1.Name = "editBox1";
             this.editBox1.Text = null;
             // 

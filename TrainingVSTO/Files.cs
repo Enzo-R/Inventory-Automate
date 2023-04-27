@@ -14,9 +14,10 @@ namespace TrainingVSTO
     {
         //classe responsavel por manipular arquivos e criar intancias do excel
 
-        public static void CreateM7D()
+        public static void CreateM7D(string text)
         {
             string path = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\modelo.xlsx";
+            string FileName = "inventárioDia" + text;
 
             // Create a new instence of Excel
             Application excelApp = new Excel.Application();
@@ -25,12 +26,11 @@ namespace TrainingVSTO
             // Open a new workbook and sheets
             Workbook workbook = excelApp.Workbooks.Open(path);
             Worksheet worksheet = (Excel.Worksheet)workbook.ActiveSheet;
-            
-            //worksheet.Name = "M7";
+
 
             //Globals.Worksheet.PrintPreview();
-
-            //wb.Save();
+            //workbook.SaveAs(FileName);
+            //workbook.SaveCopyAs(FileName);
             //var _ = worksheet.ExportAsFixedFormat().Columns[2, 10];
         }
     }

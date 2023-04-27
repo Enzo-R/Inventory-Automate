@@ -15,7 +15,17 @@ namespace TrainingVSTO
     {
         private void AbreModeloClick(object sender, RibbonControlEventArgs e)
         {
-            Files.CreateM7D();
+            string day = editBox1.Text;
+
+            if (day != "")
+            {
+                Files.CreateM7D(day);
+            }
+            else
+            {
+                MessageBox.Show("Insira uma data para o inventário!");
+            }
+
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
