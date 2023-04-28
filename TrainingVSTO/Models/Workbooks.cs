@@ -14,20 +14,28 @@ namespace TrainingVSTO.Models
     public class Workbooks
     {
         //classe responsavel por manipular e criar elementos dentro do Excel
-        public static void SheetSelect(string sheet)
+        public static void SheetSelect(string sheet, string path)
         {
-            Worksheet originalSheet = Globals.ThisAddIn.Application.ActiveWorkbook.Sheets[sheet];
+            Microsoft.Office.Interop.Excel.Application excelApp = Globals.ThisAddIn.getActiveApp();
+            Workbook workbook = excelApp.Workbooks.Open(path);
+            Worksheet originalSheet = excelApp.ActiveWorkbook.Sheets[sheet];
             originalSheet.Activate();
         }
-        public static void ClearCurrentWorksheet()
+        public static void releaseObject(object obj)
         {
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            var text = currentSheet.Columns[1].Value; // or ["A"]
-
-            if (text != null)
+            try
             {
-                currentSheet.Cells.Clear();
-                text = null;
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+                MessageBox.Show("Ocorreu um erro ao liberar o objeto do Excel: " + ex.ToString());
+            }
+            finally
+            {
+                GC.Collect();
             }
         }
         public static void ReadAndWriteArq(string path)
@@ -42,30 +50,11 @@ namespace TrainingVSTO.Models
                 string[] colunas = linhas[i].Split('\t');// Separador de colunas no arquivo de texto, neste caso é o TAB
                 for (int j = 0; j < colunas.Length; j++)
                 {
-                    currentSheet.Cells[i + 1, j + 1].Value = colunas[j];
-                    
+                    currentSheet.Cells[i + 1, j + 1].Value = colunas[j];                    
                 }
             }
 
-            currentSheet.Cells.AutoFit();
 
-            void releaseObject(object obj)
-            {
-                try
-                {
-                    System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                    obj = null;
-                }
-                catch (Exception ex)
-                {
-                    obj = null;
-                    MessageBox.Show("Ocorreu um erro ao liberar o objeto do Excel: " + ex.ToString());
-                }
-                finally
-                {
-                    GC.Collect();
-                }
-            }
             releaseObject(currentSheet);
 
             //range.PasteSpecial(XlPasteType.xlPasteAll);
@@ -77,15 +66,10 @@ namespace TrainingVSTO.Models
         }
         public static void GetData(string sheet)
         {
-            SheetSelect(sheet);
+            SheetSelect(sheet, Models.Excel.PathToM7D);
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-
-            var dados = currentSheet.Range["B5 : K20000"].Value;
-
-  
-            M7.Data = dados;
-
-
+            object dados = currentSheet.Range["B5 : K20000"].Value;
+            Excel.Data = dados;
         }
 
     }

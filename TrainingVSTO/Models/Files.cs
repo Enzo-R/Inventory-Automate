@@ -14,37 +14,29 @@ namespace TrainingVSTO.Models
     {
         //classe responsavel por manipular arquivos e criar intancias do excel
 
-        public static void OpenM7()
+        public static void OpenM7Model()
         {
-            string path = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\AbreModelo7 - Rev1 - Copia.xlsm";
-            Application excelApp = (Excel.Application)Globals.ThisAddIn.getActiveApp();
+            Application excelApp = (Microsoft.Office.Interop.Excel.Application)Globals.ThisAddIn.getActiveApp();
             excelApp.Visible = true;
-            Workbook workbook = excelApp.Workbooks.Open(path);
-            Worksheet worksheet = (Excel.Worksheet)workbook.ActiveSheet;
-
+            Workbook workbook = excelApp.Workbooks.Open(Models.Excel.PathToM7D);
+            Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Sheets[1];
         }
 
         public static void CreateM7D(string day)
         {
-            string path = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\modelo.xlsx";
             string FileName = "inventárioDia" + day;
-            string m7 = "M7 EF";
 
-            // Create a new instence of Excel and open selected workbook
-            Application excelApp = new Excel.Application();
-            excelApp.Visible = true;
-            Workbook workbook = excelApp.Workbooks.Open(path);
-            Worksheet worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+            // Use the current instence of Excel and open selected workbook
+            Workbooks.SheetSelect("M7", Models.Excel.PathM7C);
 
             // Put the M7 data to a new file model
-            
-
-
+            Globals.ThisAddIn.getActiveWorksheet().Range["B5 : K20000"].Value = Excel.Data;
 
             //Globals.Worksheet.PrintPreview();
             //workbook.SaveAs(FileName);
             //workbook.SaveCopyAs(FileName);
             //var _ = worksheet.ExportAsFixedFormat().Columns[2, 10];
+            Workbooks.releaseObject(Globals.ThisAddIn.getActiveWorksheet());
         }
     }
 }
