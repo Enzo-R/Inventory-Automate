@@ -31,7 +31,7 @@ namespace TrainingVSTO
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
-            Models.Workbooks.SheetSelect("Original", Models.Excel.PathToM7D);
+            Models.Workbooks.SheetSelect("Original", Models.Excel.PathToM7DModel);
             try
             {
                 Globals.ThisAddIn.getActiveWorksheet().Cells.Clear();

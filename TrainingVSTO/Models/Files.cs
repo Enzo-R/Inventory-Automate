@@ -18,25 +18,29 @@ namespace TrainingVSTO.Models
         {
             Application excelApp = (Microsoft.Office.Interop.Excel.Application)Globals.ThisAddIn.getActiveApp();
             excelApp.Visible = true;
-            Workbook workbook = excelApp.Workbooks.Open(Models.Excel.PathToM7D);
+            Workbook workbook = excelApp.Workbooks.Open(Models.Excel.PathToM7DModel);
             Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Sheets[1];
         }
 
         public static void CreateM7D(string day)
         {
-            string FileName = "inventárioDia" + day;
+            string File = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\M7 - STK " + day + ".xla";
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+            Workbook wb = Globals.ThisAddIn.getActiveWorkbook();
+
 
             // Use the current instence of Excel and open selected workbook
-            Workbooks.SheetSelect("M7", Models.Excel.PathM7C);
+            Workbooks.SheetSelect("M7", Models.Excel.PathToM7Open);
 
             // Put the M7 data to a new file model
-            Globals.ThisAddIn.getActiveWorksheet().Range["B5 : K20000"].Value = Excel.Data;
+            currentSheet.Range["B5 : K20000"].Value = Excel.Data;
+            currentSheet.Columns.AutoFit();
 
-            //Globals.Worksheet.PrintPreview();
-            //workbook.SaveAs(FileName);
-            //workbook.SaveCopyAs(FileName);
-            //var _ = worksheet.ExportAsFixedFormat().Columns[2, 10];
-            Workbooks.releaseObject(Globals.ThisAddIn.getActiveWorksheet());
+            //Formulas to get the final data
+
+            //End
+            wb.SaveAs(File);
+            Workbooks.releaseObject(currentSheet);
         }
     }
 }

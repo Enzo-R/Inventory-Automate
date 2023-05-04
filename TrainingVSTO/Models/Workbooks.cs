@@ -42,18 +42,22 @@ namespace TrainingVSTO.Models
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
-            string[] linhas = File.ReadAllLines(path);
+            string Text = File.ReadAllText(path);
+            string[] rows = Text.Split('\n');
 
-            //Escrever os dados do arquivo de texto na planilha Excel
-            for (int i = 0; i < linhas.Length; i++)
+            // Cria um loop para iterar pelas linhas e copiar cada uma para a planilha do Excel
+            int linhaAtual = 1;
+            foreach (string row in rows)
             {
-                string[] colunas = linhas[i].Split('\t');// Separador de colunas no arquivo de texto, neste caso é o TAB
-                for (int j = 0; j < colunas.Length; j++)
-                {
-                    currentSheet.Cells[i + 1, j + 1].Value = colunas[j];                    
-                }
-            }
+                // Seleciona a célula atual na planilha do Excel
+                Range range = currentSheet.Cells[linhaAtual, 1];
 
+                // Cola a linha atual na célula selecionada
+                range.Value2 = row;
+
+                // Incrementa o número da linha atual
+                linhaAtual++;
+            }
 
             releaseObject(currentSheet);
 
@@ -62,6 +66,18 @@ namespace TrainingVSTO.Models
             //string conteudo = File.ReadAllText(path);
             //Range position = currentSheet.Columns[1];
             //position.Value = conteudo;
+
+            //string[] linhas = File.ReadAllLines(path);
+
+            ////Escrever os dados do arquivo de texto na planilha Excel
+            //for (int i = 0; i < linhas.Length; i++)
+            //{
+            //    string[] colunas = linhas[i].Split('\t');// Separador de colunas no arquivo de texto, neste caso é o TAB
+            //    for (int j = 0; j < colunas.Length; j++)
+            //    {
+            //        currentSheet.Cells[i + 1, j + 1].Value = colunas[j];                    
+            //    }
+            //}
 
         }
         public static void GetData(string sheet)

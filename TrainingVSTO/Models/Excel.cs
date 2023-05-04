@@ -10,13 +10,13 @@ namespace TrainingVSTO.Models
     public static class Excel
     {
         public static object Data { get; set; }
-        public static string PathM7C
+        public static string PathToM7Open
         {
             get { return "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\Model.xlsx"; }
         }
-        public static string PathToM7D
+        public static string PathToM7DModel
         {
-            get { return "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\AbreModelo7 - Rev1 - Copia.xlsm"; }
+            get { return "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\AbreModelo7 - Rev1.xlsm"; }
         }
     }
 }
