@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
+using TrainingVSTO;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace TrainingVSTO.Models
@@ -14,14 +15,15 @@ namespace TrainingVSTO.Models
     public class Workbooks
     {
         //classe responsavel por manipular e criar elementos dentro do Excel
-        public static void SheetSelect(string sheet, string path)
+
+        public static Worksheet SheetSelect(string sheet, string path)
         {
             Microsoft.Office.Interop.Excel.Application excelApp = Globals.ThisAddIn.getActiveApp();
             Workbook workbook = excelApp.Workbooks.Open(path);
-            Worksheet originalSheet = excelApp.ActiveWorkbook.Sheets[sheet];
-            originalSheet.Activate();
+            Worksheet Sheet = workbook.Sheets[sheet];
+            return Sheet;
         }
-        public static void releaseObject(object obj)
+        public static void ReleaseObject(object obj)
         {
             try
             {
@@ -59,7 +61,7 @@ namespace TrainingVSTO.Models
                 linhaAtual++;
             }
 
-            releaseObject(currentSheet);
+            ReleaseObject(currentSheet);
 
             //range.PasteSpecial(XlPasteType.xlPasteAll);
             //como copiar o conteudo de um arquivo de texto
@@ -80,13 +82,16 @@ namespace TrainingVSTO.Models
             //}
 
         }
-        public static void GetData(string sheet)
+        public static object Data(string sheet)
         {
-            SheetSelect(sheet, Models.Excel.PathToM7D);
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
             object dados = currentSheet.Range["B5 : K20000"].Value;
-            Excel.Data = dados;
+            return dados;
         }
+        public static void Join()
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
+        }
     }
 }

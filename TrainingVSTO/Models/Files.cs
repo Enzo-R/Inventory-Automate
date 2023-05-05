@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
 using Excel = Microsoft.Office.Interop.Excel;
+using Workbook = Microsoft.Office.Interop.Excel.Workbook;
 
 namespace TrainingVSTO.Models
 {
@@ -24,23 +25,23 @@ namespace TrainingVSTO.Models
 
         public static void CreateM7D(string day)
         {
-            string File = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\M7 - STK " + day + ".xla";
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            Workbook wb = Globals.ThisAddIn.getActiveWorkbook();
-
-
             // Use the current instence of Excel and open selected workbook
-            Workbooks.SheetSelect("M7", Models.Excel.PathToM7Open);
+            Workbooks.SheetSelect("M7", Models.Excel.PathToM7DOpen);
+
+            // Variables
+            string File = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\M7 - STK " + day + ".xla";
+            Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
             // Put the M7 data to a new file model
-            currentSheet.Range["B5 : K20000"].Value = Excel.Data;
+            currentSheet.Range["A4 : K20000"].Value = Models.Excel.Data;
+
             currentSheet.Columns.AutoFit();
 
-            //Formulas to get the final data
 
             //End
-            wb.SaveAs(File);
-            Workbooks.releaseObject(currentSheet);
+            //workbook.SaveAs(File);
+            Workbooks.ReleaseObject(currentSheet);
         }
     }
 }

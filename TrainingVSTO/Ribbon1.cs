@@ -15,10 +15,8 @@ namespace TrainingVSTO
     {
         private void AbreModeloClick(object sender, RibbonControlEventArgs e)
         {
-            string m7ef = "M7 EF";
             string day = editBox1.Text;
-            Models.Workbooks.GetData(m7ef);
-
+            Models.Excel.Data = Models.Workbooks.Data("M7 EF");
             if (day != "")
             {
                 Models.Files.CreateM7D(day);
@@ -31,10 +29,13 @@ namespace TrainingVSTO
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
-            Models.Workbooks.SheetSelect("Original", Models.Excel.PathToM7DModel);
+            //Models.Workbooks.SheetSelect("Original", Models.Excel.PathToM7DModel);
+            Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
+            Worksheet Sheet = workbook.Sheets["Original"];
+            Sheet.Activate();
             try
             {
-                Globals.ThisAddIn.getActiveWorksheet().Cells.Clear();
+                Sheet.Cells.Clear();
             }
             catch (Exception ex)
             {
