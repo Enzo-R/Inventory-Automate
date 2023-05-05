@@ -29,19 +29,22 @@ namespace TrainingVSTO.Models
             Workbooks.SheetSelect("M7", Models.Excel.PathToM7DOpen);
 
             // Variables
-            string File = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\M7 - STK " + day + ".xla";
+            string File = "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\M7 - STK " + day + ".xlsx";
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
             // Put the M7 data to a new file model
             currentSheet.Range["A4 : K20000"].Value = Models.Excel.Data;
-
             currentSheet.Columns.AutoFit();
 
 
             //End
-            //workbook.SaveAs(File);
-            Workbooks.ReleaseObject(currentSheet);
+            if (currentSheet.Cells != null)
+            {
+                workbook.SaveAs(File);
+                Workbooks.ReleaseObject(currentSheet);
+            }
+
         }
     }
 }

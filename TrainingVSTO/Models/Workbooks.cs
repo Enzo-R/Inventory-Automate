@@ -90,8 +90,20 @@ namespace TrainingVSTO.Models
         }
         public static void Join()
         {
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
 
+            //Worksheet formula = currentSheet.Cells[11, 4].Formula = "=PROCV(B4;'Base Contas'!A:C;3;0)";
+
+            Range f1 = currentSheet.Range["K:K"];
+            f1.Formula = "=PROCV(B4;'Base Contas'!A:C;3;0)";
+            f1.Calculate();
+            f1.Cells.AutoFill(f1);
+
+
+            if(f1.Cells.Value == null)
+            {
+                
+            }
         }
     }
 }
