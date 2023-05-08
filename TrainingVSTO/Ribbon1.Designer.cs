@@ -39,6 +39,7 @@
             this.OpenFile = this.Factory.CreateRibbonButton();
             this.BtnAbre = this.Factory.CreateRibbonButton();
             this.editBox1 = this.Factory.CreateRibbonEditBox();
+            this.button1 = this.Factory.CreateRibbonButton();
             this.AddIns.SuspendLayout();
             this.Actions.SuspendLayout();
             this.SuspendLayout();
@@ -55,6 +56,7 @@
             this.Actions.Items.Add(this.OpenFile);
             this.Actions.Items.Add(this.BtnAbre);
             this.Actions.Items.Add(this.editBox1);
+            this.Actions.Items.Add(this.button1);
             this.Actions.Label = "Actions";
             this.Actions.Name = "Actions";
             // 
@@ -76,6 +78,12 @@
             this.editBox1.Name = "editBox1";
             this.editBox1.Text = null;
             // 
+            // button1
+            // 
+            this.button1.Label = "button1";
+            this.button1.Name = "button1";
+            this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button1_Click);
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -96,6 +104,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton BtnAbre;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton OpenFile;
         internal Microsoft.Office.Tools.Ribbon.RibbonEditBox editBox1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
     }
 
     partial class ThisRibbonCollection

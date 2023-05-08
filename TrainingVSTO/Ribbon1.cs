@@ -56,5 +56,10 @@ namespace TrainingVSTO
 
             }
         }
+
+        private void button1_Click(object sender, RibbonControlEventArgs e)
+        {
+            Models.Workbooks.Join();
+        }
     }
 }

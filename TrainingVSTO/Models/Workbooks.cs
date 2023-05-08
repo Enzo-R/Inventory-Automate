@@ -88,22 +88,31 @@ namespace TrainingVSTO.Models
             object dados = currentSheet.Range["B5 : K20000"].Value;
             return dados;
         }
-        public static void Join()
+        public static void JoinClass()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture =
+                            new System.Globalization.CultureInfo("en-US");
+
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
+            Range f1;
 
-            //Worksheet formula = currentSheet.Cells[11, 4].Formula = "=PROCV(B4;'Base Contas'!A:C;3;0)";
+            f1 = currentSheet.Range["K4:K20000"];
+            f1.Formula = @"=VLOOKUP(B4,'Base Contas'!A:C,3,0)";
+            //f1.Cells.AutoFill(f1);
 
-            Range f1 = currentSheet.Range["K:K"];
-            f1.Formula = "=PROCV(B4;'Base Contas'!A:C;3;0)";
-            f1.Calculate();
-            f1.Cells.AutoFill(f1);
+            //Range col = currentSheet.Columns.Count;
 
-
-            if(f1.Cells.Value == null)
+            //retira os valores nullos
+            if (f1.Cells.Value == "#N/D")
             {
-                
+                currentSheet.Range["K"].AutoFilter(Field: 10, Criteria1: "#N/D");
+                currentSheet.Range["K4:K20000"]
+                    .SpecialCells(Microsoft.Office.Interop.Excel.XlCellType.xlCellTypeVisible)
+                    .Delete();
             }
+
+            Models.Workbooks.ReleaseObject(currentSheet);
         }
+
     }
 }
