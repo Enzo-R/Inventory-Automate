@@ -25,11 +25,9 @@ namespace TrainingVSTO
             {
                 MessageBox.Show("Insira uma data para o inventário!");
             }
-
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
-            //Models.Workbooks.SheetSelect("Original", Models.Excel.PathToM7DModel);
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
             Worksheet Sheet = workbook.Sheets["Original"];
             Sheet.Activate();
@@ -53,13 +51,11 @@ namespace TrainingVSTO
                     string path = openFile.FileName;
                     Models.Workbooks.ReadAndWriteArq(path);
                 }
-
             }
         }
-
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
-            Models.Workbooks.Join();
+            Models.Workbooks.JoinClass();
         }
     }
 }

@@ -103,13 +103,15 @@ namespace TrainingVSTO.Models
             //Range col = currentSheet.Columns.Count;
 
             //retira os valores nullos
-            if (f1.Cells.Value == "#N/D")
-            {
-                currentSheet.Range["K"].AutoFilter(Field: 10, Criteria1: "#N/D");
-                currentSheet.Range["K4:K20000"]
-                    .SpecialCells(Microsoft.Office.Interop.Excel.XlCellType.xlCellTypeVisible)
-                    .Delete();
-            }
+            //if (f1.Cells.Value == "#N/D")
+            //{
+            //    f1["A4 : J20000"].AutoFilter(1, "Valor 1", XlAutoFilterOperator.xlOr, 2, "Valor 2");
+
+            //    currentSheet.Range["K"].AutoFilter(1, Criteria1: "#N/D");
+            //    currentSheet.Range["K4:K20000"]
+            //        .SpecialCells(XlCellType.xlCellTypeVisible)
+            //        .Delete();
+            //}
 
             Models.Workbooks.ReleaseObject(currentSheet);
         }
