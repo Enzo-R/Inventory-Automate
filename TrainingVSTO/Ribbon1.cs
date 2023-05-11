@@ -55,7 +55,20 @@ namespace TrainingVSTO
         }
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
-            Models.Workbooks.JoinClass();
+            Models.Workbooks.VLookUp();
+            //string name = editBox1.Text;
+            //string path = @"C:\Users\Enzo\Desktop\clientes\"+name;
+
+            //if (name != "")
+            //{
+            //    Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+            //    currentSheet.ExportAsFixedFormat(XlFixedFormatType.xlTypePDF, path, XlFixedFormatQuality.xlQualityMinimum);
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Insira uma data para o inventário!");
+            //}
+
         }
     }
 }

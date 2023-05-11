@@ -35,7 +35,7 @@ namespace TrainingVSTO.Models
 
             // Put the M7 data to a new file model
             currentSheet.Range["A4 : J20000"].Value = Models.Excel.Data;
-            Models.Workbooks.JoinClass();
+            //Models.Workbooks.JoinClass();
             currentSheet.Columns.AutoFit();
 
 

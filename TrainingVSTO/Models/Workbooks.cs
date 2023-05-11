@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Office.Interop;
-using Microsoft.Office.Interop.Excel;
-using TrainingVSTO;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace TrainingVSTO.Models
 {
@@ -88,33 +81,59 @@ namespace TrainingVSTO.Models
             object dados = currentSheet.Range["B5 : K20000"].Value;
             return dados;
         }
-        public static void JoinClass()
+        public static void VLookUp()
         {
-            System.Threading.Thread.CurrentThread.CurrentCulture =
-                            new System.Globalization.CultureInfo("en-US");
+            //System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("en-US");
+            //System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
 
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
             Range f1;
-
-            f1 = currentSheet.Range["K4:K20000"];
+            //forma de obter o tamanho das colunas.
+            f1 = currentSheet.Range["K4:K14598"];
             f1.Formula = @"=VLOOKUP(B4,'Base Contas'!A:C,3,0)";
-            //f1.Cells.AutoFill(f1);
 
-            //Range col = currentSheet.Columns.Count;
+            FilterData();
 
-            //retira os valores nullos
-            //if (f1.Cells.Value == "#N/D")
-            //{
-            //    f1["A4 : J20000"].AutoFilter(1, "Valor 1", XlAutoFilterOperator.xlOr, 2, "Valor 2");
 
-            //    currentSheet.Range["K"].AutoFilter(1, Criteria1: "#N/D");
-            //    currentSheet.Range["K4:K20000"]
-            //        .SpecialCells(XlCellType.xlCellTypeVisible)
-            //        .Delete();
-            //}
-
-            Models.Workbooks.ReleaseObject(currentSheet);
         }
+        public static void FilterData()
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
 
+            string[] filterCriteria = new string[] {
+                "BENS CAPITAL EM PROCESSO",
+                "FERRAMENTAL PARA VENDA",
+                "INSUMO MANUT.MAQ.EQUIP.",
+                "INSUMOS AUTOMACAO",
+                "INSUMOS FERRAMENTARIA",
+                "MANUT.MAQ.PROD.FERRAM",
+                "MAQUINAS PARA VENDA",
+                "MAQUINAS TAKATA",
+                "MATERIA PRIMA",
+                "MATERIAIS AUXILIARES",
+                "MATERIAIS EPI",
+                "MATERIAIS PARA TESTE",
+                "MATERIAL CONSTR CIVIL",
+                "MATERIAL DE LIMPEZA",
+                "MATERIAL ESCRITORIO",
+                "MATERIAL INERTE",
+                "MATERIAL INFORMATICA",
+                "MERCADORIAS EM TRANSITO",
+                "MERCADORIAS PARA REVENDA",
+                "MOVEIS E UTENSILIOS",
+                "PRODUTOS ACABADOS",
+                "PRODUTOS SEMIACABADOS",
+                "SUBPRODUTO",
+                "USO CONSUMO MAQ.EQUIP."
+            };
+            Range dataRange = currentSheet.Range["$A$3:$P$14619"];
+
+            if (currentSheet.Range["K:K"].AutoFilter(11, "#N/D"))
+            {
+                dataRange.AutoFilter(4, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+                currentSheet.Range["$A$4:$P$14619"].SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+
+            }
+        }
     }
 }
