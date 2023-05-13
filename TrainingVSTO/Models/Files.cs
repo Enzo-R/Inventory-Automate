@@ -36,19 +36,17 @@ namespace TrainingVSTO.Models
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
             // Put the M7 data to a new file model
-            Range cols = currentSheet.Range["A4 : J4"];
-
-            currentSheet.Cells[Excel.Data].Value = Excel.Data;
-
-            //Models.Workbooks.VLookUp();
+            currentSheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
+            Models.Workbooks.VLookUp();
             currentSheet.Columns.AutoFit();
+            
 
             //End
-            if (currentSheet.Cells != null)
-            {
-                workbook.SaveAs(File);
-                Workbooks.ReleaseObject(currentSheet);
-            }
+            //if (currentSheet.Cells != null)
+            //{
+            //    workbook.SaveAs(File);
+            //    Workbooks.ReleaseObject(currentSheet);
+            //}
 
         }
     }

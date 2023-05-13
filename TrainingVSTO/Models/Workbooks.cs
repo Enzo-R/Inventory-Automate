@@ -57,14 +57,12 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static object Data(string sheet)
+        public static void Data(string sheet)
         {
-
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
             Range cells = currentSheet.Range["B5 : K5"];
             Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
-
-            return select.Value;
+            select.Copy();
         }
 
 
@@ -86,8 +84,7 @@ namespace TrainingVSTO.Models
         public static void FilterData()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
-            Range dataRange = currentSheet.Range["$A$3:$P$15000"];
-            Range colK = currentSheet.Range["K:K"];
+            Range k3 = GetCellsToSelect("K3");
 
 
             string[] filterCriteria = new string[] {
@@ -118,15 +115,29 @@ namespace TrainingVSTO.Models
                 "SUBPRODUTO",
                 "USO CONSUMO MAQ.EQUIP."
             };
+            string[] filterCriteria2 = new string[]
+            {
+                "EMBALAGENS RETORNAVEIS",
+                "MATERIAL TERCEIRO",
+                "PRODUTOS EM ELABORACAO"
+            };
 
-            if (colK.AutoFilter(11, "#N/D"))
+
+            if (k3.AutoFilter(11, "#N/D"))
             {
-                dataRange.AutoFilter(4, filterCriteria, XlAutoFilterOperator.xlFilterValues);
-                currentSheet.Range["$A$4:$P$15000"].SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-            }
-            if (dataRange.AutoFilter(3, "TRM"))
-            {
-                //currentSheet.Range["$C$4:$P$15000"].
+                Range d3 = GetCellsToSelect("D3");
+                d3.AutoFilter(4, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+
+                Range data = GetCellsToSelect("A4:K4");
+                data.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+
+                d3.AutoFilter(4, filterCriteria2, XlAutoFilterOperator.xlFilterValues);
+                
+                    Range k4 = GetCellsToSelect("K4");
+                    string novoValor = "Raw Material";
+                    k4.Value2 = novoValor;
+                
+
             }
 
 
@@ -140,12 +151,13 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void GetCellsToSelect(String cell)
+        public static Range GetCellsToSelect(String cell)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
             Range cellSelect = currentSheet.Range[cell];
             Range sl = currentSheet.Range[cellSelect, cellSelect.End[XlDirection.xlDown]];
+            return sl;
         }
     }
 }

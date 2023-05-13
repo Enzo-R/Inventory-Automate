@@ -14,7 +14,7 @@ namespace TrainingVSTO.Models
         public static object Data { get; set; }
         public static string PathToM7DOpen
         {
-            get { return "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\M7 - STK 28.04.2023 -.xlsx"; }
+            get { return "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\M7 - STK 28.04.2023 - novo.xlsx"; }
         }
         public static string PathToM7DModel
         {

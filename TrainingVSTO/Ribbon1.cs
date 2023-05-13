@@ -16,7 +16,7 @@ namespace TrainingVSTO
         private void AbreModeloClick(object sender, RibbonControlEventArgs e)
         {
             string day = editBox1.Text;
-            Models.Excel.Data = Models.Workbooks.Data("M7 EF");
+            Models.Workbooks.Data("M7 EF");
             if (day != "")
             {
                 Models.Files.CreateM7D(day);
