@@ -1,7 +1,14 @@
-﻿using Microsoft.Office.Interop.Excel;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Office.Interop;
+using Microsoft.Office.Interop.Excel;
+using TrainingVSTO;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace TrainingVSTO.Models
 {
@@ -33,20 +40,34 @@ namespace TrainingVSTO.Models
                 GC.Collect();
             }
         }
+
+
         public static void ReadAndWriteArq(string path)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
             var content = File.ReadAllText(path);
             Clipboard.SetText(content);
-            currentSheet.Range["A:A"].PasteSpecial(XlPasteType.xlPasteAll);
 
+            Range col = currentSheet.Range["A:A"];
+            col.PasteSpecial(XlPasteType.xlPasteAll);
+            if (col.Value != null)
+            {
+                Clipboard.Clear();
+            }
         }
+
+
         public static object Data(string sheet)
         {
+
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
-            object dados = currentSheet.Range["B5 : K20000"].Value;
-            return dados;
+            Range cells = currentSheet.Range["B5 : K5"];
+            Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
+
+            return select.Value;
         }
+
+
         public static void VLookUp()
         {
             //System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("en-US");
@@ -54,20 +75,24 @@ namespace TrainingVSTO.Models
 
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
             Range f1;
-            //forma de obter o tamanho das colunas.
+
             f1 = currentSheet.Range["K4:K14598"];
             f1.Formula = @"=VLOOKUP(B4,'Base Contas'!A:C,3,0)";
 
             FilterData();
-
-
         }
+
+
         public static void FilterData()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
+            Range dataRange = currentSheet.Range["$A$3:$P$15000"];
+            Range colK = currentSheet.Range["K:K"];
+
 
             string[] filterCriteria = new string[] {
                 "BENS CAPITAL EM PROCESSO",
+                "DISPOSITIVOS TAKATA",
                 "FERRAMENTAL PARA VENDA",
                 "INSUMO MANUT.MAQ.EQUIP.",
                 "INSUMOS AUTOMACAO",
@@ -84,6 +109,7 @@ namespace TrainingVSTO.Models
                 "MATERIAL ESCRITORIO",
                 "MATERIAL INERTE",
                 "MATERIAL INFORMATICA",
+                "MATERIAL QUIMICO",
                 "MERCADORIAS EM TRANSITO",
                 "MERCADORIAS PARA REVENDA",
                 "MOVEIS E UTENSILIOS",
@@ -92,16 +118,34 @@ namespace TrainingVSTO.Models
                 "SUBPRODUTO",
                 "USO CONSUMO MAQ.EQUIP."
             };
-            Range dataRange = currentSheet.Range["$A$3:$P$14619"];
 
-            if (currentSheet.Range["K:K"].AutoFilter(11, "#N/D"))
+            if (colK.AutoFilter(11, "#N/D"))
             {
                 dataRange.AutoFilter(4, filterCriteria, XlAutoFilterOperator.xlFilterValues);
-                currentSheet.Range["$A$4:$P$14619"].SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-
+                currentSheet.Range["$A$4:$P$15000"].SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+            }
+            if (dataRange.AutoFilter(3, "TRM"))
+            {
+                //currentSheet.Range["$C$4:$P$15000"].
             }
 
 
+            //if (string.IsNullOrEmpty())
+            //{
+            //    // Célula está vazia
+            //    // Faça o que for necessário para tratar a célula vazia
+            //}
+            //if(dataRange.AutoFilter()) delete.rows
+
+        }
+
+
+        public static void GetCellsToSelect(String cell)
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+
+            Range cellSelect = currentSheet.Range[cell];
+            Range sl = currentSheet.Range[cellSelect, cellSelect.End[XlDirection.xlDown]];
         }
     }
 }
