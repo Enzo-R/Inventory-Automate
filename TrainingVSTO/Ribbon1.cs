@@ -55,9 +55,9 @@ namespace TrainingVSTO
         }
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
-            Models.Workbooks.VLookUp();
             //string name = editBox1.Text;
             //string path = @"C:\Users\Enzo\Desktop\clientes\"+name;
+            //DateTime dateTime = DateTime.Now;
 
             //if (name != "")
             //{

@@ -45,17 +45,17 @@ namespace TrainingVSTO.Models
             //End
             if (currentSheet.Cells != null)
             {
-                try
-                {
-                    workbook.SaveAs(PathToServer);
-                }
-                catch (Exception)
-                {
-                    workbook
-                    .SaveAs(@"C:\Users\EROLIVEIRA\OneDrive - Joyson Group\Área de Trabalho\Joyson\M7 - STK " + day + ".xlsx");
-                }
+                //try
+                //{
+                //    workbook.SaveAs(PathToServer);
+                //}
+                //catch (Exception)
+                //{
+                //    workbook
+                //    .SaveAs(@"C:\Users\EROLIVEIRA\OneDrive - Joyson Group\Área de Trabalho\Joyson\M7 - STK " + day + ".xlsx");
+                //}
                 Workbooks.ReleaseObject(currentSheet);
-                System.Windows.Clipboard.Clear();
+                Clipboard.Clear();
             }
 
         }

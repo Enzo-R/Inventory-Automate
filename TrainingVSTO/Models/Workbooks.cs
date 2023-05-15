@@ -167,25 +167,14 @@ namespace TrainingVSTO.Models
             }
 
             //filtragem por subconta
-            Range c3 = GetCellsToSelect("C3");
-            c3.AutoFilter(3, filterCriteria3, XlAutoFilterOperator.xlFilterValues);
+            Range range = GetCellsToSelect("B4");
+            int alt = range.Count+3;
+            Range c4 = GetCellsToSelect("C4:C" + alt);
+            c4.AutoFilter(3, filterCriteria3, XlAutoFilterOperator.xlFilterValues);
+            c4.Value = "SW";
 
-            Range c4 = GetCellsToSelect("C4");
-            c4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "SW";
-
-            //c3.AutoFilter(3, "=",);
-            //c4.SpecialCells(XlCellType.xlCellTypeBlanks).Value = "SW";
-
-            //c3.AutoFilter(3, "TRM");
-            //c4.SpecialCells(XlCellType.xlCellTypeVisible);
-            //c4.SpecialCells(XlCellType.xlCellTypeVisible).Value= "ISS";
-
-            //if (string.IsNullOrEmpty())
-            //{
-            //    // Célula está vazia
-            //    // Faça o que for necessário para tratar a célula vazia
-            //}
-            //if(dataRange.AutoFilter()) delete.rows
+            c4.AutoFilter(3, "TRM");
+            c4.Value= "ISS";
 
         }
 
