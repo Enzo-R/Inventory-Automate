@@ -81,7 +81,18 @@ namespace TrainingVSTO.Models
             Range f1 = currentSheet.Range["K4:K" + rows];
             f1.Formula = @"=VLOOKUP(B4,'Base Contas'!A:C,3,0)";
 
+
+
+
             FilterData();
+
+            Range f2 = GetCellsToSelect("M4:M" + rows);
+            f2.Formula = @"=J4/$I$1";
+
+            Range f3 = GetCellsToSelect("O4:O" + rows);
+            f3.Formula = @"=J4/5,0758";
+
+
         }
 
 
