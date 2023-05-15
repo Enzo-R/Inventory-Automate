@@ -23,6 +23,8 @@ namespace TrainingVSTO.Models
             Worksheet Sheet = workbook.Sheets[sheet];
             return Sheet;
         }
+
+
         public static void ReleaseObject(object obj)
         {
             try
@@ -66,15 +68,17 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void VLookUp()
+        public static void UpFormulas()
         {
             //System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
 
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
-            Range f1;
 
-            f1 = currentSheet.Range["K4:K14598"];
+            Range range = GetCellsToSelect("B4");
+            int rows = range.SpecialCells(XlCellType.xlCellTypeVisible).Count + 3;
+
+            Range f1 = currentSheet.Range["K4:K" + rows];
             f1.Formula = @"=VLOOKUP(B4,'Base Contas'!A:C,3,0)";
 
             FilterData();
@@ -86,8 +90,7 @@ namespace TrainingVSTO.Models
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
             Range k3 = GetCellsToSelect("K3");
 
-
-            string[] filterCriteria = new string[] {
+            string[] filterCriteria1 = new string[] {
                 "BENS CAPITAL EM PROCESSO",
                 "DISPOSITIVOS TAKATA",
                 "FERRAMENTAL PARA VENDA",
@@ -121,25 +124,61 @@ namespace TrainingVSTO.Models
                 "MATERIAL TERCEIRO",
                 "PRODUTOS EM ELABORACAO"
             };
+            string[] filterCriteria3 = new string[]
+            {
+                "SUBPROD",
+                "TERC",
+                "="
+            };
 
-
+            //filtragem por classificação e descrição.
             if (k3.AutoFilter(11, "#N/D"))
             {
                 Range d3 = GetCellsToSelect("D3");
-                d3.AutoFilter(4, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+                d3.AutoFilter(4, filterCriteria1, XlAutoFilterOperator.xlFilterValues);
 
                 Range data = GetCellsToSelect("A4:K4");
                 data.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
 
                 d3.AutoFilter(4, filterCriteria2, XlAutoFilterOperator.xlFilterValues);
-                
-                    Range k4 = GetCellsToSelect("K4");
-                    string novoValor = "Raw Material";
-                    k4.Value2 = novoValor;
-                
+
+                Range k4 = GetCellsToSelect("K4");
+                k4.Value = "Raw Material";
+            }
+            //deletando linhas vazias em classificação e descrição
+            if (k3.AutoFilter(11, "="))
+            {
+                Range d3 = GetCellsToSelect("D3");
+                d3.AutoFilter(4, "=");
+                d3.SpecialCells(XlCellType.xlCellTypeBlanks).EntireRow.Delete();
 
             }
 
+            currentSheet.AutoFilterMode = false;
+
+            try
+            {
+                _ = currentSheet.EnableAutoFilter;
+                currentSheet.Rows["3:3"].AutoFilter();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Filtro não foi ativado");
+            }
+
+            //filtragem por subconta
+            Range c3 = GetCellsToSelect("C3");
+            c3.AutoFilter(3, filterCriteria3, XlAutoFilterOperator.xlFilterValues);
+
+            Range c4 = GetCellsToSelect("C4");
+            c4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "SW";
+
+            //c3.AutoFilter(3, "=",);
+            //c4.SpecialCells(XlCellType.xlCellTypeBlanks).Value = "SW";
+
+            //c3.AutoFilter(3, "TRM");
+            //c4.SpecialCells(XlCellType.xlCellTypeVisible);
+            //c4.SpecialCells(XlCellType.xlCellTypeVisible).Value= "ISS";
 
             //if (string.IsNullOrEmpty())
             //{

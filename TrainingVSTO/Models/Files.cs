@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
 using Application = Microsoft.Office.Interop.Excel.Application;
@@ -31,22 +32,31 @@ namespace TrainingVSTO.Models
             Workbooks.SheetSelect("M7", Models.Excel.PathToM7DOpen);
 
             // Variables
-            string File = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste\M7 - STK " + day + ".xlsx";
+            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste\M7 - STK " + day + ".xlsx";
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
             // Put the M7 data to a new file model
             currentSheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
-            Models.Workbooks.VLookUp();
+            Models.Workbooks.UpFormulas();
             currentSheet.Columns.AutoFit();
-            
+
 
             //End
-            //if (currentSheet.Cells != null)
-            //{
-            //    workbook.SaveAs(File);
-            //    Workbooks.ReleaseObject(currentSheet);
-            //}
+            if (currentSheet.Cells != null)
+            {
+                try
+                {
+                    workbook.SaveAs(PathToServer);
+                }
+                catch (Exception)
+                {
+                    workbook
+                    .SaveAs(@"C:\Users\EROLIVEIRA\OneDrive - Joyson Group\Área de Trabalho\Joyson\M7 - STK " + day + ".xlsx");
+                }
+                Workbooks.ReleaseObject(currentSheet);
+                System.Windows.Clipboard.Clear();
+            }
 
         }
     }
