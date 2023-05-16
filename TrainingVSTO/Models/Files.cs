@@ -31,7 +31,7 @@ namespace TrainingVSTO.Models
             // Use the current instence of Excel and open selected workbook
             Workbooks.SheetSelect("M7", Models.Excel.PathToM7DOpen);
 
-            string date = Models.Excel.date.ToString();
+            string date = Models.Excel.date.ToString("d");
             string dateValidate = date.Replace("/", ".");
 
             // Variables
