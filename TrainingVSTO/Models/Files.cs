@@ -32,10 +32,10 @@ namespace TrainingVSTO.Models
             Workbooks.SheetSelect("M7", Models.Excel.PathToM7DOpen);
 
             string date = Models.Excel.date.ToString();
-            date.Replace("/", ".");
+            string dateValidate = date.Replace("/", ".");
 
             // Variables
-            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste\M7 - STK " + date + ".xlsx";
+            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste\M7 - STK " + dateValidate + ".xlsx";
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
@@ -55,7 +55,7 @@ namespace TrainingVSTO.Models
                 catch (Exception)
                 {
                     workbook
-                    .SaveAs(@"C:\Users\Enzo\OneDrive\Área de Trabalho\Joyson\M7 - STK " + date + ".xlsx");
+                    .SaveAs(@"C:\Users\Enzo\OneDrive\Área de Trabalho\Joyson\M7 - STK " + dateValidate + ".xlsx");
                 }
                 Workbooks.ReleaseObject(currentSheet);
                 Clipboard.Clear();
