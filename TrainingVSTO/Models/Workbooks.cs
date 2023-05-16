@@ -81,21 +81,28 @@ namespace TrainingVSTO.Models
             Range f1 = currentSheet.Range["K4:K" + rows];
             f1.Formula = @"=VLOOKUP(B4,'Base Contas'!A:C,3,0)";
 
-            FilterData();
+            FilterDataToM7();
 
             Range range2 = GetCellsToSelect("K4");
             int rowsCount = range2.Count + 3;
 
-            Range f2 = currentSheet.Range["M4:M"+ rowsCount];
+            Range f2 = currentSheet.Range["M4:M" + rowsCount];
             f2.Formula = @"=J4/$I$1";
 
             Range f3 = currentSheet.Range["O4:O" + rowsCount];
             f3.Formula = @"=J4/5.0758";
 
+
+            currentSheet.Range["J2"].Formula = @"=SUBTOTAL(9,J4:J" + rowsCount + ")";
+            currentSheet.Range["M2"].Formula = @"=SUBTOTAL(9,M4:J" + rowsCount + ")";
+            currentSheet.Range["O2"].Formula = @"=SUBTOTAL(9,O4:J" + rowsCount + ")";
+
+            //FilterDataToClient();
+
         }
 
 
-        public static void FilterData()
+        public static void FilterDataToM7()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
             Range k3 = GetCellsToSelect("K3");
@@ -168,13 +175,13 @@ namespace TrainingVSTO.Models
 
             //filtragem por subconta
             Range range = GetCellsToSelect("B4");
-            int alt = range.Count+3;
+            int alt = range.Count + 3;
             Range c4 = GetCellsToSelect("C4:C" + alt);
             c4.AutoFilter(3, filterCriteria3, XlAutoFilterOperator.xlFilterValues);
             c4.Value = "SW";
 
             c4.AutoFilter(3, "TRM");
-            c4.Value= "ISS";
+            c4.Value = "ISS";
 
             disableFilter();
 
@@ -188,6 +195,24 @@ namespace TrainingVSTO.Models
             Range cellSelect = currentSheet.Range[cell];
             Range sl = currentSheet.Range[cellSelect, cellSelect.End[XlDirection.xlDown]];
             return sl;
+        }
+
+
+        public static void FilterDataToClient()
+        {
+
+            Range f4 = GetCellsToSelect("F4");
+            dynamic valueTo = f4.Value;
+
+            string[] filterCriteria3 = new string[] { valueTo };
+
+            f4.AutoFilter(6, "TOY", XlAutoFilterOperator.xlFilterValues);
+            f4.AutoFilter(6, "TOY");
+
+
+            int i = f4.Count + 3;
+
+
         }
 
 

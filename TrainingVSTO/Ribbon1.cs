@@ -17,6 +17,7 @@ namespace TrainingVSTO
         {
             Models.Workbooks.Data("M7 EF");
             Models.Files.CreateM7D();
+
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
@@ -45,11 +46,17 @@ namespace TrainingVSTO
                 }
             }
         }
+        private void InventoryNoDisponible_(object sender, RibbonControlEventArgs e)
+        {
+            Models.Workbooks.FilterDataToClient();
+        }
+
         private void button1_Click(object sender, RibbonControlEventArgs e)
         {
             //string name = editBox1.Text;
             //string path = @"C:\Users\Enzo\Desktop\clientes\"+name;
-            //DateTime dateTime = DateTime.Now;
+            //string date = Models.Excel.date.ToString("d");
+            //string dateValidate = date.Replace("/", ".");
 
             //if (name != "")
             //{
