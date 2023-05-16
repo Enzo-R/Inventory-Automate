@@ -200,17 +200,22 @@ namespace TrainingVSTO.Models
 
         public static void FilterDataToClient()
         {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
             Range f4 = GetCellsToSelect("F4");
-            dynamic valueTo = f4.Value;
-
-            string[] filterCriteria3 = new string[] { valueTo };
-
-            f4.AutoFilter(6, "TOY", XlAutoFilterOperator.xlFilterValues);
-            f4.AutoFilter(6, "TOY");
-
-
             int i = f4.Count + 3;
+
+            Range l4 =currentSheet.Range["L4:L"+i];
+            Range n4 = currentSheet.Range["N4:N"+i];
+            n4.Formula = @"=VLOOKUP(L4, Clientes!A:B,2,0)";
+
+            if (f4.AutoFilter(6, "*TOY*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "Toyota";
+            }
+
+
+
 
 
         }
