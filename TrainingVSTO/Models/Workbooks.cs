@@ -81,17 +81,16 @@ namespace TrainingVSTO.Models
             Range f1 = currentSheet.Range["K4:K" + rows];
             f1.Formula = @"=VLOOKUP(B4,'Base Contas'!A:C,3,0)";
 
-
-
-
             FilterData();
 
-            Range f2 = GetCellsToSelect("M4:M" + rows);
+            Range range2 = GetCellsToSelect("K4");
+            int rowsCount = range2.Count + 3;
+
+            Range f2 = currentSheet.Range["M4:M"+ rowsCount];
             f2.Formula = @"=J4/$I$1";
 
-            Range f3 = GetCellsToSelect("O4:O" + rows);
-            f3.Formula = @"=J4/5,0758";
-
+            Range f3 = currentSheet.Range["O4:O" + rowsCount];
+            f3.Formula = @"=J4/5.0758";
 
         }
 
@@ -165,17 +164,7 @@ namespace TrainingVSTO.Models
 
             }
 
-            currentSheet.AutoFilterMode = false;
-
-            try
-            {
-                _ = currentSheet.EnableAutoFilter;
-                currentSheet.Rows["3:3"].AutoFilter();
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Filtro não foi ativado");
-            }
+            disableFilter();
 
             //filtragem por subconta
             Range range = GetCellsToSelect("B4");
@@ -187,6 +176,8 @@ namespace TrainingVSTO.Models
             c4.AutoFilter(3, "TRM");
             c4.Value= "ISS";
 
+            disableFilter();
+
         }
 
 
@@ -197,6 +188,23 @@ namespace TrainingVSTO.Models
             Range cellSelect = currentSheet.Range[cell];
             Range sl = currentSheet.Range[cellSelect, cellSelect.End[XlDirection.xlDown]];
             return sl;
+        }
+
+
+        public static void disableFilter()
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+            currentSheet.AutoFilterMode = false;
+
+            try
+            {
+                _ = currentSheet.EnableAutoFilter;
+                currentSheet.Rows["3:3"].AutoFilter();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Filtro não foi ativado");
+            }
         }
     }
 }
