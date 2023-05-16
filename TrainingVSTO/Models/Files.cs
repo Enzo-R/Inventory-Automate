@@ -26,13 +26,16 @@ namespace TrainingVSTO.Models
             Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Sheets[1];
         }
 
-        public static void CreateM7D(string day)
+        public static void CreateM7D()
         {
             // Use the current instence of Excel and open selected workbook
             Workbooks.SheetSelect("M7", Models.Excel.PathToM7DOpen);
 
+            string date = Models.Excel.date.ToString();
+            date.Replace("/", ".");
+
             // Variables
-            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste\M7 - STK " + day + ".xlsx";
+            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste\M7 - STK " + date + ".xlsx";
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
@@ -45,15 +48,15 @@ namespace TrainingVSTO.Models
             //End
             if (currentSheet.Cells != null)
             {
-                //try
-                //{
-                //    workbook.SaveAs(PathToServer);
-                //}
-                //catch (Exception)
-                //{
-                //    workbook
-                //    .SaveAs(@"C:\Users\EROLIVEIRA\OneDrive - Joyson Group\Área de Trabalho\Joyson\M7 - STK " + day + ".xlsx");
-                //}
+                try
+                {
+                    workbook.SaveAs(PathToServer);
+                }
+                catch (Exception)
+                {
+                    workbook
+                    .SaveAs(@"C:\Users\Enzo\OneDrive\Área de Trabalho\Joyson\M7 - STK " + date + ".xlsx");
+                }
                 Workbooks.ReleaseObject(currentSheet);
                 Clipboard.Clear();
             }

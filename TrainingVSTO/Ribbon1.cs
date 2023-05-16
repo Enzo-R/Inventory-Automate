@@ -15,16 +15,8 @@ namespace TrainingVSTO
     {
         private void AbreModeloClick(object sender, RibbonControlEventArgs e)
         {
-            string day = editBox1.Text;
             Models.Workbooks.Data("M7 EF");
-            if (day != "")
-            {
-                Models.Files.CreateM7D(day);
-            }
-            else
-            {
-                MessageBox.Show("Insira uma data para o inventário!");
-            }
+            Models.Files.CreateM7D();
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
@@ -39,7 +31,7 @@ namespace TrainingVSTO
             {
                 MessageBox.Show(ex.Message);
             }
-            finally 
+            finally
             {
                 OpenFileDialog openFile = new OpenFileDialog();
                 openFile.Filter = "text (*.txt)|*.txt";

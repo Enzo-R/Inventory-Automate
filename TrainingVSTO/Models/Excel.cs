@@ -20,5 +20,7 @@ namespace TrainingVSTO.Models
         {
             get { return "C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\AbreModelo7 - Rev1.xlsm"; }
         }
+
+        public static DateTime date = DateTime.Today;
     }
 }
