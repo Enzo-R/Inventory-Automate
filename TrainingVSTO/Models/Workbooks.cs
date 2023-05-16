@@ -209,14 +209,61 @@ namespace TrainingVSTO.Models
             Range n4 = currentSheet.Range["N4:N"+i];
             n4.Formula = @"=VLOOKUP(L4, Clientes!A:B,2,0)";
 
+
             if (f4.AutoFilter(6, "*TOY*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "Toyota";
             }
 
+            if (f4.AutoFilter(6, "*MAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "MAN";
+            }
 
+            if (f4.AutoFilter(6, "*FCA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "FCA";
+            }
 
+            if (f4.AutoFilter(6, "*FIAT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "FIAT";
+            }
 
+            if (f4.AutoFilter(6, "*VW*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "VW";
+            }
+
+            if (f4.AutoFilter(6, "*Corsa*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "GM";
+            }
+
+            if (f4.AutoFilter(6, "*Nissa*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "NISSAN";
+            }
+
+            if (f4.AutoFilter(6, "*REN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "RENAULT";
+            }
+
+            if (f4.AutoFilter(6, "*HONDA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "HONDA";
+            }
+
+            if (f4.AutoFilter(6, "*MITSUB*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "HPE";
+            }
+
+            if (f4.AutoFilter(6, "*RENAUL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "RENAULT";
+            }
 
         }
 
