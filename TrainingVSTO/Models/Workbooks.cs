@@ -16,15 +16,6 @@ namespace TrainingVSTO.Models
     {
         //classe responsavel por manipular e criar elementos dentro do Excel
 
-        public static Worksheet SheetSelect(string sheet, string path)
-        {
-            Microsoft.Office.Interop.Excel.Application excelApp = Globals.ThisAddIn.getActiveApp();
-            Workbook workbook = excelApp.Workbooks.Open(path);
-            Worksheet Sheet = workbook.Sheets[sheet];
-            return Sheet;
-        }
-
-
         public static void ReleaseObject(object obj)
         {
             try
@@ -68,7 +59,7 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void UpFormulas()
+        public static void M7Formulas()
         {
             //System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
@@ -92,12 +83,12 @@ namespace TrainingVSTO.Models
             Range f3 = currentSheet.Range["O4:O" + rowsCount];
             f3.Formula = @"=J4/5.0758";
 
+            int newCount = rowsCount - 3;
+            currentSheet.Range["J2"].Formula = @"=SUBTOTAL(9,J4:J" + newCount + ")";
+            currentSheet.Range["M2"].Formula = @"=SUBTOTAL(9,M4:M" + newCount + ")";
+            currentSheet.Range["O2"].Formula = @"=SUBTOTAL(9,O4:O" + newCount + ")";
 
-            currentSheet.Range["J2"].Formula = @"=SUBTOTAL(9,J4:J" + rowsCount + ")";
-            currentSheet.Range["M2"].Formula = @"=SUBTOTAL(9,M4:J" + rowsCount + ")";
-            currentSheet.Range["O2"].Formula = @"=SUBTOTAL(9,O4:J" + rowsCount + ")";
-
-            //FilterDataToClient();
+            FilterDataToClient();
 
         }
 
@@ -171,7 +162,7 @@ namespace TrainingVSTO.Models
 
             }
 
-            disableFilter();
+            refreshFilter();
 
             //filtragem por subconta
             Range range = GetCellsToSelect("B4");
@@ -183,7 +174,7 @@ namespace TrainingVSTO.Models
             c4.AutoFilter(3, "TRM");
             c4.Value = "ISS";
 
-            disableFilter();
+            refreshFilter();
 
         }
 
@@ -205,8 +196,8 @@ namespace TrainingVSTO.Models
             Range f4 = GetCellsToSelect("F4");
             int i = f4.Count + 3;
 
-            Range l4 =currentSheet.Range["L4:L"+i];
-            Range n4 = currentSheet.Range["N4:N"+i];
+            Range l4 = currentSheet.Range["L4:L" + i];
+            Range n4 = currentSheet.Range["N4:N" + i];
             n4.Formula = @"=VLOOKUP(L4, Clientes!A:B,2,0)";
 
 
@@ -265,10 +256,27 @@ namespace TrainingVSTO.Models
                 l4.Value = "RENAULT";
             }
 
+            if (f4.AutoFilter(6, "*SCANI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "SCANIA";
+            }
+
+            if (f4.AutoFilter(6, "*RENAUL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "RENAULT";
+            }
+
+            if (f4.AutoFilter(6, "*FORD*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "FORD";
+            }
+
+            refreshFilter();
+
         }
 
 
-        public static void disableFilter()
+        public static void refreshFilter()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
             currentSheet.AutoFilterMode = false;
@@ -282,6 +290,58 @@ namespace TrainingVSTO.Models
             {
                 MessageBox.Show("Filtro não foi ativado");
             }
+        }
+
+
+        public static void DynimicTable()
+        {
+
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+            Range all = currentSheet.Range[GetCellsToSelect("A3"), GetCellsToSelect("A3").End[XlDirection.xlToRight]];
+
+            Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
+            Worksheet newSheet = workbook.Sheets.Add();
+            newSheet.Name = "Pivot Table";
+
+            //Get data for Pivot tabel
+            PivotCache oPivotCache = workbook.PivotCaches().Add(XlPivotTableSourceType.xlDatabase, all);
+
+            //Create Pivot table
+            PivotCaches pch = workbook.PivotCaches();
+            pch.Add(XlPivotTableSourceType.xlDatabase, all)
+               .CreatePivotTable(newSheet.Cells[3, 1], "Pivot Table 1", Type.Missing, Type.Missing);
+
+            //Manipulate pivot table object "pvt"
+            PivotTable pvt = newSheet.PivotTables("Pivot Table 1");
+            pvt.ShowDrillIndicators = true;
+
+            //set filds for pivot table
+            PivotField fld = pvt.PivotFields("Subconta");
+            fld.Orientation = XlPivotFieldOrientation.xlRowField;
+
+            fld = pvt.PivotFields("Quantidade");
+            fld.Orientation = XlPivotFieldOrientation.xlDataField;
+            fld.Position = 1;
+            fld.NumberFormat = "0";
+
+            fld = pvt.PivotFields("Classificação");
+            fld.Orientation = XlPivotFieldOrientation.xlColumnField;
+
+            fld = pvt.PivotFields("Total USD");
+            fld.Orientation = XlPivotFieldOrientation.xlDataField;
+            fld.Position = 2;
+            fld.NumberFormat = "0.00";
+
+
+            pvt.DataPivotField.Orientation = XlPivotFieldOrientation.xlColumnField;
+
+            newSheet.Columns.AutoFit();
+
+        }
+
+        public static void NoDisponible_()
+        {
+
         }
     }
 }

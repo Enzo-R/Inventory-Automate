@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -29,20 +30,28 @@ namespace TrainingVSTO.Models
         public static void CreateM7D()
         {
             // Use the current instence of Excel and open selected workbook
-            Workbooks.SheetSelect("M7", Models.Excel.PathToM7DOpen);
+            Application excelApp = Globals.ThisAddIn.getActiveApp();
+            Workbook workbook = excelApp.Workbooks.Open(Excel.PathToM7DOpen);
+            Worksheet Sheet = workbook.Sheets["M7"];
 
-            string date = Models.Excel.date.ToString("d");
-            string dateValidate = date.Replace("/", ".");
+
 
             // Variables
-            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste\M7 - STK " + dateValidate + ".xlsx";
-            Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
+            string date = Excel.date.ToString("d");
+            string dateValidate = date.Replace("/", ".");
+            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste\M7 - STK "
+                + dateValidate +
+                " -.xlsx";
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+
 
             // Put the M7 data to a new file model
             currentSheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
-            Models.Workbooks.UpFormulas();
+            Workbooks.M7Formulas();
             currentSheet.Columns.AutoFit();
+
+            //Create Power Pivot
+            Workbooks.DynimicTable();
 
 
             //End
@@ -55,10 +64,14 @@ namespace TrainingVSTO.Models
                 catch (Exception)
                 {
                     workbook
-                    .SaveAs(@"C:\Users\Enzo\OneDrive\Área de Trabalho\Joyson\M7 - STK " + dateValidate + ".xlsx");
+                    .SaveAs(@"C:\Users\Enzo\OneDrive\Área de Trabalho\Joyson\M7 - STK " + dateValidate + " -.xlsx");
                 }
-                Workbooks.ReleaseObject(currentSheet);
-                Clipboard.Clear();
+                finally
+                {
+                    Clipboard.Clear();
+                    Workbooks.ReleaseObject(currentSheet);
+                    Workbooks.ReleaseObject(excelApp);
+                }
             }
 
         }
