@@ -332,8 +332,30 @@ namespace TrainingVSTO.Models
             fld.Position = 2;
             fld.NumberFormat = "0.00";
 
-
             pvt.DataPivotField.Orientation = XlPivotFieldOrientation.xlColumnField;
+
+            Range leng = GetCellsToSelect("B4");
+            int c = leng.Count;
+
+
+            Range collor1 = GetCellsToSelect("B4:C4");
+            collor1.Interior.Color = System.Drawing.Color.AliceBlue.ToArgb();
+
+            Range collor2 = GetCellsToSelect("D4:E10");
+            collor2.Interior.Color = System.Drawing.Color.Bisque.ToArgb();
+
+            Range collor3 = GetCellsToSelect("F4:G4");
+            collor3.Interior.Color = System.Drawing.Color.LightYellow.ToArgb();
+
+            Range collor4 = GetCellsToSelect("H4:I4");
+            collor4.Interior.Color = System.Drawing.Color.LightSteelBlue.ToArgb();
+
+            Range collor5 = currentSheet.Range["J4:K10"];
+            collor5.Interior.Color = System.Drawing.Color.OldLace.ToArgb();
+
+            Range collor6 = currentSheet.Range["A3:A10"];
+            collor6.Interior.Color = System.Drawing.Color.LightSalmon.ToArgb();
+
 
             newSheet.Columns.AutoFit();
 
