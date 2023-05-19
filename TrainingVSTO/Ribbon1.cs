@@ -15,58 +15,74 @@ namespace TrainingVSTO
     {
         private void AbreModeloClick(object sender, RibbonControlEventArgs e)
         {
-            Models.Workbooks.Data("M7 EF");
+            Models.Workbooks.Data("M7 EF", "B5 : K5");
             Models.Files.CreateM7D();
 
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
-            Worksheet Sheet = workbook.Sheets["Original"];
-            Sheet.Activate();
-            try
-            {
-                Sheet.Cells.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                OpenFileDialog openFile = new OpenFileDialog();
-                openFile.Filter = "text (*.txt)|*.txt";
-                openFile.Title = "Open the file";
+            string wbName = workbook.Name;
 
-                // Exibir o diálogo e verificar se o usuário clicou em "OK"
-                if (openFile.ShowDialog() == DialogResult.OK)
+            if (wbName.Contains("AbreModelo7"))
+            {
+                Worksheet Sheet = workbook.Sheets["Original"];
+                Sheet.Activate();
+                try
                 {
-                    string path = openFile.FileName;
-                    Models.Workbooks.ReadAndWriteArq(path);
+                    Sheet.Cells.Clear();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    OpenFileDialog openFile = new OpenFileDialog();
+                    openFile.Filter = "text (*.txt)|*.txt";
+                    openFile.Title = "Open the file";
+
+                    // Exibir o diálogo e verificar se o usuário clicou em "OK"
+                    if (openFile.ShowDialog() == DialogResult.OK)
+                    {
+                        string path = openFile.FileName;
+                        Models.Workbooks.ReadAndWriteArq(path);
+                    }
                 }
             }
+            else
+            {
+
+                Models.Workbooks.Data("Ddos", "A2 : I2");
+
+                try
+                {
+                    //Sheet.Cells.Clear();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    OpenFileDialog openFile = new OpenFileDialog();
+                    openFile.Filter = "text (*.txt)|*.txt";
+                    openFile.Title = "Open the file";
+
+                    // Exibir o diálogo e verificar se o usuário clicou em "OK"
+                    if (openFile.ShowDialog() == DialogResult.OK)
+                    {
+                        string path = openFile.FileName;
+                        Models.Workbooks.ReadAndWriteArq(path);
+                    }
+                }
+            }
+
         }
         private void InventoryNoDisponible_(object sender, RibbonControlEventArgs e)
         {
-        }
-
-        private void button1_Click(object sender, RibbonControlEventArgs e)
-        {
-            //string name = editBox1.Text;
-            //string path = @"C:\Users\Enzo\Desktop\clientes\"+name;
-            //string date = Models.Excel.date.ToString("d");
-            //string dateValidate = date.Replace("/", ".");
-
-            //if (name != "")
-            //{
-            //    Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            //    currentSheet.ExportAsFixedFormat(XlFixedFormatType.xlTypePDF, path, XlFixedFormatQuality.xlQualityMinimum);
-            //}
-            //else
-            //{
-            //    MessageBox.Show("Insira uma data para o inventário!");
-            //}
 
         }
+
     }
 }

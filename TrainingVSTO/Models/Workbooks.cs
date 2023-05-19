@@ -50,11 +50,10 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void Data(string sheet)
+        public static void Data(string sheet, string range)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
-            Range cells = currentSheet.Range["B5 : K5"];
-            Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
+            Range select = GetCellsToSelect(range);
             select.Copy();
         }
 
@@ -200,6 +199,15 @@ namespace TrainingVSTO.Models
             Range n4 = currentSheet.Range["N4:N" + i];
             n4.Formula = @"=VLOOKUP(L4, Clientes!A:B,2,0)";
 
+            if (f4.AutoFilter(6, "*GM*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "GM";
+            }
+
+            if (f4.AutoFilter(6, "*PSA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "PSA";
+            }
 
             if (f4.AutoFilter(6, "*TOY*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
@@ -246,6 +254,11 @@ namespace TrainingVSTO.Models
                 l4.Value = "HONDA";
             }
 
+            if (f4.AutoFilter(6, "*HYUND*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "Hyundai";
+            }
+
             if (f4.AutoFilter(6, "*MITSUB*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "HPE";
@@ -261,15 +274,26 @@ namespace TrainingVSTO.Models
                 l4.Value = "SCANIA";
             }
 
-            if (f4.AutoFilter(6, "*RENAUL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-            {
-                l4.Value = "RENAULT";
-            }
-
             if (f4.AutoFilter(6, "*FORD*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "FORD";
             }
+
+            if (f4.AutoFilter(6, "*Faure*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "Faurencia";
+            }
+
+            if (f4.AutoFilter(6, "*STELLAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "STELLANTIS";
+            }
+
+            if (f4.AutoFilter(6, "*CIVI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "STELLANTIS";
+            }
+
 
             refreshFilter();
 
@@ -334,36 +358,48 @@ namespace TrainingVSTO.Models
 
             pvt.DataPivotField.Orientation = XlPivotFieldOrientation.xlColumnField;
 
-            Range leng = GetCellsToSelect("B4");
-            int c = leng.Count;
-
-
             Range collor1 = GetCellsToSelect("B4:C4");
-            collor1.Interior.Color = System.Drawing.Color.AliceBlue.ToArgb();
+            collor1.Interior.Color = System.Drawing.Color.Beige;
 
             Range collor2 = GetCellsToSelect("D4:E10");
-            collor2.Interior.Color = System.Drawing.Color.Bisque.ToArgb();
+            collor2.Interior.Color = System.Drawing.Color.LightGoldenrodYellow;
 
             Range collor3 = GetCellsToSelect("F4:G4");
-            collor3.Interior.Color = System.Drawing.Color.LightYellow.ToArgb();
+            collor3.Interior.Color = System.Drawing.Color.Bisque;
 
             Range collor4 = GetCellsToSelect("H4:I4");
-            collor4.Interior.Color = System.Drawing.Color.LightSteelBlue.ToArgb();
+            collor4.Interior.Color = System.Drawing.Color.LightYellow;
 
-            Range collor5 = currentSheet.Range["J4:K10"];
-            collor5.Interior.Color = System.Drawing.Color.OldLace.ToArgb();
+            Range collor5 = newSheet.Range["J4:K10"];
+            collor5.Interior.Color = System.Drawing.Color.LightSalmon;
 
-            Range collor6 = currentSheet.Range["A3:A10"];
-            collor6.Interior.Color = System.Drawing.Color.LightSalmon.ToArgb();
+            //laterais
+            Range collor6 = newSheet.Range["A5:A10"];
+            collor6.Interior.Color = System.Drawing.Color.LightSteelBlue;
+            collor6.Cells.Font.Bold = true;
+
+            Range collor7 = newSheet.Range["A10:K10"];
+            collor7.Interior.Color = System.Drawing.Color.LightSteelBlue;
+            collor7.Cells.Font.Bold = true;
+
+            Range collor8 = newSheet.Range["B3:K3"];
+            collor8.Interior.Color = System.Drawing.Color.LightSteelBlue;
+            collor8.Cells.Font.Bold = true;
 
 
             newSheet.Columns.AutoFit();
+
+            //colocar split "." nos numeros.
 
         }
 
         public static void NoDisponible_()
         {
+            Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
 
+
+
+            Worksheet noDisponible = workbook.Sheets["No Disponible"];
         }
     }
 }

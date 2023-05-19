@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,9 +38,8 @@ namespace TrainingVSTO.Models
             // Variables
             string date = Excel.date.ToString("d");
             string dateValidate = date.Replace("/", ".");
-            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste\M7 - STK "
-                + dateValidate +
-                " -.xlsx";
+            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste"
+                                                                        + @"\M7 - STK " + dateValidate + " -.xlsx";
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
 
@@ -64,7 +62,7 @@ namespace TrainingVSTO.Models
                 catch (Exception)
                 {
                     workbook
-                    .SaveAs(@"C:\Users\Enzo\OneDrive\Área de Trabalho\Joyson\M7 - STK " + dateValidate + " -.xlsx");
+                    .SaveAs(@"C:\Users\EROLIVEIRA\OneDrive - Joyson Group\Área de Trabalho\Joyson\M7 - STK " + dateValidate + " -.xlsx");
                 }
                 finally
                 {
@@ -74,6 +72,13 @@ namespace TrainingVSTO.Models
                 }
             }
 
+        }
+
+        public static void OpenNoDispSTK()
+        {
+            Application excelApp = Globals.ThisAddIn.getActiveApp();
+            Workbook workbook = excelApp.Workbooks.Open(Excel.PathToM7DOpen);
+            Worksheet Sheet = workbook.Sheets["M7"];
         }
     }
 }
