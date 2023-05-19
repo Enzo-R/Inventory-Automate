@@ -41,12 +41,12 @@ namespace TrainingVSTO.Models
             var content = File.ReadAllText(path);
             Clipboard.SetText(content);
 
-            Range col = currentSheet.Range["A:A"];
-            col.PasteSpecial(XlPasteType.xlPasteAll);
-            if (col.Value != null)
-            {
-                Clipboard.Clear();
-            }
+            //Range col = currentSheet.Range["A:A"];
+            //col.PasteSpecial(XlPasteType.xlPasteAll);
+            //if (col.Value != null)
+            //{
+            //    Clipboard.Clear();
+            //}
         }
 
 
@@ -388,8 +388,6 @@ namespace TrainingVSTO.Models
 
 
             newSheet.Columns.AutoFit();
-
-            //colocar split "." nos numeros.
 
         }
 

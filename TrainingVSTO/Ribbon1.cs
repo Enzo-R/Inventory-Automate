@@ -53,10 +53,21 @@ namespace TrainingVSTO
             else
             {
 
-                Models.Workbooks.Data("Ddos", "A2 : I2");
 
                 try
                 {
+                    OpenFileDialog openFile = new OpenFileDialog();
+                    openFile.Filter = "Excel (*.xlsx)|*.xlsx";
+                    openFile.Title = "Open the file";
+
+                    // Exibir o diálogo e verificar se o usuário clicou em "OK"
+                    if (openFile.ShowDialog() == DialogResult.OK)
+                    {
+                        string path = openFile.FileName;
+                        Models.Workbooks.ReadAndWriteArq(path);
+                        Models.Workbooks.Data("Ddos", "A2 : I2");
+
+                    }
                     //Sheet.Cells.Clear();
                 }
                 catch (Exception ex)
@@ -65,16 +76,7 @@ namespace TrainingVSTO
                 }
                 finally
                 {
-                    OpenFileDialog openFile = new OpenFileDialog();
-                    openFile.Filter = "text (*.txt)|*.txt";
-                    openFile.Title = "Open the file";
 
-                    // Exibir o diálogo e verificar se o usuário clicou em "OK"
-                    if (openFile.ShowDialog() == DialogResult.OK)
-                    {
-                        string path = openFile.FileName;
-                        Models.Workbooks.ReadAndWriteArq(path);
-                    }
                 }
             }
 
