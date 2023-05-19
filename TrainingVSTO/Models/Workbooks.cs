@@ -346,7 +346,7 @@ namespace TrainingVSTO.Models
             fld = pvt.PivotFields("Quantidade");
             fld.Orientation = XlPivotFieldOrientation.xlDataField;
             fld.Position = 1;
-            fld.NumberFormat = "0";
+            fld.NumberFormat = "#,##0";
 
             fld = pvt.PivotFields("Classificação");
             fld.Orientation = XlPivotFieldOrientation.xlColumnField;
@@ -354,7 +354,7 @@ namespace TrainingVSTO.Models
             fld = pvt.PivotFields("Total USD");
             fld.Orientation = XlPivotFieldOrientation.xlDataField;
             fld.Position = 2;
-            fld.NumberFormat = "0.00";
+            fld.NumberFormat = "#,##0.00";
 
             pvt.DataPivotField.Orientation = XlPivotFieldOrientation.xlColumnField;
 
