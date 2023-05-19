@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 using System.Windows.Forms;
 using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
@@ -15,7 +16,6 @@ namespace TrainingVSTO.Models
     public class Workbooks
     {
         //classe responsavel por manipular e criar elementos dentro do Excel
-
         public static void ReleaseObject(object obj)
         {
             try
@@ -41,19 +41,20 @@ namespace TrainingVSTO.Models
             var content = File.ReadAllText(path);
             Clipboard.SetText(content);
 
-            //Range col = currentSheet.Range["A:A"];
-            //col.PasteSpecial(XlPasteType.xlPasteAll);
-            //if (col.Value != null)
-            //{
-            //    Clipboard.Clear();
-            //}
+            Range col = currentSheet.Range["A:A"];
+            col.PasteSpecial(XlPasteType.xlPasteAll);
+            if (col.Value != null)
+            {
+                Clipboard.Clear();
+            }
         }
 
 
         public static void Data(string sheet, string range)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
-            Range select = GetCellsToSelect(range);
+            Range cells = currentSheet.Range[range];
+            Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
             select.Copy();
         }
 
@@ -207,6 +208,10 @@ namespace TrainingVSTO.Models
             if (f4.AutoFilter(6, "*PSA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "PSA";
+                if (f4.AutoFilter(6, "*PEUGEO*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+                {
+                    l4.Value = "PSA";
+                }
             }
 
             if (f4.AutoFilter(6, "*TOY*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
@@ -228,8 +233,24 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "FIAT";
             }
+            if (f4.AutoFilter(6, "*FI AT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "FIAT";
+                if (f4.AutoFilter(6, "*F IAT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+                {
+                    l4.Value = "FIAT";
+                }
+            }
 
             if (f4.AutoFilter(6, "*VW*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "VW";
+            }
+            if (f4.AutoFilter(6, "*V W*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "VW";
+            }
+            if (f4.AutoFilter(6, "*FOX*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "VW";
             }
@@ -239,7 +260,7 @@ namespace TrainingVSTO.Models
                 l4.Value = "GM";
             }
 
-            if (f4.AutoFilter(6, "*Nissa*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*Niss*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "NISSAN";
             }
@@ -249,22 +270,33 @@ namespace TrainingVSTO.Models
                 l4.Value = "RENAULT";
             }
 
-            if (f4.AutoFilter(6, "*HONDA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*HON*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "HONDA";
             }
 
-            if (f4.AutoFilter(6, "*HYUND*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*HYU*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "Hyundai";
+
+                if (f4.AutoFilter(6, "*HY UNDAI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+                {
+                    l4.Value = "Hyundai";
+
+                }
             }
 
+
+            if (f4.AutoFilter(6, "*MIT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "HPE";
+            }
             if (f4.AutoFilter(6, "*MITSUB*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "HPE";
             }
 
-            if (f4.AutoFilter(6, "*RENAUL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*RENA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "RENAULT";
             }
@@ -284,16 +316,19 @@ namespace TrainingVSTO.Models
                 l4.Value = "Faurencia";
             }
 
-            if (f4.AutoFilter(6, "*STELLAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*STELLA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "STELLANTIS";
+                if (f4.AutoFilter(6, "*CIVI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+                {
+                    l4.Value = "STELLANTIS";
+                }
             }
 
-            if (f4.AutoFilter(6, "*CIVI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*COROLL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
-                l4.Value = "STELLANTIS";
+                l4.Value = "Toyota";
             }
-
 
             refreshFilter();
 
@@ -391,13 +426,28 @@ namespace TrainingVSTO.Models
 
         }
 
+
         public static void NoDisponible_()
         {
-            Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
+            //Workbook activeWorkbook = ; caso não volte para a M7
+            Worksheet noDisponible = Globals.ThisAddIn.getActiveWorkbook().Sheets["No Disponible"];
+            Range init = noDisponible.Range["A4"];
 
+            init.PasteSpecial(XlPasteType.xlPasteAll);
 
+            if (init.Value != null)
+            {
+                Clipboard.Clear();
+            }
 
-            Worksheet noDisponible = workbook.Sheets["No Disponible"];
+            NoDispFormulas();
         }
+
+
+        public static void NoDispFormulas()
+        {
+
+        }
+
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using TrainingVSTO;
+using TrainingVSTO.Models;
 
 namespace TrainingVSTO
 {
@@ -15,7 +16,7 @@ namespace TrainingVSTO
     {
         private void AbreModeloClick(object sender, RibbonControlEventArgs e)
         {
-            Models.Workbooks.Data("M7 EF", "B5 : K5");
+            Models.Workbooks.Data("M7 EF", "B5:K5");
             Models.Files.CreateM7D();
 
         }
@@ -52,8 +53,6 @@ namespace TrainingVSTO
             }
             else
             {
-
-
                 try
                 {
                     OpenFileDialog openFile = new OpenFileDialog();
@@ -64,11 +63,8 @@ namespace TrainingVSTO
                     if (openFile.ShowDialog() == DialogResult.OK)
                     {
                         string path = openFile.FileName;
-                        Models.Workbooks.ReadAndWriteArq(path);
-                        Models.Workbooks.Data("Ddos", "A2 : I2");
-
+                        Files.OpenNoDispSTK(path, "Ddos");
                     }
-                    //Sheet.Cells.Clear();
                 }
                 catch (Exception ex)
                 {
@@ -79,12 +75,12 @@ namespace TrainingVSTO
 
                 }
             }
-
         }
         private void InventoryNoDisponible_(object sender, RibbonControlEventArgs e)
         {
 
         }
+
 
     }
 }

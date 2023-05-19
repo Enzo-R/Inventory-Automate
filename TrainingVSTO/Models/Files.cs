@@ -74,11 +74,20 @@ namespace TrainingVSTO.Models
 
         }
 
-        public static void OpenNoDispSTK()
+        public static void OpenNoDispSTK(string path, string sheet)
         {
+            //Open file
             Application excelApp = Globals.ThisAddIn.getActiveApp();
-            Workbook workbook = excelApp.Workbooks.Open(Excel.PathToM7DOpen);
-            Worksheet Sheet = workbook.Sheets["M7"];
+            Workbook workbook = excelApp.Workbooks.Open(path);
+            Worksheet currentSheet = workbook.Sheets[sheet];
+
+            //Manipulating objects
+            currentSheet.Columns.Delete("D , E");
+            Workbooks.Data(sheet, "A2:I2");
+            workbook.Close();
+
+            //Generate STK
+            Workbooks.NoDisponible_();
         }
     }
 }
