@@ -80,11 +80,14 @@ namespace TrainingVSTO.Models
             Application excelApp = Globals.ThisAddIn.getActiveApp();
             Workbook workbook = excelApp.Workbooks.Open(path);
             Worksheet currentSheet = workbook.Sheets[sheet];
+            currentSheet.Activate();
 
             //Manipulating objects
-            currentSheet.Columns.Delete("D , E");
+            currentSheet.Columns["D:E"].Delete();
             Workbooks.Data(sheet, "A2:I2");
-            workbook.Close();
+            workbook.Close(false);
+            
+            
 
             //Generate STK
             Workbooks.NoDisponible_();

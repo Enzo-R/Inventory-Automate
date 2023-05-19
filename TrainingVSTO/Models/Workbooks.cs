@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Forms;
 using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
@@ -431,9 +430,12 @@ namespace TrainingVSTO.Models
         {
             //Workbook activeWorkbook = ; caso não volte para a M7
             Worksheet noDisponible = Globals.ThisAddIn.getActiveWorkbook().Sheets["No Disponible"];
+            noDisponible.Activate();
             Range init = noDisponible.Range["A4"];
 
             init.PasteSpecial(XlPasteType.xlPasteAll);
+
+            Range columnRange = GetCellsToSelect("B4").NumberFormat = "0";
 
             if (init.Value != null)
             {
