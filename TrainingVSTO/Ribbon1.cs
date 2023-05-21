@@ -78,7 +78,7 @@ namespace TrainingVSTO
         }
         private void InventoryNoDisponible_(object sender, RibbonControlEventArgs e)
         {
-
+            Models.Workbooks.NoDispFormulas();
         }
 
 

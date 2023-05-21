@@ -428,7 +428,6 @@ namespace TrainingVSTO.Models
 
         public static void NoDisponible_()
         {
-            //Workbook activeWorkbook = ; caso não volte para a M7
             Worksheet noDisponible = Globals.ThisAddIn.getActiveWorkbook().Sheets["No Disponible"];
             noDisponible.Activate();
             Range init = noDisponible.Range["A4"];
@@ -441,14 +440,40 @@ namespace TrainingVSTO.Models
             {
                 Clipboard.Clear();
             }
-
-            NoDispFormulas();
         }
 
 
         public static void NoDispFormulas()
         {
+            Worksheet noDisponible = Globals.ThisAddIn.getActiveWorkbook().Sheets["No Disponible"];
+            noDisponible.Activate();
+            Range range = GetCellsToSelect("B4");
+            int rows = range.Count + 3;
 
+            //Custo Init
+            noDisponible.Range["J4:J" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:I,9,0)";
+
+            //Custo Total
+            noDisponible.Range["K4:K" + rows].Formula = @"=J4*E4";
+
+            //Segment
+            noDisponible.Range["L4:L" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:C,3,0)";
+
+            //Classification
+            noDisponible.Range["M4:M" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:K,11,0)";
+
+            ////
+            noDisponible.Range["P4:P" + rows].Formula = @"=K4/J1";
+            ////
+            //noDisponible.Range["J4:J" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:I,9,0)";
+
+            Range m4 = GetCellsToSelect("M4");
+
+            if(m4.AutoFilter(13, "#N/D"))
+            {
+                Range all = GetCellsToSelect("A4:S4");
+                all.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
+            }
         }
 
     }
