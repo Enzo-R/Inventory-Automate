@@ -9,6 +9,7 @@ using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
 using TrainingVSTO;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Net.Http;
 
 namespace TrainingVSTO.Models
 {
@@ -462,10 +463,16 @@ namespace TrainingVSTO.Models
             //Classification
             noDisponible.Range["M4:M" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:K,11,0)";
 
-            ////
-            noDisponible.Range["P4:P" + rows].Formula = @"=K4/J1";
-            ////
-            //noDisponible.Range["J4:J" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:I,9,0)";
+            //Amount USD
+            noDisponible.Range["P4:P" + rows].Formula = @"=K4/$J$1";
+
+            //get USD
+            noDisponible.Range["J1"].Formula = @"='M7'!I1";
+
+            //subtotal
+            noDisponible.Range["K2"].Formula = @"=SUBTOTAL(9,K4:K" + rows + ")";
+
+
 
             Range m4 = GetCellsToSelect("M4");
 
@@ -474,7 +481,10 @@ namespace TrainingVSTO.Models
                 Range all = GetCellsToSelect("A4:S4");
                 all.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
             }
+            refreshFilter();
         }
+
+
 
     }
 }

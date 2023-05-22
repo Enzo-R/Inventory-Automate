@@ -16,6 +16,7 @@ namespace TrainingVSTO
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             Models.Files.OpenM7Model();
+            //Models.Excel.getDollar();
         }
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
@@ -46,8 +47,9 @@ namespace TrainingVSTO
         {
             this.Startup += new System.EventHandler(ThisAddIn_Startup);
             this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
         }
-        
+
         #endregion
     }
 }

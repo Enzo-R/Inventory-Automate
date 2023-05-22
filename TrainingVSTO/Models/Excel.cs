@@ -2,9 +2,13 @@
 using Microsoft.Office.Tools.Excel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Worksheet = Microsoft.Office.Interop.Excel.Worksheet;
 
 namespace TrainingVSTO.Models
@@ -21,5 +25,29 @@ namespace TrainingVSTO.Models
         }
 
         public static DateTime date = DateTime.Today;
+
+        public static async void getDollar()
+        {
+            using (HttpClient api = new HttpClient())
+            {
+                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+                string url = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json";
+                HttpResponseMessage response = await api.GetAsync(url);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    using (FileStream fileStream = File.Create("C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\local.html"))
+                    {
+                        await response.Content.CopyToAsync(fileStream);
+                    }
+                    string jsonResponse = await response.Content.ReadAsStringAsync();
+                }
+                else
+                {
+                    MessageBox.Show("Erro ao obter o valor do dólar");
+                }
+            }
+        }
+
     }
 }
