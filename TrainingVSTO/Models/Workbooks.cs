@@ -16,25 +16,6 @@ namespace TrainingVSTO.Models
     public class Workbooks
     {
         //classe responsavel por manipular e criar elementos dentro do Excel
-        public static void ReleaseObject(object obj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
-            }
-            catch (Exception ex)
-            {
-                obj = null;
-                MessageBox.Show("Ocorreu um erro ao liberar o objeto do Excel: " + ex.ToString());
-            }
-            finally
-            {
-                GC.Collect();
-            }
-        }
-
-
         public static void ReadAndWriteArq(string path)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
@@ -47,15 +28,6 @@ namespace TrainingVSTO.Models
             {
                 Clipboard.Clear();
             }
-        }
-
-
-        public static void Data(string sheet, string range)
-        {
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
-            Range cells = currentSheet.Range[range];
-            Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
-            select.Copy();
         }
 
 
@@ -179,17 +151,6 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static Range GetCellsToSelect(String cell)
-        {
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-
-            Range cellSelect = currentSheet.Range[cell];
-            Range sl = currentSheet.Range[cellSelect, cellSelect.End[XlDirection.xlDown]];
-            return sl;
-        }
-
-
-
         public static void FilterDataToClient()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
@@ -199,7 +160,7 @@ namespace TrainingVSTO.Models
 
             Range l4 = currentSheet.Range["L4:L" + i];
             Range n4 = currentSheet.Range["N4:N" + i];
-            n4.Formula = @"=VLOOKUP(L4, Clientes!A:B,2,0)";
+            n4.Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
 
 
             if (f4.AutoFilter(6, "*MAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
@@ -294,35 +255,24 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "PEUGEOT";
             }
+            if (f4.AutoFilter(6, "*COROLL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "TOYOTA";
+            }
 
             refreshFilter();
 
+
             if (n4.AutoFilter(14, "="))
             {
-                n4.Formula = @"=VLOOKUP(
-                A277,'S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023
-                \M7 - STK 05-23\
-                [M7 - STK " + data + " -.xlsx]M7'!$A:$N;14;0)";
-             }
+                n4.Formula = @"=VLOOKUP(A4,'" + PreviousDay() + "'!$A:$N;14;0)";
 
-        }
-
-
-
-        public static void refreshFilter()
-        {
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            currentSheet.AutoFilterMode = false;
-
-            try
-            {
-                _ = currentSheet.EnableAutoFilter;
-                currentSheet.Rows["3:3"].AutoFilter();
+                if (n4.AutoFilter(14, "0"))
+                {
+                    n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+                }
             }
-            catch (Exception)
-            {
-                MessageBox.Show("Filtro não foi ativado");
-            }
+
         }
 
 
@@ -447,6 +397,7 @@ namespace TrainingVSTO.Models
             noDisponible.Range["K2"].Formula = @"=SUBTOTAL(9,K4:K" + rows + ")";
 
 
+            refreshFilter();
 
             Range m4 = GetCellsToSelect("M4");
 
@@ -459,6 +410,114 @@ namespace TrainingVSTO.Models
         }
 
 
+        public static string PreviousDay()
+        {
+            DateTime previousDay = DateTime.Today.AddDays(-1);
+            string dateValidate = previousDay.ToString("d").Replace("/", ".");
 
+            string pa = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\";
+            string th = @"[M7 - STK " + dateValidate + " -.xlsx]M7";
+
+            string path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+            string vlookup_path = "";
+
+            if (File.Exists(path))
+            {
+                vlookup_path = pa + th;
+            }
+            else
+            {
+                previousDay = previousDay.AddDays(-2);
+
+                dateValidate = previousDay.ToString("d").Replace("/", ".");
+                path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+
+                if (File.Exists(path))
+                {
+                    vlookup_path = pa + th;
+                }
+                else
+                {
+                    previousDay = previousDay.AddDays(-3);
+
+                    dateValidate = previousDay.ToString("d").Replace("/", ".");
+                    path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+
+                    if (File.Exists(path))
+                    {
+                        vlookup_path = pa + th;
+                    }
+                    else
+                    {
+                        previousDay = previousDay.AddDays(-4);
+
+                        dateValidate = previousDay.ToString("d").Replace("/", ".");
+                        path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+                        
+                        if (File.Exists(path))
+                        {
+                            vlookup_path = pa + th;
+                        }
+                    }
+                }
+            }
+
+            return vlookup_path;
+        }
+
+
+        public static void refreshFilter()
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+            currentSheet.AutoFilterMode = false;
+
+            try
+            {
+                _ = currentSheet.EnableAutoFilter;
+                currentSheet.Rows["3:3"].AutoFilter();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Filtro não foi ativado");
+            }
+        }
+
+
+        public static Range GetCellsToSelect(String cell)
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+
+            Range cellSelect = currentSheet.Range[cell];
+            Range sl = currentSheet.Range[cellSelect, cellSelect.End[XlDirection.xlDown]];
+            return sl;
+        }
+
+
+        public static void Data(string sheet, string range)
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
+            Range cells = currentSheet.Range[range];
+            Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
+            select.Copy();
+        }
+
+
+        public static void ReleaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+                MessageBox.Show("Ocorreu um erro ao liberar o objeto do Excel: " + ex.ToString());
+            }
+            finally
+            {
+                GC.Collect();
+            }
+        }
     }
 }

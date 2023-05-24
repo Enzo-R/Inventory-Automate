@@ -32,14 +32,7 @@ namespace TrainingVSTO.Models
             Application excelApp = Globals.ThisAddIn.getActiveApp();
             Workbook workbook = excelApp.Workbooks.Open(Excel.PathToM7DOpen);
             Worksheet Sheet = workbook.Sheets["M7"];
-
-
-
-            // Variables
-            string date = Excel.date.ToString("d");
-            string dateValidate = date.Replace("/", ".");
-            string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2022\Teste"
-                                                                        + @"\M7 - STK " + dateValidate + " -.xlsx";
+            Sheet.Activate();
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
 
@@ -51,26 +44,7 @@ namespace TrainingVSTO.Models
             //Create Power Pivot
             Workbooks.DynimicTable();
 
-
-            //End
-            if (currentSheet.Cells != null)
-            {
-                try
-                {
-                    workbook.SaveAs(PathToServer);
-                }
-                catch (Exception)
-                {
-                    workbook
-                    .SaveAs(@"C:\Users\EROLIVEIRA\OneDrive - Joyson Group\Área de Trabalho\Joyson\M7 - STK " + dateValidate + " -.xlsx");
-                }
-                finally
-                {
-                    Clipboard.Clear();
-                    Workbooks.ReleaseObject(currentSheet);
-                    Workbooks.ReleaseObject(excelApp);
-                }
-            }
+            Clipboard.Clear();
 
         }
 
@@ -91,6 +65,26 @@ namespace TrainingVSTO.Models
 
             //Generate STK
             Workbooks.NoDisponible_();
+
+            //End
+            if (currentSheet.Cells != null)
+            {
+                try
+                {
+                    workbook.SaveAs(Excel.PathToServer);
+                }
+                catch (Exception)
+                {
+                    workbook
+                    .SaveAs(@"C:\Users\EROLIVEIRA\OneDrive - Joyson Group\Área de Trabalho\Joyson\M7 - STK " + Excel.dateValidate + " -.xlsx");
+                }
+                finally
+                {
+                    Clipboard.Clear();
+                    Workbooks.ReleaseObject(currentSheet);
+                    Workbooks.ReleaseObject(excelApp);
+                }
+            }
         }
     }
 }

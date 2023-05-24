@@ -25,7 +25,11 @@ namespace TrainingVSTO.Models
         }
 
         public static DateTime date = DateTime.Today;
-
+        public static string date1 = date.ToString("d");
+        public static string dateValidate = date1.Replace("/", ".");
+        public static string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23"
+                                                                    + @"\M7 - STK " + dateValidate + " -.xlsx";
+        //api to return the convertion of dolar value
         public static async void getDollar()
         {
             using (HttpClient api = new HttpClient())
