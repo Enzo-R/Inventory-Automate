@@ -261,8 +261,7 @@ namespace TrainingVSTO.Models
             }
 
             refreshFilter();
-
-
+            //procv no dia anterior CS
             if (n4.AutoFilter(14, "="))
             {
                 n4.Formula = @"=VLOOKUP(A4,'" + PreviousDay() + "'!$A:$N;14;0)";
@@ -271,8 +270,30 @@ namespace TrainingVSTO.Models
                 {
                     n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
                 }
+                if (l4.AutoFilter(14, "#N/D"))
+                {
+                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+                }
             }
 
+            refreshFilter();
+            //procv no dia anterior Clientes
+            if (l4.AutoFilter(12, "="))
+            {
+                l4.Formula = @"=VLOOKUP(A4,'" + PreviousDay() + "'!$A:$L;12;0)";
+
+                if (l4.AutoFilter(12, "0"))
+                {
+                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+                }
+                if (l4.AutoFilter(12, "#N/D"))
+                {
+                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+                }
+
+            }
+
+            refreshFilter();
         }
 
 
