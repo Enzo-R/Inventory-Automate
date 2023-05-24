@@ -189,6 +189,7 @@ namespace TrainingVSTO.Models
         }
 
 
+
         public static void FilterDataToClient()
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
@@ -200,35 +201,27 @@ namespace TrainingVSTO.Models
             Range n4 = currentSheet.Range["N4:N" + i];
             n4.Formula = @"=VLOOKUP(L4, Clientes!A:B,2,0)";
 
-            if (f4.AutoFilter(6, "*GM*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-            {
-                l4.Value = "GM";
-            }
-
-            if (f4.AutoFilter(6, "*PSA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-            {
-                l4.Value = "PSA";
-                if (f4.AutoFilter(6, "*PEUGEO*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-                {
-                    l4.Value = "PSA";
-                }
-            }
-
-            if (f4.AutoFilter(6, "*TOY*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-            {
-                l4.Value = "Toyota";
-            }
 
             if (f4.AutoFilter(6, "*MAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "MAN";
             }
-
+            if (f4.AutoFilter(6, "*GM*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "GM";
+            }
+            if (f4.AutoFilter(6, "*PSA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "PSA";
+            }
+            if (f4.AutoFilter(6, "*TOY*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "Toyota";
+            }
             if (f4.AutoFilter(6, "*FCA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "FCA";
             }
-
             if (f4.AutoFilter(6, "*FIAT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "FIAT";
@@ -236,103 +229,84 @@ namespace TrainingVSTO.Models
             if (f4.AutoFilter(6, "*FI AT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "FIAT";
-                if (f4.AutoFilter(6, "*F IAT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-                {
-                    l4.Value = "FIAT";
-                }
             }
-
+            if (f4.AutoFilter(6, "*FIA T*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "FIAT";
+            }
             if (f4.AutoFilter(6, "*VW*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "VW";
             }
-            if (f4.AutoFilter(6, "*V W*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-            {
-                l4.Value = "VW";
-            }
-            if (f4.AutoFilter(6, "*FOX*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-            {
-                l4.Value = "VW";
-            }
-
             if (f4.AutoFilter(6, "*Corsa*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "GM";
             }
-
-            if (f4.AutoFilter(6, "*Niss*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*Nissa*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "NISSAN";
             }
-
             if (f4.AutoFilter(6, "*REN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "RENAULT";
             }
-
-            if (f4.AutoFilter(6, "*HON*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*HONDA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "HONDA";
             }
-
-            if (f4.AutoFilter(6, "*HYU*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*HYUND*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "Hyundai";
-
-                if (f4.AutoFilter(6, "*HY UNDAI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-                {
-                    l4.Value = "Hyundai";
-
-                }
-            }
-
-
-            if (f4.AutoFilter(6, "*MIT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-            {
-                l4.Value = "HPE";
             }
             if (f4.AutoFilter(6, "*MITSUB*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "HPE";
             }
-
-            if (f4.AutoFilter(6, "*RENA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*RENAUL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "RENAULT";
             }
-
             if (f4.AutoFilter(6, "*SCANI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "SCANIA";
             }
-
             if (f4.AutoFilter(6, "*FORD*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "FORD";
             }
-
             if (f4.AutoFilter(6, "*Faure*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "Faurencia";
             }
-
-            if (f4.AutoFilter(6, "*STELLA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*STELLAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "STELLANTIS";
-                if (f4.AutoFilter(6, "*CIVI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-                {
-                    l4.Value = "STELLANTIS";
-                }
             }
-
-            if (f4.AutoFilter(6, "*COROLL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*CIVI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
-                l4.Value = "Toyota";
+                l4.Value = "STELLANTIS";
+            }
+            if (f4.AutoFilter(6, "*PEUGEOT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "PEUGEOT";
+            }
+            if (f4.AutoFilter(6, "*PEUG*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "PEUGEOT";
             }
 
             refreshFilter();
 
+            if (n4.AutoFilter(14, "="))
+            {
+                n4.Formula = @"=VLOOKUP(
+                A277,'S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023
+                \M7 - STK 05-23\
+                [M7 - STK " + data + " -.xlsx]M7'!$A:$N;14;0)";
+             }
+
         }
+
 
 
         public static void refreshFilter()
