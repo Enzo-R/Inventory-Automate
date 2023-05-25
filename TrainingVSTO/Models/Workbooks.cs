@@ -435,10 +435,8 @@ namespace TrainingVSTO.Models
         {
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("d").Replace("/", ".");
-
             string pa = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\";
             string th = @"[M7 - STK " + dateValidate + " -.xlsx]M7";
-
             string path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
             string vlookup_path = "";
 
