@@ -261,6 +261,30 @@ namespace TrainingVSTO.Models
             }
 
             refreshFilter();
+            //procv no dia anterior Clientes
+            if (l4.AutoFilter(12, "="))
+            {
+                l4.Formula = @"=VLOOKUP(A4,'" + PreviousDay() + "'!$A:$L;12;0)";
+
+                if (n4.AutoFilter(14, "#N/D"))
+                {
+                    n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+                }
+
+                if (l4.AutoFilter(12, "0"))
+                {
+                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+                }
+                if (l4.AutoFilter(12, "#N/D"))
+                {
+                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+
+                }
+
+            }
+
+
+            refreshFilter();
             //procv no dia anterior CS
             if (n4.AutoFilter(14, "="))
             {
@@ -270,27 +294,6 @@ namespace TrainingVSTO.Models
                 {
                     n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
                 }
-                if (l4.AutoFilter(14, "#N/D"))
-                {
-                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-            }
-
-            refreshFilter();
-            //procv no dia anterior Clientes
-            if (l4.AutoFilter(12, "="))
-            {
-                l4.Formula = @"=VLOOKUP(A4,'" + PreviousDay() + "'!$A:$L;12;0)";
-
-                if (l4.AutoFilter(12, "0"))
-                {
-                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-                if (l4.AutoFilter(12, "#N/D"))
-                {
-                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-
             }
 
             refreshFilter();
@@ -441,54 +444,46 @@ namespace TrainingVSTO.Models
         {
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("d").Replace("/", ".");
-            string pa = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\";
+
+            string pa = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\";
             string th = @"[M7 - STK " + dateValidate + " -.xlsx]M7";
-            string path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
-            string vlookup_path = "";
+
+            string path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+            string vlookup_path= @"";
 
             if (File.Exists(path))
             {
-                vlookup_path = pa + th;
+                vlookup_path =
+                @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\[M7 - STK " + dateValidate + " -.xlsx]M7";
             }
             else
             {
-                previousDay = previousDay.AddDays(-2);
-
+                previousDay = previousDay.AddDays(-3);
                 dateValidate = previousDay.ToString("d").Replace("/", ".");
-                path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+                path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
 
-                if (File.Exists(path))
+                if (0==0)
                 {
-                    vlookup_path = pa + th;
+                    vlookup_path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\[M7 - STK " + dateValidate + " -.xlsx]M7";
+                    vlookup_path.Replace(@"\\", @"\");
                 }
                 else
                 {
-                    previousDay = previousDay.AddDays(-3);
-
+                    previousDay = previousDay.AddDays(-4);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+                    path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
 
-                    if (File.Exists(path))
+                    if (0==0)
                     {
-                        vlookup_path = pa + th;
-                    }
-                    else
-                    {
-                        previousDay = previousDay.AddDays(-4);
-
-                        dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
-                        
-                        if (File.Exists(path))
-                        {
-                            vlookup_path = pa + th;
-                        }
+                        vlookup_path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\[M7 - STK " + dateValidate + " -.xlsx]M7";
+                        vlookup_path.Replace(@"\\", @"\");
                     }
                 }
             }
 
             return vlookup_path;
         }
+
 
 
         public static void refreshFilter()

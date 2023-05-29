@@ -76,7 +76,7 @@ namespace TrainingVSTO.Models
                 catch (Exception)
                 {
                     workbook
-                    .SaveAs(@"C:\Users\EROLIVEIRA\OneDrive - Joyson Group\Área de Trabalho\Joyson\M7 - STK " + Excel.dateValidate + " -.xlsx");
+                    .SaveAs(@"C:\Inventory\M7 - STK " + Excel.dateValidate + " -.xlsx");
                 }
                 finally
                 {
