@@ -261,39 +261,6 @@ namespace TrainingVSTO.Models
             }
 
             refreshFilter();
-            //procv no dia anterior CS
-            if (n4.AutoFilter(14, "="))
-            {
-                n4.Formula = @"=VLOOKUP(A4,'" + PreviousDay() + "'!$A:$N;14;0)";
-
-                if (n4.AutoFilter(14, "0"))
-                {
-                    n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-                if (l4.AutoFilter(14, "#N/D"))
-                {
-                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-            }
-
-            refreshFilter();
-            //procv no dia anterior Clientes
-            if (l4.AutoFilter(12, "="))
-            {
-                l4.Formula = @"=VLOOKUP(A4,'" + PreviousDay() + "'!$A:$L;12;0)";
-
-                if (l4.AutoFilter(12, "0"))
-                {
-                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-                if (l4.AutoFilter(12, "#N/D"))
-                {
-                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-
-            }
-
-            refreshFilter();
         }
 
 
@@ -417,14 +384,14 @@ namespace TrainingVSTO.Models
             //subtotal
             noDisponible.Range["K2"].Formula = @"=SUBTOTAL(9,K4:K" + rows + ")";
 
-            //Gestores
-            noDisponible.Range["Q4:Q" + rows].Formula = @"=VLOOKUP(Q4,'" + PreviousDay() + "'!$D:$Q,14,0)";
+            ////Gestores
+            //noDisponible.Range["Q4:Q" + rows].Formula = @"=VLOOKUP(Q4,'" + PreviousDay() + "'!$D:$Q,14,0)";
 
-            //Resp.Inventário
-            noDisponible.Range["R4:R" + rows].Formula = @"=VLOOKUP(R4,'" + PreviousDay() + "'!$Q:$R,2,0)";
+            ////Resp.Inventário
+            //noDisponible.Range["R4:R" + rows].Formula = @"=VLOOKUP(R4,'" + PreviousDay() + "'!$Q:$R,2,0)";
 
-            //Descrição Lugar
-            noDisponible.Range["S4:S" + rows].Formula = @"=VLOOKUP(S4,'" + PreviousDay() + "'!$Q:$S,3,0)";
+            ////Descrição Lugar
+            //noDisponible.Range["S4:S" + rows].Formula = @"=VLOOKUP(S4,'" + PreviousDay() + "'!$Q:$S,3,0)";
 
             Range m4 = GetCellsToSelect("M4");
 
