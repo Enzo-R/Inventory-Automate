@@ -171,6 +171,14 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "GM";
             }
+            if (f4.AutoFilter(6, "*REN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "RENAULT";
+            }
+            if (f4.AutoFilter(6, "*HON*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "HONDA";
+            }
             if (f4.AutoFilter(6, "*PSA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "PSA";
@@ -198,6 +206,10 @@ namespace TrainingVSTO.Models
             if (f4.AutoFilter(6, "*VW*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "VW";
+            }            
+            if (f4.AutoFilter(6, "*V W*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "VW";
             }
             if (f4.AutoFilter(6, "*Corsa*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
@@ -207,10 +219,12 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "NISSAN";
             }
-            if (f4.AutoFilter(6, "*REN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+
+            if (f4.AutoFilter(6, "*HO NDA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
-                l4.Value = "RENAULT";
+                l4.Value = "HONDA";
             }
+
             if (f4.AutoFilter(6, "*HONDA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "HONDA";
@@ -239,13 +253,13 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "Faurencia";
             }
-            if (f4.AutoFilter(6, "*STELLAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*STELLA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "STELLANTIS";
             }
             if (f4.AutoFilter(6, "*CIVI*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
-                l4.Value = "STELLANTIS";
+                l4.Value = "HONDA";
             }
             if (f4.AutoFilter(6, "*PEUGEOT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
@@ -255,7 +269,7 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "PEUGEOT";
             }
-            if (f4.AutoFilter(6, "*COROLL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            if (f4.AutoFilter(6, "*COROL*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "TOYOTA";
             }
