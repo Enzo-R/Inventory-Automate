@@ -55,7 +55,7 @@ namespace TrainingVSTO.Models
             Range f3 = currentSheet.Range["O4:O" + rowsCount];
             f3.Formula = @"=J4/5.0758";
 
-            
+
             currentSheet.Range["J2"].Formula = @"=SUBTOTAL(9,J4:J" + rowsCount + ")";
             currentSheet.Range["M2"].Formula = @"=SUBTOTAL(9,M4:M" + rowsCount + ")";
             currentSheet.Range["O2"].Formula = @"=SUBTOTAL(9,O4:O" + rowsCount + ")";
@@ -284,7 +284,7 @@ namespace TrainingVSTO.Models
         {
 
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            Range all = currentSheet.Range[GetCellsToSelect("A3").End[XlDirection.xlToRight]];
+            Range all = currentSheet.Range[GetCellsToSelect("A3"), GetCellsToSelect("A3").End[XlDirection.xlToRight]];
 
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
             Worksheet newSheet = workbook.Sheets.Add();
@@ -412,7 +412,7 @@ namespace TrainingVSTO.Models
 
             Range m4 = GetCellsToSelect("M4");
 
-            if(m4.AutoFilter(13, "#N/D"))
+            if (m4.AutoFilter(13, "#N/D"))
             {
                 Range all = GetCellsToSelect("A4:S4");
                 all.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
@@ -462,7 +462,7 @@ namespace TrainingVSTO.Models
 
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
                         path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
-                        
+
                         if (File.Exists(path))
                         {
                             vlookup_path = pa + th;
