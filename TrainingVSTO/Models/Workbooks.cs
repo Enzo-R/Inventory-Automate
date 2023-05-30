@@ -284,11 +284,11 @@ namespace TrainingVSTO.Models
         {
 
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            Range all = currentSheet.Range[GetCellsToSelect("A3"), GetCellsToSelect("A3").End[XlDirection.xlToRight]];
+            Range all = currentSheet.Range[GetCellsToSelect("A3").End[XlDirection.xlToRight]];
 
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
             Worksheet newSheet = workbook.Sheets.Add();
-            newSheet.Name = "Pivot Table";
+            newSheet.Name = "M7 summary";
 
             //Get data for Pivot tabel
             PivotCache oPivotCache = workbook.PivotCaches().Add(XlPivotTableSourceType.xlDatabase, all);

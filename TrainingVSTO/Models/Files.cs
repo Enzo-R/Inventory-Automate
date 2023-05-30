@@ -41,7 +41,6 @@ namespace TrainingVSTO.Models
             // Put the M7 data to a new file model
             currentSheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
             Workbooks.M7Formulas();
-            currentSheet.Columns.AutoFit();
 
             //Create Power Pivot
             Workbooks.DynimicTable();
