@@ -56,10 +56,9 @@ namespace TrainingVSTO.Models
             Range f3 = currentSheet.Range["O4:O" + rowsCount];
             f3.Formula = @"=J4/5.0758";
 
-            int newCount = rowsCount - 3;
-            currentSheet.Range["J2"].Formula = @"=SUBTOTAL(9,J4:J" + newCount + ")";
-            currentSheet.Range["M2"].Formula = @"=SUBTOTAL(9,M4:M" + newCount + ")";
-            currentSheet.Range["O2"].Formula = @"=SUBTOTAL(9,O4:O" + newCount + ")";
+            currentSheet.Range["J2"].Formula = @"=SUBTOTAL(9,J4:J" + rowsCount + ")";
+            currentSheet.Range["M2"].Formula = @"=SUBTOTAL(9,M4:M" + rowsCount + ")";
+            currentSheet.Range["O2"].Formula = @"=SUBTOTAL(9,O4:O" + rowsCount + ")";
 
             FilterDataToClient();
 
