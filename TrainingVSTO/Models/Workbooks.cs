@@ -20,7 +20,7 @@ namespace TrainingVSTO.Models
         public static void ReadAndWriteArq(string path)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
-            var content = File.ReadAllText(path);
+            var content = System.IO.File.ReadAllText(path);
             Clipboard.SetText(content);
 
             Range col = currentSheet.Range["A:A"];
@@ -281,7 +281,7 @@ namespace TrainingVSTO.Models
             if (l4.AutoFilter(12, "="))
             {
                 string b = PreviousDay();
-                l4.formula = @"=VLOOKUP(A4,'C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\" + b + "'!$A:$L;12;0)";
+                l4.Formula = @"=VLOOKUP(A4,'C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\" + b + "'!$A:$L;12;0)";
 
                 if (n4.AutoFilter(14, "#N/D"))
                 {

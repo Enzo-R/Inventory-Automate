@@ -8,9 +8,11 @@ using System.Windows;
 using System.Windows.Forms;
 using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Tools.Excel;
 using Application = Microsoft.Office.Interop.Excel.Application;
 using Excel = Microsoft.Office.Interop.Excel;
 using Workbook = Microsoft.Office.Interop.Excel.Workbook;
+using Worksheet = Microsoft.Office.Interop.Excel.Worksheet;
 
 namespace TrainingVSTO.Models
 {
@@ -46,6 +48,8 @@ namespace TrainingVSTO.Models
 
             Clipboard.Clear();
 
+            Finals(Globals.ThisAddIn.getActiveWorkbook());
+
         }
 
         public static void OpenNoDispSTK(string path, string sheet)
@@ -53,36 +57,43 @@ namespace TrainingVSTO.Models
             //Open file
             Application excelApp = Globals.ThisAddIn.getActiveApp();
             Workbook workbook = excelApp.Workbooks.Open(path);
-            Worksheet currentSheet = workbook.Sheets[sheet];
-            currentSheet.Activate();
+            Worksheet selectSheet = workbook.Sheets[sheet];
+            selectSheet.Activate();
 
             //Manipulating objects
-            currentSheet.Columns["D:E"].Delete();
+            selectSheet.Columns["D:E"].Delete();
             Workbooks.Data(sheet, "A2:I2");
             workbook.Close(false);
-            
-            
+
+
 
             //Generate STK
             Workbooks.NoDisponible_();
 
+            Finals(Globals.ThisAddIn.getActiveWorkbook());
+
+        }
+
+        public static void Finals(Workbook wb)
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
             //End
             if (currentSheet.Cells != null)
             {
+                currentSheet.Columns.AutoFit();
                 try
                 {
-                    workbook.SaveAs(Excel.PathToServer);
+                    wb.SaveAs(Excel.PathToServer);
                 }
                 catch (Exception)
                 {
-                    workbook
-                    .SaveAs(@"C:\Inventory\M7 - STK " + Excel.dateValidate + " -.xlsx");
+                    wb
+                    .SaveAs(@"C:\Inventario\M7 - STK " + Excel.dateValidate + " -.xlsx");
                 }
                 finally
                 {
                     Clipboard.Clear();
                     Workbooks.ReleaseObject(currentSheet);
-                    Workbooks.ReleaseObject(excelApp);
                 }
             }
         }
