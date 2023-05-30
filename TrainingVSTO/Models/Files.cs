@@ -8,9 +8,11 @@ using System.Windows;
 using System.Windows.Forms;
 using Microsoft.Office.Interop;
 using Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Tools.Excel;
 using Application = Microsoft.Office.Interop.Excel.Application;
 using Excel = Microsoft.Office.Interop.Excel;
 using Workbook = Microsoft.Office.Interop.Excel.Workbook;
+using Worksheet = Microsoft.Office.Interop.Excel.Worksheet;
 
 namespace TrainingVSTO.Models
 {
@@ -46,6 +48,8 @@ namespace TrainingVSTO.Models
 
             Clipboard.Clear();
 
+            Finals(Globals.ThisAddIn.getActiveWorkbook());
+
         }
 
         public static void OpenNoDispSTK(string path, string sheet)
@@ -66,24 +70,30 @@ namespace TrainingVSTO.Models
             //Generate STK
             Workbooks.NoDisponible_();
 
+            Finals(Globals.ThisAddIn.getActiveWorkbook());
+
+        }
+
+        public static void Finals(Workbook wb)
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
             //End
-            if (selectSheet.Cells != null)
+            if (currentSheet.Cells != null)
             {
-                selectSheet.Columns.AutoFit();
+                currentSheet.Columns.AutoFit();
                 try
                 {
-                    workbook.SaveAs(Excel.PathToServer);
+                    wb.SaveAs(Excel.PathToServer);
                 }
                 catch (Exception)
                 {
-                    workbook
+                    wb
                     .SaveAs(@"C:\Inventario\M7 - STK " + Excel.dateValidate + " -.xlsx");
                 }
                 finally
                 {
                     Clipboard.Clear();
-                    Workbooks.ReleaseObject(selectSheet);
-                    Workbooks.ReleaseObject(excelApp);
+                    Workbooks.ReleaseObject(currentSheet);
                 }
             }
         }

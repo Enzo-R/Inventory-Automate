@@ -168,6 +168,10 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "MAN";
             }
+            if (f4.AutoFilter(6, "*FIA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "FIAT";
+            }
             if (f4.AutoFilter(6, "*GM*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "GM";
@@ -191,10 +195,6 @@ namespace TrainingVSTO.Models
             if (f4.AutoFilter(6, "*FCA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "FCA";
-            }
-            if (f4.AutoFilter(6, "*FIAT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
-            {
-                l4.Value = "FIAT";
             }
             if (f4.AutoFilter(6, "*FI AT*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
