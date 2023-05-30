@@ -10,6 +10,7 @@ using Microsoft.Office.Interop.Excel;
 using TrainingVSTO;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Net.Http;
+using static System.Net.WebRequestMethods;
 
 namespace TrainingVSTO.Models
 {
@@ -162,6 +163,7 @@ namespace TrainingVSTO.Models
             Range n4 = currentSheet.Range["N4:N" + i];
             n4.Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
 
+            #region Filter for clients
 
             if (f4.AutoFilter(6, "*MAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
@@ -273,18 +275,19 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "TOYOTA";
             }
+            #endregion 
 
             refreshFilter();
             //procv no dia anterior Clientes
             if (l4.AutoFilter(12, "="))
             {
-                l4.Formula = @"=VLOOKUP(A4,'" + PreviousDay() + "'!$A:$L;12;0)";
+                string b = PreviousDay();
+                l4.formula = @"=VLOOKUP(A4,'C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\" + b + "'!$A:$L;12;0)";
 
                 if (n4.AutoFilter(14, "#N/D"))
                 {
                     n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
                 }
-
                 if (l4.AutoFilter(12, "0"))
                 {
                     l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
@@ -296,13 +299,11 @@ namespace TrainingVSTO.Models
                 }
 
             }
-
-
             refreshFilter();
             //procv no dia anterior CS
             if (n4.AutoFilter(14, "="))
             {
-                n4.Formula = @"=VLOOKUP(A4,'" + PreviousDay() + "'!$A:$N;14;0)";
+                n4.Formula = @"=VLOOKUP(A4,'" + Excel.PathForFormula + PreviousDay() + "'!$A:$N;14;0)";
 
                 if (n4.AutoFilter(14, "0"))
                 {
@@ -395,7 +396,7 @@ namespace TrainingVSTO.Models
             noDisponible.Activate();
             Range init = noDisponible.Range["A4"];
 
-            init.PasteSpecial(XlPasteType.xlPasteAll);
+            init.PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone,false,false);
 
             Range columnRange = GetCellsToSelect("B4").NumberFormat = "0";
 
@@ -412,6 +413,7 @@ namespace TrainingVSTO.Models
             noDisponible.Activate();
             Range range = GetCellsToSelect("B4");
             int rows = range.Count + 3;
+            
 
             //Custo Init
             noDisponible.Range["J4:J" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:I,9,0)";
@@ -458,42 +460,53 @@ namespace TrainingVSTO.Models
         {
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("d").Replace("/", ".");
-
-            string pa = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\";
-            string th = @"[M7 - STK " + dateValidate + " -.xlsx]M7";
-
             string path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
-            string vlookup_path= @"";
+            string vlookup_path = @"";
 
-            if (File.Exists(path))
-            {
-                vlookup_path =
-                @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\[M7 - STK " + dateValidate + " -.xlsx]M7";
-            }
-            else
-            {
-                previousDay = previousDay.AddDays(-3);
-                dateValidate = previousDay.ToString("d").Replace("/", ".");
-                path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+            
+            vlookup_path = @"=VLOOKUP(A4,'C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\" + dateValidate + "'!$A:$L;12;0)";
+            vlookup_path.Replace(@"\\", ".");
+            //@"[M7 - STK " + dateValidate + " -.xlsx]M7";
+            //if (File.Exists(path))
+            //{
+            //    vlookup_path =
+            //    @"[M7 - STK " + dateValidate + " -.xlsx]M7";
+            //}
+            //else
+            //{
+            //    previousDay = previousDay.AddDays(-2);
+            //    dateValidate = previousDay.ToString("d").Replace("/", ".");
+            //    path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
 
-                if (0==0)
-                {
-                    vlookup_path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\[M7 - STK " + dateValidate + " -.xlsx]M7";
-                    vlookup_path.Replace(@"\\", @"\");
-                }
-                else
-                {
-                    previousDay = previousDay.AddDays(-4);
-                    dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+            //    if (File.Exists(path))
+            //    {
+            //        vlookup_path =
+            //        @"[M7 - STK " + dateValidate + " -.xlsx]M7";
+            //    }
+            //    else
+            //    {
+            //        previousDay = previousDay.AddDays(-3);
+            //        dateValidate = previousDay.ToString("d").Replace("/", ".");
+            //        path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
 
-                    if (0==0)
-                    {
-                        vlookup_path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\[M7 - STK " + dateValidate + " -.xlsx]M7";
-                        vlookup_path.Replace(@"\\", @"\");
-                    }
-                }
-            }
+            //        if (File.Exists(path))
+            //        {
+            //            vlookup_path =
+            //            @"[M7 - STK " + dateValidate + " -.xlsx]M7";
+            //        }
+            //        else
+            //        {
+            //            previousDay = previousDay.AddDays(-4);
+            //            dateValidate = previousDay.ToString("d").Replace("/", ".");
+            //            path = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+            //            if (File.Exists(path))
+            //            {
+            //                vlookup_path =
+            //                @"[M7 - STK " + dateValidate + " -.xlsx]M7";
+            //            }
+            //        }
+            //    }
+            //}
 
             return vlookup_path;
         }
