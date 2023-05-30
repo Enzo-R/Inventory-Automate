@@ -363,7 +363,8 @@ namespace TrainingVSTO.Models
 
             init.PasteSpecial(XlPasteType.xlPasteAll);
 
-            Range columnRange = GetCellsToSelect("B4").NumberFormat = "0";
+            GetCellsToSelect("B4").NumberFormat = "0";
+            GetCellsToSelect("D4").NumberFormat = "0";
 
             if (init.Value != null)
             {

@@ -53,11 +53,11 @@ namespace TrainingVSTO.Models
             //Open file
             Application excelApp = Globals.ThisAddIn.getActiveApp();
             Workbook workbook = excelApp.Workbooks.Open(path);
-            Worksheet currentSheet = workbook.Sheets[sheet];
-            currentSheet.Activate();
+            Worksheet selectSheet = workbook.Sheets[sheet];
+            selectSheet.Activate();
 
             //Manipulating objects
-            currentSheet.Columns["D:E"].Delete();
+            selectSheet.Columns["D:E"].Delete();
             Workbooks.Data(sheet, "A2:I2");
             workbook.Close(false);
             
@@ -67,8 +67,9 @@ namespace TrainingVSTO.Models
             Workbooks.NoDisponible_();
 
             //End
-            if (currentSheet.Cells != null)
+            if (selectSheet.Cells != null)
             {
+                selectSheet.Columns.AutoFit();
                 try
                 {
                     workbook.SaveAs(Excel.PathToServer);
@@ -81,7 +82,7 @@ namespace TrainingVSTO.Models
                 finally
                 {
                     Clipboard.Clear();
-                    Workbooks.ReleaseObject(currentSheet);
+                    Workbooks.ReleaseObject(selectSheet);
                     Workbooks.ReleaseObject(excelApp);
                 }
             }
