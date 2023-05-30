@@ -506,6 +506,7 @@ namespace TrainingVSTO.Models
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
             Range cells = currentSheet.Range[range];
             Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
+            select.ClearFormats();
             select.Copy();
         }
 
