@@ -361,7 +361,7 @@ namespace TrainingVSTO.Models
             noDisponible.Activate();
             Range init = noDisponible.Range["A4"];
 
-            init.PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone, false, false);
+            init.PasteSpecial(XlPasteType.xlPasteAll);
 
             Range columnRange = GetCellsToSelect("B4").NumberFormat = "0";
 
