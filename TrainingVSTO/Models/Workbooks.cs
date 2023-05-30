@@ -276,39 +276,39 @@ namespace TrainingVSTO.Models
             }
             #endregion 
 
-            refreshFilter();
-            //procv no dia anterior Clientes
-            if (l4.AutoFilter(12, "="))
-            {
-                string b = PreviousDay();
-                l4.Formula = @"=VLOOKUP(A4,'C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\" + b + "'!$A:$L;12;0)";
+            //refreshFilter();
+            ////procv no dia anterior Clientes
+            //if (l4.AutoFilter(12, "="))
+            //{
+            //    string b = PreviousDay();
+            //    l4.Formula = @"=VLOOKUP(A4,'C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\" + b + "'!$A:$L;12;0)";
 
-                if (n4.AutoFilter(14, "#N/D"))
-                {
-                    n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-                if (l4.AutoFilter(12, "0"))
-                {
-                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-                if (l4.AutoFilter(12, "#N/D"))
-                {
-                    l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+            //    if (n4.AutoFilter(14, "#N/D"))
+            //    {
+            //        n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+            //    }
+            //    if (l4.AutoFilter(12, "0"))
+            //    {
+            //        l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+            //    }
+            //    if (l4.AutoFilter(12, "#N/D"))
+            //    {
+            //        l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
 
-                }
+            //    }
 
-            }
-            refreshFilter();
-            //procv no dia anterior CS
-            if (n4.AutoFilter(14, "="))
-            {
-                n4.Formula = @"=VLOOKUP(A4,'" + Excel.PathForFormula + PreviousDay() + "'!$A:$N;14;0)";
+            //}
+            //refreshFilter();
+            ////procv no dia anterior CS
+            //if (n4.AutoFilter(14, "="))
+            //{
+            //    n4.Formula = @"=VLOOKUP(A4,'" + Excel.PathForFormula + PreviousDay() + "'!$A:$N;14;0)";
 
-                if (n4.AutoFilter(14, "0"))
-                {
-                    n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
-                }
-            }
+            //    if (n4.AutoFilter(14, "0"))
+            //    {
+            //        n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+            //    }
+            //}
 
             refreshFilter();
         }
