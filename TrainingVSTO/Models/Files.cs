@@ -86,8 +86,12 @@ namespace TrainingVSTO.Models
                 }
                 catch (Exception)
                 {
-                    wb
-                    .SaveAs(@"C:\Inventario\M7 - STK " + Excel.dateValidate + " -.xlsx");
+                    string dir = @"C:\Inventario";
+                    if (!Directory.Exists(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+                    wb.SaveAs(@"C:\Inventario\M7 - STK " + Excel.dateValidate + " -.xlsx");
                 }
                 finally
                 {

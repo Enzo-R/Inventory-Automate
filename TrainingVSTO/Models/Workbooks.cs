@@ -163,6 +163,7 @@ namespace TrainingVSTO.Models
             n4.Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
 
 
+            #region Filters to client
 
             if (f4.AutoFilter(6, "*MAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
@@ -274,7 +275,7 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "TOYOTA";
             }
-
+            #endregion
 
             refreshFilter();
         }

@@ -17,11 +17,11 @@ namespace TrainingVSTO.Models
     {
         public static string PathToM7DOpen
         {
-            get { return @"S:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - ex -.xlsx"; }
+            get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - ex -.xlsx"; }
         }
         public static string PathToM7DModel
         {
-            get { return @"S:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\AbreModelo7 - Rev1.xlsm"; }
+            get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\AbreModelo7 - Rev1.xlsm"; }
         }
 
         public static DateTime date = DateTime.Today;
