@@ -70,10 +70,7 @@ namespace TrainingVSTO
                 {
                     MessageBox.Show(ex.Message);
                 }
-                finally
-                {
 
-                }
             }
         }
         private void InventoryNoDisponible_(object sender, RibbonControlEventArgs e)
