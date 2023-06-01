@@ -17,17 +17,17 @@ namespace TrainingVSTO.Models
     {
         public static string PathToM7DOpen
         {
-            get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - ex -.xlsx"; }
+            get { return @"S:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - ex -.xlsx"; }
         }
         public static string PathToM7DModel
         {
-            get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\AbreModelo7 - Rev1.xlsm"; }
+            get { return @"S:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\AbreModelo7 - Rev1.xlsm"; }
         }
 
         public static DateTime date = DateTime.Today;
         public static string date1 = date.ToString("d");
         public static string dateValidate = date1.Replace("/", ".");
-        public static string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05-23\M7 - STK " + dateValidate + " -.xlsx";
+        public static string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
         
     }
 }

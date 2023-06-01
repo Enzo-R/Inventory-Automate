@@ -20,6 +20,9 @@ namespace TrainingVSTO
         }
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
+            Models.Workbooks.ReleaseObject(getActiveApp());
+            Models.Workbooks.ReleaseObject(getActiveWorkbook());
+
         }
         public Excel.Worksheet getActiveWorksheet()
         {
