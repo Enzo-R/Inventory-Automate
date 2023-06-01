@@ -13,6 +13,7 @@ using System.Net.Http;
 using Microsoft.Office.Tools.Excel;
 using Worksheet = Microsoft.Office.Interop.Excel.Worksheet;
 using Workbook = Microsoft.Office.Interop.Excel.Workbook;
+using System.Net.NetworkInformation;
 
 namespace TrainingVSTO.Models
 {
@@ -142,6 +143,7 @@ namespace TrainingVSTO.Models
             Range range = GetCellsToSelect("B4");
             int alt = range.Count + 3;
             Range c4 = GetCellsToSelect("C4:C" + alt);
+
             c4.AutoFilter(3, filterCriteria3, XlAutoFilterOperator.xlFilterValues);
             c4.Value = "SW";
 
@@ -278,7 +280,7 @@ namespace TrainingVSTO.Models
             }
             #endregion
 
-            PreviousDay();
+            //PreviousDay();
 
             refreshFilter();
         }
@@ -377,7 +379,7 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void NoDispFormulas()
+        public static void NoDispProcess()
         {
             Worksheet noDisponible = Globals.ThisAddIn.getActiveWorkbook().Sheets["No Disponible"];
             noDisponible.Activate();
@@ -395,6 +397,12 @@ namespace TrainingVSTO.Models
 
             //Classification
             noDisponible.Range["M4:M" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:K,11,0)";
+
+            //Disponível
+            noDisponible.Range["N4:N" + rows].Value = "não";
+
+            //Disponível(MRP)
+            noDisponible.Range["O4:O" + rows].Value = "não";
 
             //Amount USD
             noDisponible.Range["P4:P" + rows].Formula = @"=K4/$J$1";
@@ -414,14 +422,65 @@ namespace TrainingVSTO.Models
             ////Descrição Lugar
             //noDisponible.Range["S4:S" + rows].Formula = @"=VLOOKUP(S4,'" + PreviousDay() + "'!$Q:$S,3,0)";
 
-            Range m4 = GetCellsToSelect("M4");
+            //Segunda parte do processo
+            Range Q4 = noDisponible.Range["Q4: Q" + rows];
+            Range R4 = noDisponible.Range["R4: R" + rows];
+            Range S4 = noDisponible.Range["S4: S" + rows];
 
-            if (m4.AutoFilter(13, "#N/D"))
+            //filtros limpar dados N/D - PASSO 6
+            if (GetCellsToSelect("M4").AutoFilter(13, "#N/D"))
             {
                 Range all = GetCellsToSelect("A4:S4");
                 all.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
             }
             refreshFilter();
+
+
+            //filtrar por lugar - PASSO 9
+            if(GetCellsToSelect("D4").AutoFilter(4, "9ACERTO"))
+            {
+                Q4.Value = "SCM/Logistica [Pedro Yak]";
+                R4.Value = "William Baisi";
+                S4.Value = "AJUSTE INVENTÁRIO_PU";
+            }
+            refreshFilter();
+
+
+            //filtros limpar dados N/D - PASSO 11
+            string[] listCriteria = new string[]
+            {
+                "ANALISE",
+                "BLOQUEAD",
+                "VENCIDO"
+            };
+
+            GetCellsToSelect("I4").AutoFilter(9, listCriteria, XlAutoFilterOperator.xlFilterValues);
+            
+            Q4.Value = "Qualidade [Marcelo Santos]";
+            R4.Value = "Julio Moura";
+            S4.Value = "QUALIDADE PRODUÇAO";
+
+            refreshFilter();
+        }
+
+
+        public static void FG_expedicao()
+        {
+            //Selecionar a planilha expedição
+            Worksheet expeSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["FG_Expediçao"];
+            expeSheet.Activate();
+
+            //Pegar o tamanho das linhas
+            Range range = GetCellsToSelect("B4");
+            int rows = range.Count + 3;
+
+            //Selecionar as colunas
+            Range p4 = expeSheet.Range["P4: P" + rows];
+            Range q4 = expeSheet.Range["Q4: Q" + rows];
+            Range r4 = expeSheet.Range["R4: R" + rows];
+            Range s4 = expeSheet.Range["S4: S" + rows];
+            Range t4 = expeSheet.Range["T4: T" + rows];
+
         }
 
 
