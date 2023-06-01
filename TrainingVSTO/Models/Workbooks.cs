@@ -386,6 +386,7 @@ namespace TrainingVSTO.Models
             Range range = GetCellsToSelect("B4");
             int rows = range.Count + 3;
 
+            //Formulas - PASSO 5
             //Custo Init
             noDisponible.Range["J4:J" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:I,9,0)";
 
@@ -470,17 +471,31 @@ namespace TrainingVSTO.Models
             Worksheet expeSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["FG_Expediçao"];
             expeSheet.Activate();
 
+            //Obter os valores da planilha - PASSO 1
+
+
             //Pegar o tamanho das linhas
-            Range range = GetCellsToSelect("B4");
-            int rows = range.Count + 3;
+            Range range = GetCellsToSelect("A2");
+            int rows = range.Count + 1;
 
-            //Selecionar as colunas
+
+            //Selecionar as colunas e executar procv - PASSO 2
             Range p4 = expeSheet.Range["P4: P" + rows];
-            Range q4 = expeSheet.Range["Q4: Q" + rows];
-            Range r4 = expeSheet.Range["R4: R" + rows];
-            Range s4 = expeSheet.Range["S4: S" + rows];
-            Range t4 = expeSheet.Range["T4: T" + rows];
+            p4.Formula = "";
 
+            Range q4 = expeSheet.Range["Q4: Q" + rows];
+            q4.Formula = "";
+
+            Range r4 = expeSheet.Range["R4: R" + rows];
+            r4.Formula = "";
+
+            Range s4 = expeSheet.Range["S4: S" + rows];
+            s4.Formula = "";
+
+            Range t4 = expeSheet.Range["T4: T" + rows];
+            t4.Formula = "";
+
+            //Atualizar tabela dinamica - PASSO 3
         }
 
 
