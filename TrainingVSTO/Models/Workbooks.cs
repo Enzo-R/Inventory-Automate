@@ -172,6 +172,10 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "MAN";
             }
+            if (f4.AutoFilter(6, "*COMAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "";
+            }
             if (f4.AutoFilter(6, "*FIA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "FIAT";
@@ -278,11 +282,30 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "TOYOTA";
             }
+            refreshFilter();
             #endregion
+
+            if (l4.AutoFilter(12, "="))
+            {
+
+                //Obtenha o nome do arquivo competo
+                DateTime previousDay = DateTime.Today.AddDays(-1);
+                string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
+                string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05-23\M7 - STK " + dateValidate + " -.xlsx";
+
+                //Selecione o arquivo para o procv
+                Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+                Worksheet worksheetTemp = workbookTemp.Worksheets["M7"];
+                worksheetTemp.Activate();
+
+                l4.Formula = @"=VLOOKUP(A4,'[M7 - STK 01.06.2023 -.xlsx]M7'!$A:$L,12,0)";
+
+                workbookTemp.Close(false);
+            }
 
             //PreviousDay();
 
-            refreshFilter();
+            //refreshFilter();
         }
 
 
@@ -504,28 +527,42 @@ namespace TrainingVSTO.Models
             System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("en-US");
             System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
 
-            // Obtenha a referência para o workbook e worksheet atualmente em foco
+            //Obtenha a referência para o workbook e worksheet atualmente em foco
             Workbook workbook = Globals.ThisAddIn.getActiveApp().ActiveWorkbook;
             Worksheet worksheet = workbook.ActiveSheet;
+            Range a7 = worksheet.Range["A7"];
 
+
+
+            //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
-            string path1 = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 -23\M7 - STK " + dateValidate + " -.xlsx";
+            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05-23\M7 - STK " + dateValidate + " -.xlsx";
 
-            Workbook workbook2 = Globals.ThisAddIn.getActiveApp().Workbooks.Open(path1);
-            Worksheet worksheet2 = workbook2.Worksheets["M7"];
-            Range dados = worksheet2.Range["A:L"];
+            //Selecione o arquivo para o procv
+            Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+            Worksheet worksheetTemp = workbookTemp.Worksheets["M7"];
+            worksheetTemp.Activate();
+            Range dados = worksheetTemp.Range["A:L"];
+
             WorksheetFunction vlookupFunction = Globals.ThisAddIn.getActiveApp().WorksheetFunction;
 
-            object foundValue = vlookupFunction.VLookup("B4", dados, 12, false);
+            //teste
+            string sum = vlookupFunction.Sum(worksheet.Range["A7", "A4"]).ToString();
+            Range resultadoCell1 = worksheet.Range["L4"];
+            resultadoCell1.Value = sum;
 
-            //string valorEncontrado = foundValue.Value.ToString();
+            //procv
+            string foundValue = vlookupFunction.VLookup(a7, dados, 12, false).ToString();
+            Range resultadoCell = worksheet.Range["L4"];
+            resultadoCell.Value = foundValue;
 
-            Range resultadoCell = worksheet.Range["L4"]; 
-            //resultadoCell.Value = valorEncontrado;
 
 
-            workbook2.Close();
+
+
+
+            //workbookTemp.Close();
         }
 
 
