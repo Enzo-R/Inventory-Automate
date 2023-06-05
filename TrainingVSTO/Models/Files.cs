@@ -41,7 +41,6 @@ namespace TrainingVSTO.Models
             // Put the M7 data to a new file model
             currentSheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
             Workbooks.M7Formulas();
-            currentSheet.Columns.AutoFit();
 
             //Create Power Pivot
             Workbooks.DynimicTable();
@@ -87,8 +86,12 @@ namespace TrainingVSTO.Models
                 }
                 catch (Exception)
                 {
-                    wb
-                    .SaveAs(@"C:\Inventario\M7 - STK " + Excel.dateValidate + " -.xlsx");
+                    string dir = @"C:\Inventario";
+                    if (!Directory.Exists(dir))
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+                    wb.SaveAs(@"C:\Inventario\M7 - STK " + Excel.dateValidate + " -.xlsx");
                 }
                 finally
                 {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -282,6 +282,7 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "TOYOTA";
             }
+
             refreshFilter();
             #endregion
 
@@ -595,6 +596,7 @@ namespace TrainingVSTO.Models
                     {
                         previousDay = previousDay.AddDays(-4);
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
+                      
                         previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 -STK " + dateValidate + " -.xlsx";
 
                         if (File.Exists(previousFile))
