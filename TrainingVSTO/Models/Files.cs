@@ -63,8 +63,8 @@ namespace TrainingVSTO.Models
             selectSheet.Columns["D:E"].Delete();
             Workbooks.Data(sheet, "A2:I2");
             workbook.Close(false);
-            
-            
+
+
 
             //Generate STK
             Workbooks.NoDisponible_();

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +10,10 @@ using Microsoft.Office.Interop.Excel;
 using TrainingVSTO;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Net.Http;
+using Microsoft.Office.Tools.Excel;
+using Worksheet = Microsoft.Office.Interop.Excel.Worksheet;
+using Workbook = Microsoft.Office.Interop.Excel.Workbook;
+using System.Net.NetworkInformation;
 
 namespace TrainingVSTO.Models
 {
@@ -33,9 +37,6 @@ namespace TrainingVSTO.Models
 
         public static void M7Formulas()
         {
-            //System.Globalization.CultureInfo cultureInfo = new System.Globalization.CultureInfo("en-US");
-            //System.Threading.Thread.CurrentThread.CurrentCulture = cultureInfo;
-
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
 
             Range range = GetCellsToSelect("B4");
@@ -70,6 +71,7 @@ namespace TrainingVSTO.Models
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["M7"];
             Range k3 = GetCellsToSelect("K3");
 
+            #region Lists to Filter
             string[] filterCriteria1 = new string[] {
                 "BENS CAPITAL EM PROCESSO",
                 "DISPOSITIVOS TAKATA",
@@ -110,6 +112,7 @@ namespace TrainingVSTO.Models
                 "TERC",
                 "="
             };
+            #endregion
 
             //filtragem por classificação e descrição.
             if (k3.AutoFilter(11, "#N/D"))
@@ -140,6 +143,7 @@ namespace TrainingVSTO.Models
             Range range = GetCellsToSelect("B4");
             int alt = range.Count + 3;
             Range c4 = GetCellsToSelect("C4:C" + alt);
+
             c4.AutoFilter(3, filterCriteria3, XlAutoFilterOperator.xlFilterValues);
             c4.Value = "SW";
 
@@ -162,12 +166,15 @@ namespace TrainingVSTO.Models
             Range n4 = currentSheet.Range["N4:N" + i];
             n4.Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
 
-
-            #region Filters to client
+            #region Filters to Client
 
             if (f4.AutoFilter(6, "*MAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
                 l4.Value = "MAN";
+            }
+            if (f4.AutoFilter(6, "*COMAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
+            {
+                l4.Value = "";
             }
             if (f4.AutoFilter(6, "*FIA*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
             {
@@ -275,8 +282,33 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "TOYOTA";
             }
+
+            refreshFilter();
             #endregion
 
+            string[] filterCriteria = new string[]
+            {
+                "#N/D",
+                "0",
+                "="
+             };
+            //procv nas planilhas para Clients
+            if (l4.AutoFilter(12, "="))
+            {
+
+                PreviousDayProcv("M7", l4, @"=VLOOKUP(A4,'[M7 - STK 01.06.2023 -.xlsx]M7'!$A:$L,12,0)");
+                
+            }
+            l4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+            l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+            refreshFilter();
+
+            //procv nas planilhas para CS
+            n4.AutoFilter(14, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+            PreviousDayProcv("M7", n4, @"=VLOOKUP(A4,'[M7 - STK 01.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+
+            n4.AutoFilter(14, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+            n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
             refreshFilter();
         }
 
@@ -374,13 +406,14 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void NoDispFormulas()
+        public static void NoDispProcess()
         {
             Worksheet noDisponible = Globals.ThisAddIn.getActiveWorkbook().Sheets["No Disponible"];
             noDisponible.Activate();
             Range range = GetCellsToSelect("B4");
             int rows = range.Count + 3;
 
+            //Formulas - PASSO 5
             //Custo Init
             noDisponible.Range["J4:J" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:I,9,0)";
 
@@ -392,6 +425,12 @@ namespace TrainingVSTO.Models
 
             //Classification
             noDisponible.Range["M4:M" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:K,11,0)";
+
+            //Disponível
+            noDisponible.Range["N4:N" + rows].Value = "não";
+
+            //Disponível(MRP)
+            noDisponible.Range["O4:O" + rows].Value = "não";
 
             //Amount USD
             noDisponible.Range["P4:P" + rows].Formula = @"=K4/$J$1";
@@ -411,68 +450,173 @@ namespace TrainingVSTO.Models
             ////Descrição Lugar
             //noDisponible.Range["S4:S" + rows].Formula = @"=VLOOKUP(S4,'" + PreviousDay() + "'!$Q:$S,3,0)";
 
-            Range m4 = GetCellsToSelect("M4");
+            //Segunda parte do processo
+            Range Q4 = noDisponible.Range["Q4: Q" + rows];
+            Range R4 = noDisponible.Range["R4: R" + rows];
+            Range S4 = noDisponible.Range["S4: S" + rows];
 
-            if (m4.AutoFilter(13, "#N/D"))
+            //filtros limpar dados N/D - PASSO 6
+            if (GetCellsToSelect("M4").AutoFilter(13, "#N/D"))
             {
                 Range all = GetCellsToSelect("A4:S4");
                 all.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
             }
             refreshFilter();
+
+
+            //filtrar por lugar - PASSO 9
+            if(GetCellsToSelect("D4").AutoFilter(4, "9ACERTO"))
+            {
+                Q4.Value = "SCM/Logistica [Pedro Yak]";
+                R4.Value = "William Baisi";
+                S4.Value = "AJUSTE INVENTÁRIO_PU";
+            }
+            refreshFilter();
+
+
+            //filtros limpar dados N/D - PASSO 11
+            string[] listCriteria = new string[]
+            {
+                "ANALISE",
+                "BLOQUEAD",
+                "VENCIDO"
+            };
+
+            GetCellsToSelect("I4").AutoFilter(9, listCriteria, XlAutoFilterOperator.xlFilterValues);
+            
+            Q4.Value = "Qualidade [Marcelo Santos]";
+            R4.Value = "Julio Moura";
+            S4.Value = "QUALIDADE PRODUÇAO";
+
+            refreshFilter();
         }
 
 
-        public static string PreviousDay()
+        public static void FG_expedicao()
         {
-            DateTime previousDay = DateTime.Today.AddDays(-1);
-            string dateValidate = previousDay.ToString("d").Replace("/", ".");
-            string pa = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\";
-            string th = @"[M7 - STK " + dateValidate + " -.xlsx]M7";
-            string path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
-            string vlookup_path = "";
+            //Selecionar a planilha expedição
+            Worksheet expeSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["FG_Expediçao"];
+            expeSheet.Activate();
 
-            if (File.Exists(path))
+            //Obter os valores da planilha - PASSO 1
+
+
+            //Pegar o tamanho das linhas
+            Range range = GetCellsToSelect("A2");
+            int rows = range.Count + 1;
+
+
+            //Selecionar as colunas e executar procv - PASSO 2
+            Range p4 = expeSheet.Range["P4: P" + rows];
+            p4.Formula = "";
+
+            Range q4 = expeSheet.Range["Q4: Q" + rows];
+            q4.Formula = "";
+
+            Range r4 = expeSheet.Range["R4: R" + rows];
+            r4.Formula = "";
+
+            Range s4 = expeSheet.Range["S4: S" + rows];
+            s4.Formula = "";
+
+            Range t4 = expeSheet.Range["T4: T" + rows];
+            t4.Formula = "";
+
+            //Atualizar tabela dinamica - PASSO 3
+        }
+
+
+        public static void PreviousDayProcv(string sheet, Range cell, string procv)
+        {
+            Globals.ThisAddIn.getActiveWorksheet();
+
+            //Obtenha o nome do arquivo competo
+            DateTime previousDay = DateTime.Today.AddDays(-1);
+            string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
+            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
+
+            if (File.Exists(previousFile))
             {
-                vlookup_path = pa + th;
+                //Selecione o arquivo para o procv
+                Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+                Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
+                worksheetTemp.Activate();
+
+                //troque o dia colocado para o dia anterior
+                string realV = procv.Replace("01.06.2023", dateValidate);
+
+                cell.Formula = realV;
+
+                //ver forma de fechar o arquivo ao final do processo
+                workbookTemp.Close(false);
             }
             else
             {
                 previousDay = previousDay.AddDays(-2);
-
                 dateValidate = previousDay.ToString("d").Replace("/", ".");
-                path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+                previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 -STK " + dateValidate + " -.xlsx";
 
-                if (File.Exists(path))
+                if (File.Exists(previousFile))
                 {
-                    vlookup_path = pa + th;
+                    //Selecione o arquivo para o procv
+                    Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+                    Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
+                    worksheetTemp.Activate();
+
+                    //troque o dia colocado para o dia anterior
+                    string realV = procv.Replace("01.06.2023", dateValidate);
+
+                    cell.Formula = realV;
+
+                    //ver forma de fechar o arquivo ao final do processo
+                    workbookTemp.Close(false);
                 }
                 else
                 {
                     previousDay = previousDay.AddDays(-3);
-
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 -STK " + dateValidate + " -.xlsx";
 
-                    if (File.Exists(path))
+                    if (File.Exists(previousFile))
                     {
-                        vlookup_path = pa + th;
+                        //Selecione o arquivo para o procv
+                        Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+                        Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
+                        worksheetTemp.Activate();
+
+                        //troque o dia colocado para o dia anterior
+                        string realV = procv.Replace("01.06.2023", dateValidate);
+
+                        cell.Formula = realV;
+
+                        //ver forma de fechar o arquivo ao final do processo
+                        workbookTemp.Close(false);
                     }
                     else
                     {
                         previousDay = previousDay.AddDays(-4);
-
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        path = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 05 - 23\M7 -STK " + dateValidate + " -.xlsx";
+                      
+                        previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 -STK " + dateValidate + " -.xlsx";
 
-                        if (File.Exists(path))
+                        if (File.Exists(previousFile))
                         {
-                            vlookup_path = pa + th;
+                            //Selecione o arquivo para o procv
+                            Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+                            Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
+                            worksheetTemp.Activate();
+
+                            //troque o dia colocado para o dia anterior
+                            string realV = procv.Replace("01.06.2023", dateValidate);
+
+                            cell.Formula = realV;
+
+                            //ver forma de fechar o arquivo ao final do processo
+                            workbookTemp.Close(false);
                         }
                     }
                 }
             }
-
-            return vlookup_path;
         }
 
 
