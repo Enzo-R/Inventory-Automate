@@ -74,6 +74,11 @@ namespace TrainingVSTO.Models
 
         }
 
+        public static void OpenFG()
+        {
+
+        }
+
         public static void Finals(Workbook wb)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();

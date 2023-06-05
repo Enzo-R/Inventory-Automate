@@ -387,28 +387,16 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void NoDisponible_()
-        {
-            Worksheet noDisponible = Globals.ThisAddIn.getActiveWorkbook().Sheets["No Disponible"];
-            noDisponible.Activate();
-            Range init = noDisponible.Range["A4"];
 
-            init.PasteSpecial(XlPasteType.xlPasteAll);
-
-            GetCellsToSelect("B4").NumberFormat = "0";
-            GetCellsToSelect("D4").NumberFormat = "0";
-
-            if (init.Value != null)
-            {
-                Clipboard.Clear();
-            }
-        }
 
 
         public static void NoDispProcess()
         {
+            //trocar o formato numerico.
+            GetCellsToSelect("B4").NumberFormat = "0";
+            GetCellsToSelect("D4").NumberFormat = "0";
+
             Worksheet noDisponible = Globals.ThisAddIn.getActiveWorkbook().Sheets["No Disponible"];
-            noDisponible.Activate();
             Range range = GetCellsToSelect("B4");
             int rows = range.Count + 3;
 
@@ -488,8 +476,14 @@ namespace TrainingVSTO.Models
             S4.Value = "QUALIDADE PRODUÇAO";
 
             refreshFilter();
+            noDisponible.Columns.AutoFit();
         }
 
+
+        public static void FG_ExpedicaoData()
+        {
+
+        }
 
         public static void FG_expedicao()
         {
@@ -645,13 +639,29 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void Data(string sheet, string range)
+        public static void GetData(string sheet, string range)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
             Range cells = currentSheet.Range[range];
             Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
             select.ClearFormats();
             select.Copy();
+        }
+
+
+        public static void SetData(string cell, string sheet)
+        {
+            Worksheet Wsheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
+            Wsheet.Activate();
+            Range init = Wsheet.Range[cell];
+
+            init.PasteSpecial(XlPasteType.xlPasteAll);
+
+
+            if (init.Value != null)
+            {
+                Clipboard.Clear();
+            }
         }
 
 

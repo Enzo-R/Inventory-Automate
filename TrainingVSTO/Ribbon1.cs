@@ -78,6 +78,9 @@ namespace TrainingVSTO
             Models.Workbooks.NoDispProcess();
         }
 
+        private void OpenFG(object sender, RibbonControlEventArgs e)
+        {
 
+        }
     }
 }
