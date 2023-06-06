@@ -387,9 +387,6 @@ namespace TrainingVSTO.Models
         }
 
 
-
-
-
         public static void NoDispProcess()
         {
             //trocar o formato numerico.
@@ -428,8 +425,9 @@ namespace TrainingVSTO.Models
             //subtotal
             noDisponible.Range["K2"].Formula = @"=SUBTOTAL(9,K4:K" + rows + ")";
 
-            ////Gestores
-            //noDisponible.Range["Q4:Q" + rows].Formula = @"=VLOOKUP(Q4,'" + PreviousDay() + "'!$D:$Q,14,0)";
+            //Gestores
+            Range Q = noDisponible.Range["Q4:Q" + rows];
+            PreviousDayProcv("M7", Q, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
 
             ////Resp.Inventário
             //noDisponible.Range["R4:R" + rows].Formula = @"=VLOOKUP(R4,'" + PreviousDay() + "'!$Q:$R,2,0)";
@@ -479,11 +477,6 @@ namespace TrainingVSTO.Models
             noDisponible.Columns.AutoFit();
         }
 
-
-        public static void FG_ExpedicaoData()
-        {
-
-        }
 
         public static void FG_expedicao()
         {

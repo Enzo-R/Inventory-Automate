@@ -16,17 +16,15 @@ namespace TrainingVSTO
     {
         private void AbreModeloClick(object sender, RibbonControlEventArgs e)
         {
-            Models.Workbooks.Data("M7 EF", "B5:K5");
+            Models.Workbooks.GetData("M7 EF", "B5:K5");
             Models.Files.CreateM7D();
+            Models.Files.OpenM7Model().Close();
 
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
-            string wbName = workbook.Name;
 
-            if (wbName.Contains("AbreModelo7"))
-            {
                 Worksheet Sheet = workbook.Sheets["Original"];
                 Sheet.Activate();
                 try
@@ -50,37 +48,49 @@ namespace TrainingVSTO
                         Models.Workbooks.ReadAndWriteArq(path);
                     }
                 }
-            }
-            else
-            {
-                try
-                {
-                    OpenFileDialog openFile = new OpenFileDialog();
-                    openFile.Filter = "Excel (*.xlsx)|*.xlsx";
-                    openFile.Title = "Open the file";
-
-                    // Exibir o diálogo e verificar se o usuário clicou em "OK"
-                    if (openFile.ShowDialog() == DialogResult.OK)
-                    {
-                        string path = openFile.FileName;
-                        Files.OpenNoDispSTK(path, "Ddos");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-            }
+            
         }
         private void InventoryNoDisponible_(object sender, RibbonControlEventArgs e)
         {
-            Models.Workbooks.NoDispProcess();
+            try
+            {
+                OpenFileDialog openFile = new OpenFileDialog();
+                openFile.Filter = "Excel (*.xlsx)|*.xlsx";
+                openFile.Title = "Open No disponible";
+
+                // Exibir o diálogo e verificar se o usuário clicou em "OK"
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    string path = openFile.FileName;
+                    Files.OpenNoDispSTK(path, "Ddos");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private void OpenFG(object sender, RibbonControlEventArgs e)
         {
+            try
+            {
+                OpenFileDialog openFile = new OpenFileDialog();
+                openFile.Filter = "Excel (*.xlsx)|*.xlsx";
+                openFile.Title = "Open FG_export";
 
+                // Exibir o diálogo e verificar se o usuário clicou em "OK"
+                if (openFile.ShowDialog() == DialogResult.OK)
+                {
+                    string path = openFile.FileName;
+                    Files.OpenFG(path, "Ddos");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

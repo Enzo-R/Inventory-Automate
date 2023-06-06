@@ -20,12 +20,13 @@ namespace TrainingVSTO.Models
     {
         //classe responsavel por manipular arquivos e criar intancias do excel
 
-        public static void OpenM7Model()
+        public static Workbook OpenM7Model()
         {
             Application excelApp = Globals.ThisAddIn.getActiveApp();
             excelApp.Visible = true;
             Workbook workbook = excelApp.Workbooks.Open(Models.Excel.PathToM7DModel);
-            Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Sheets[1];
+            Worksheet worksheet = workbook.Sheets[1];
+            return workbook;
         }
 
         public static void CreateM7D()
@@ -62,20 +63,30 @@ namespace TrainingVSTO.Models
 
             //Manipulating objects
             selectSheet.Columns["D:E"].Delete();
-            Workbooks.Data(sheet, "A2:I2");
-            workbook.Close(false);
-
-
+            Workbooks.GetData(sheet, "A2:I2");
 
             //Generate STK
-            Workbooks.NoDisponible_();
+            Workbooks.SetData("A4", sheet);
+            workbook.Close(false);
+            Workbooks.NoDispProcess();
+
+            
 
             Finals(Globals.ThisAddIn.getActiveWorkbook());
 
         }
 
-        public static void OpenFG()
+        public static void OpenFG(string path, string sheet)
         {
+            //Open file
+            Application excelApp = Globals.ThisAddIn.getActiveApp();
+            Workbook workbook = excelApp.Workbooks.Open(path);
+            Worksheet selectSheet = workbook.Sheets[sheet];
+            selectSheet.Activate();
+
+            //Manipulating objects
+            Workbooks.GetData(sheet, "A2:I2");
+            workbook.Close(false);
 
         }
 
@@ -85,7 +96,6 @@ namespace TrainingVSTO.Models
             //End
             if (currentSheet.Cells != null)
             {
-                currentSheet.Columns.AutoFit();
                 try
                 {
                     wb.SaveAs(Excel.PathToServer);
