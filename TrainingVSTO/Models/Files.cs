@@ -25,7 +25,6 @@ namespace TrainingVSTO.Models
             Application excelApp = Globals.ThisAddIn.getActiveApp();
             excelApp.Visible = true;
             Workbook workbook = excelApp.Workbooks.Open(Models.Excel.PathToM7DModel);
-            Worksheet worksheet = workbook.Sheets[1];
             return workbook;
         }
 
@@ -36,19 +35,17 @@ namespace TrainingVSTO.Models
             Workbook workbook = excelApp.Workbooks.Open(Excel.PathToM7DOpen);
             Worksheet Sheet = workbook.Sheets["M7"];
             Sheet.Activate();
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
 
 
             // Put the M7 data to a new file model
-            currentSheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
+            Sheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
             Workbooks.M7Formulas();
-            currentSheet.Columns.AutoFit();
+            Sheet.Columns.AutoFit();
 
             //Create Power Pivot
             Workbooks.DynimicTable();
 
             Clipboard.Clear();
-
             Finals(Globals.ThisAddIn.getActiveWorkbook());
 
         }
@@ -66,11 +63,17 @@ namespace TrainingVSTO.Models
             Workbooks.GetData(sheet, "A2:I2");
 
             //Generate STK
-            Workbooks.SetData("A4", sheet);
             workbook.Close(false);
-            Workbooks.NoDispProcess();
+            //Dialogs dialogs = Globals.ThisAddIn.getActiveWorkbook().Dialogs;
 
-            
+            //// Fechar todas as caixas de diálogo abertas
+            //foreach (Dialog dialog in dialogs)
+            //{
+            //    dialog.Cancel();
+            //    dialog.Dispose();
+            //}
+            Workbooks.SetData("A4", sheet);
+            Workbooks.NoDispProcess();
 
             Finals(Globals.ThisAddIn.getActiveWorkbook());
 
@@ -87,6 +90,9 @@ namespace TrainingVSTO.Models
             //Manipulating objects
             Workbooks.GetData(sheet, "A2:I2");
             workbook.Close(false);
+            Workbooks.SetData("A2", sheet);
+            Workbooks.FG_expedicao();
+            Finals(Globals.ThisAddIn.getActiveWorkbook());
 
         }
 

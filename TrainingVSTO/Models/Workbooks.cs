@@ -439,6 +439,7 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
+
             ////Procv no dia anterior - PASSO 6
             //Gestores
             PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
@@ -487,7 +488,7 @@ namespace TrainingVSTO.Models
             expeSheet.Activate();
 
             //Obter os valores da planilha - PASSO 1
-
+            
 
             //Pegar o tamanho das linhas
             Range range = GetCellsToSelect("A2");
@@ -653,7 +654,6 @@ namespace TrainingVSTO.Models
             Range init = Wsheet.Range[cell];
 
             init.PasteSpecial(XlPasteType.xlPasteAll);
-
 
             if (init.Value != null)
             {

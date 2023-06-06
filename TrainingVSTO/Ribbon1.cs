@@ -18,7 +18,7 @@ namespace TrainingVSTO
         {
             Models.Workbooks.GetData("M7 EF", "B5:K5");
             Models.Files.CreateM7D();
-            Models.Files.OpenM7Model().Close();
+            //Models.Files.OpenM7Model().Close(true);
 
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
@@ -71,7 +71,6 @@ namespace TrainingVSTO
             }
             
         }
-
         private void OpenFG(object sender, RibbonControlEventArgs e)
         {
             try
