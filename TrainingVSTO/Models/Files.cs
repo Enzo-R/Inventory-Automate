@@ -88,9 +88,9 @@ namespace TrainingVSTO.Models
             selectSheet.Activate();
 
             //Manipulating objects
-            Workbooks.GetData(sheet, "A2:I2");
+            Workbooks.GetData(sheet, "A3:O3");
             workbook.Close(false);
-            Workbooks.SetData("A2", sheet);
+            Workbooks.SetData("A3", sheet);
             Workbooks.FG_expedicao();
             Finals(Globals.ThisAddIn.getActiveWorkbook());
 

@@ -20,6 +20,13 @@ namespace TrainingVSTO.Models
     public class Workbooks
     {
         //classe responsavel por manipular e criar elementos dentro do Excel
+
+        string[] filterCriteriaNull = new string[]
+        {
+                "#N/D",
+                "0",
+                "="
+        };
         public static void ReadAndWriteArq(string path)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
@@ -285,7 +292,7 @@ namespace TrainingVSTO.Models
             refreshFilter();
             #endregion
 
-            string[] filterCriteria = new string[]
+            string[] filterCriteriaNull = new string[]
             {
                 "#N/D",
                 "0",
@@ -298,15 +305,15 @@ namespace TrainingVSTO.Models
                 PreviousDayProcv("M7", l4, @"=VLOOKUP(A4,'[M7 - STK 01.06.2023 -.xlsx]M7'!$A:$L,12,0)");
                 
             }
-            l4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+            l4.AutoFilter(12, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
             l4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
             refreshFilter();
 
             //procv nas planilhas para CS
-            n4.AutoFilter(14, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+            n4.AutoFilter(14, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
             PreviousDayProcv("M7", n4, @"=VLOOKUP(A4,'[M7 - STK 01.06.2023 -.xlsx]M7'!$A:$N,14,0)");
 
-            n4.AutoFilter(14, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+            n4.AutoFilter(14, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
             n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
             refreshFilter();
         }
@@ -487,29 +494,41 @@ namespace TrainingVSTO.Models
             Worksheet expeSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["FG_Expediçao"];
             expeSheet.Activate();
 
-            //Obter os valores da planilha - PASSO 1
-            
-
             //Pegar o tamanho das linhas
             Range range = GetCellsToSelect("A2");
             int rows = range.Count + 1;
 
+            string[] listCriteria = new string[]
+            {
+                "0",
+                "#N/D",
+                "="
+            };
 
             //Selecionar as colunas e executar procv - PASSO 2
-            Range p4 = expeSheet.Range["P4: P" + rows];
-            p4.Formula = "";
+            //Client
+            Range p4 = expeSheet.Range["P3: P" + rows];
+            p4.Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
+            //
+            //PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(S4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
 
-            Range q4 = expeSheet.Range["Q4: Q" + rows];
-            q4.Formula = "";
+            //CS
+            Range q4 = expeSheet.Range["Q3: Q" + rows];
+            q4.Formula = @"=VLOOKUP(B3,'M7'!A:N,14,0)";
+            //
+            //PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(S4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
 
-            Range r4 = expeSheet.Range["R4: R" + rows];
-            r4.Formula = "";
+            //Custo unit
+            Range r4 = expeSheet.Range["R3: R" + rows];
+            r4.Formula = @"=VLOOKUP(B3,'M7'!A:I,9,0)";
 
-            Range s4 = expeSheet.Range["S4: S" + rows];
-            s4.Formula = "";
+            //Total BRL
+            Range s4 = expeSheet.Range["S3: S" + rows];
+            s4.Formula = @"R3*H3";
 
-            Range t4 = expeSheet.Range["T4: T" + rows];
-            t4.Formula = "";
+            //Total USD
+            Range t4 = expeSheet.Range["T3: T" + rows];
+            t4.Formula = @"S3/$R$1";
 
             //Atualizar tabela dinamica - PASSO 3
         }
