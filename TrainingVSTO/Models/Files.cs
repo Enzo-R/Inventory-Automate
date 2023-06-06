@@ -52,6 +52,10 @@ namespace TrainingVSTO.Models
 
         public static void OpenNoDispSTK(string path, string sheet)
         {
+            Workbook currentWbook = Globals.ThisAddIn.getActiveWorkbook();
+            Worksheet ws = currentWbook.Sheets["No Disponible"];
+            ws.Activate();
+
             //Open file
             Application excelApp = Globals.ThisAddIn.getActiveApp();
             Workbook workbook = excelApp.Workbooks.Open(path);
@@ -59,38 +63,29 @@ namespace TrainingVSTO.Models
             selectSheet.Activate();
 
             //Manipulating objects
-            selectSheet.Columns["D:E"].Delete();
-            Workbooks.GetData(sheet, "A2:I2");
+            //selectSheet.Columns["D:E"].Delete();
 
             //Generate STK
+            Workbooks.SetData(sheet, "A2:I2", "A4", "No Disponible", currentWbook);
             workbook.Close(false);
-            //Dialogs dialogs = Globals.ThisAddIn.getActiveWorkbook().Dialogs;
-
-            //// Fechar todas as caixas de diálogo abertas
-            //foreach (Dialog dialog in dialogs)
-            //{
-            //    dialog.Cancel();
-            //    dialog.Dispose();
-            //}
-            Workbooks.SetData("A4", sheet);
             Workbooks.NoDispProcess();
-
-            Finals(Globals.ThisAddIn.getActiveWorkbook());
-
         }
 
         public static void OpenFG(string path, string sheet)
         {
-            //Open file
+            Workbook currentWbook = Globals.ThisAddIn.getActiveWorkbook();
+            Worksheet ws = currentWbook.Sheets["FG_Expediçao"];
+            ws.Activate();
+
+            //Open temp file
             Application excelApp = Globals.ThisAddIn.getActiveApp();
             Workbook workbook = excelApp.Workbooks.Open(path);
             Worksheet selectSheet = workbook.Sheets[sheet];
             selectSheet.Activate();
 
             //Manipulating objects
-            Workbooks.GetData(sheet, "A3:O3");
+            Workbooks.SetData(sheet, "A2:O2", "A3", "FG_Expediçao", currentWbook);
             workbook.Close(false);
-            Workbooks.SetData("A3", sheet);
             Workbooks.FG_expedicao();
             Finals(Globals.ThisAddIn.getActiveWorkbook());
 
@@ -108,6 +103,7 @@ namespace TrainingVSTO.Models
                 }
                 catch (Exception)
                 {
+
                     wb
                     .SaveAs(@"C:\Inventario\M7 - STK " + Excel.dateValidate + " -.xlsx");
                 }

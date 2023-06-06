@@ -21,12 +21,13 @@ namespace TrainingVSTO.Models
     {
         //classe responsavel por manipular e criar elementos dentro do Excel
 
-        string[] filterCriteriaNull = new string[]
+        static string[] filterCriteriaNull = new string[]
         {
                 "#N/D",
                 "0",
                 "="
         };
+
         public static void ReadAndWriteArq(string path)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
@@ -292,12 +293,6 @@ namespace TrainingVSTO.Models
             refreshFilter();
             #endregion
 
-            string[] filterCriteriaNull = new string[]
-            {
-                "#N/D",
-                "0",
-                "="
-             };
             //procv nas planilhas para Clients
             if (l4.AutoFilter(12, "="))
             {
@@ -498,37 +493,28 @@ namespace TrainingVSTO.Models
             Range range = GetCellsToSelect("A2");
             int rows = range.Count + 1;
 
-            string[] listCriteria = new string[]
-            {
-                "0",
-                "#N/D",
-                "="
-            };
-
             //Selecionar as colunas e executar procv - PASSO 2
             //Client
-            Range p4 = expeSheet.Range["P3: P" + rows];
-            p4.Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
-            //
-            //PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(S4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
+            Range p3 = expeSheet.Range["P3: P" + rows];
+            p3.Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
+            p3.AutoFilter(16,filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            PreviousDayProcv("FG_Expedicao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expedicao'!$B:$P,16,0)");
 
             //CS
-            Range q4 = expeSheet.Range["Q3: Q" + rows];
-            q4.Formula = @"=VLOOKUP(B3,'M7'!A:N,14,0)";
-            //
-            //PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(S4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
+            Range q3 = expeSheet.Range["Q3: Q" + rows];
+            q3.Formula = @"=VLOOKUP(B3,'M7'!A:N,14,0)";
 
             //Custo unit
-            Range r4 = expeSheet.Range["R3: R" + rows];
-            r4.Formula = @"=VLOOKUP(B3,'M7'!A:I,9,0)";
+            Range r3 = expeSheet.Range["R3: R" + rows];
+            r3.Formula = @"=VLOOKUP(B3,'M7'!A:I,9,0)";
 
             //Total BRL
             Range s4 = expeSheet.Range["S3: S" + rows];
             s4.Formula = @"R3*H3";
 
             //Total USD
-            Range t4 = expeSheet.Range["T3: T" + rows];
-            t4.Formula = @"S3/$R$1";
+            Range t3 = expeSheet.Range["T3: T" + rows];
+            t3.Formula = @"S3/$R$1";
 
             //Atualizar tabela dinamica - PASSO 3
         }
@@ -656,9 +642,9 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void GetData(string sheet, string range)
+        public static void GetData(string tmpSheet, string range)
         {
-            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[tmpSheet];
             Range cells = currentSheet.Range[range];
             Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
             select.ClearFormats();
@@ -666,9 +652,11 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void SetData(string cell, string sheet)
+        public static void SetData(string tmpSheet, string range , string cell, string sheet, Workbook wb)
         {
-            Worksheet Wsheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[sheet];
+            GetData(tmpSheet, range);
+
+            Worksheet Wsheet = wb.Sheets[sheet];
             Wsheet.Activate();
             Range init = Wsheet.Range[cell];
 
