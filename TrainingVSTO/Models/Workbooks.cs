@@ -397,7 +397,7 @@ namespace TrainingVSTO.Models
             Range range = GetCellsToSelect("B4");
             int rows = range.Count + 3;
 
-            //Formulas - PASSO 5
+            ////Formulas - PASSO 4
             //Custo Init
             noDisponible.Range["J4:J" + rows].Formula = @"=VLOOKUP(B4,'M7'!A:I,9,0)";
 
@@ -425,22 +425,13 @@ namespace TrainingVSTO.Models
             //subtotal
             noDisponible.Range["K2"].Formula = @"=SUBTOTAL(9,K4:K" + rows + ")";
 
-            //Gestores
-            Range Q = noDisponible.Range["Q4:Q" + rows];
-            PreviousDayProcv("M7", Q, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
-
-            ////Resp.Inventário
-            //noDisponible.Range["R4:R" + rows].Formula = @"=VLOOKUP(R4,'" + PreviousDay() + "'!$Q:$R,2,0)";
-
-            ////Descrição Lugar
-            //noDisponible.Range["S4:S" + rows].Formula = @"=VLOOKUP(S4,'" + PreviousDay() + "'!$Q:$S,3,0)";
 
             //Segunda parte do processo
             Range Q4 = noDisponible.Range["Q4: Q" + rows];
             Range R4 = noDisponible.Range["R4: R" + rows];
             Range S4 = noDisponible.Range["S4: S" + rows];
 
-            //filtros limpar dados N/D - PASSO 6
+            //filtros limpar dados N/D - PASSO 5
             if (GetCellsToSelect("M4").AutoFilter(13, "#N/D"))
             {
                 Range all = GetCellsToSelect("A4:S4");
@@ -448,9 +439,20 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
+            ////Procv no dia anterior - PASSO 6
+            //Gestores
+            PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
+
+            //Resp.Inventário
+            PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(R4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$R,2,0)");
+
+            //Descrição Lugar
+            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(S4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
+
+
 
             //filtrar por lugar - PASSO 9
-            if(GetCellsToSelect("D4").AutoFilter(4, "9ACERTO"))
+            if (GetCellsToSelect("D4").AutoFilter(4, "9ACERTO"))
             {
                 Q4.Value = "SCM/Logistica [Pedro Yak]";
                 R4.Value = "William Baisi";
@@ -525,6 +527,8 @@ namespace TrainingVSTO.Models
             {
                 //Selecione o arquivo para o procv
                 Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+
+                //verificar isso
                 Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
                 worksheetTemp.Activate();
 
