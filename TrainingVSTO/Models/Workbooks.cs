@@ -479,7 +479,6 @@ namespace TrainingVSTO.Models
             S4.Value = "QUALIDADE PRODUÇAO";
 
             refreshFilter();
-            noDisponible.Columns.AutoFit();
         }
 
 
@@ -498,7 +497,7 @@ namespace TrainingVSTO.Models
             Range p3 = expeSheet.Range["P3: P" + rows];
             p3.Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
             p3.AutoFilter(16,filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
-            PreviousDayProcv("FG_Expedicao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expedicao'!$B:$P,16,0)");
+            PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expediçao'!$B:$P,16,0)");
 
             //CS
             Range q3 = expeSheet.Range["Q3: Q" + rows];

@@ -47,7 +47,6 @@ namespace TrainingVSTO.Models
 
             Clipboard.Clear();
             Finals(Globals.ThisAddIn.getActiveWorkbook());
-
         }
 
         public static void OpenNoDispSTK(string path, string sheet)
@@ -69,6 +68,7 @@ namespace TrainingVSTO.Models
             Workbooks.SetData(sheet, "A2:I2", "A4", "No Disponible", currentWbook);
             workbook.Close(false);
             Workbooks.NoDispProcess();
+            Finals(Globals.ThisAddIn.getActiveWorkbook());
         }
 
         public static void OpenFG(string path, string sheet)
@@ -94,8 +94,10 @@ namespace TrainingVSTO.Models
         public static void Finals(Workbook wb)
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+            currentSheet.Columns.AutoFit();
+
             //End
-            if (currentSheet.Cells != null)
+            if (Directory.Exists(Excel.PathToServer))
             {
                 try
                 {
@@ -116,6 +118,10 @@ namespace TrainingVSTO.Models
                     Clipboard.Clear();
                     Workbooks.ReleaseObject(currentSheet);
                 }
+            }
+            else
+            {
+                wb.SaveAs(Excel.PathToServer.Replace("M7 - STK " + Excel.dateValidate + " -.xlsx", "M7 - NEW STK " + Excel.dateValidate + " -.xlsx"));
             }
         }
     }
