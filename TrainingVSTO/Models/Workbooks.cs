@@ -429,6 +429,8 @@ namespace TrainingVSTO.Models
 
 
             //Segunda parte do processo
+            Range I4 = noDisponible.Range["I4: I" + rows];
+            Range L4 = noDisponible.Range["L4: L" + rows];
             Range Q4 = noDisponible.Range["Q4: Q" + rows];
             Range R4 = noDisponible.Range["R4: R" + rows];
             Range S4 = noDisponible.Range["S4: S" + rows];
@@ -453,8 +455,24 @@ namespace TrainingVSTO.Models
             PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(S4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
 
 
+            //Filtar gestores para- PASSO 7
+            if(Q4.AutoFilter(17,"Producao [Douglas Vale]"))
+            {
+                string[] filterCriteria = new string[]{"SW","SB"};
+                L4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+                Q4.SpecialCells(XlCellType.xlCellTypeVisible)
+                    .Value = "Producao [Rodrigo Mendonça]";
 
-            //filtrar por lugar - PASSO 9
+            }
+            if(Q4.AutoFilter(17,"Producao [Rodrigo Mendonça]"))
+            {
+                string[] filterCriteria = new string[] { "AB", "ISS" };
+                L4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+                Q4.SpecialCells(XlCellType.xlCellTypeVisible)
+                    .Value = "Producao [Douglas Vale]";
+            }
+
+            //filtrar por lugar - PASSO 8
             if (GetCellsToSelect("D4").AutoFilter(4, "9ACERTO"))
             {
                 Q4.Value = "SCM/Logistica [Pedro Yak]";
@@ -463,8 +481,14 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
+            //Deletando as sucatas - PASSO 9
+            if (Q4.AutoFilter(17, "#N/D"))
+            {
+                I4.AutoFilter(9, "SUCATA");
+                I4.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
+            }
 
-            //filtros limpar dados N/D - PASSO 11
+            //filtros limpar dados N/D - PASSO 10
             string[] listCriteria = new string[]
             {
                 "ANALISE",
