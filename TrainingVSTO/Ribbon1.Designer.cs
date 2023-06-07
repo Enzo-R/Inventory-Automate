@@ -34,7 +34,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon1));
             this.AddIns = this.Factory.CreateRibbonTab();
             this.Actions = this.Factory.CreateRibbonGroup();
             this.OpenFile = this.Factory.CreateRibbonButton();
@@ -64,7 +63,7 @@
             // OpenFile
             // 
             this.OpenFile.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.OpenFile.Image = ((System.Drawing.Image)(resources.GetObject("OpenFile.Image")));
+            this.OpenFile.Image = global::TrainingVSTO.Properties.Resources.ico;
             this.OpenFile.Label = "Search";
             this.OpenFile.Name = "OpenFile";
             this.OpenFile.ShowImage = true;
