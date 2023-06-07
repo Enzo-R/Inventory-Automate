@@ -39,6 +39,7 @@
             this.OpenFile = this.Factory.CreateRibbonButton();
             this.BtnAbre = this.Factory.CreateRibbonButton();
             this.button1 = this.Factory.CreateRibbonButton();
+            this.button2 = this.Factory.CreateRibbonButton();
             this.AddIns.SuspendLayout();
             this.Actions.SuspendLayout();
             this.SuspendLayout();
@@ -55,13 +56,17 @@
             this.Actions.Items.Add(this.OpenFile);
             this.Actions.Items.Add(this.BtnAbre);
             this.Actions.Items.Add(this.button1);
+            this.Actions.Items.Add(this.button2);
             this.Actions.Label = "Actions";
             this.Actions.Name = "Actions";
             // 
             // OpenFile
             // 
+            this.OpenFile.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.OpenFile.Image = global::TrainingVSTO.Properties.Resources.ico;
             this.OpenFile.Label = "Search";
             this.OpenFile.Name = "OpenFile";
+            this.OpenFile.ShowImage = true;
             this.OpenFile.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.OpenFile_Click);
             // 
             // BtnAbre
@@ -75,6 +80,12 @@
             this.button1.Label = "Open NoDisp";
             this.button1.Name = "button1";
             this.button1.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.InventoryNoDisponible_);
+            // 
+            // button2
+            // 
+            this.button2.Label = "Open FG_exp";
+            this.button2.Name = "button2";
+            this.button2.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.OpenFG);
             // 
             // Ribbon1
             // 
@@ -96,6 +107,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton BtnAbre;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton OpenFile;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
     }
 
     partial class ThisRibbonCollection

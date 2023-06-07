@@ -15,8 +15,6 @@ namespace TrainingVSTO
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-
-            Models.Files.OpenM7Model();
             //Models.Excel.getDollar();
         }
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
@@ -25,6 +23,7 @@ namespace TrainingVSTO
             Models.Workbooks.ReleaseObject(getActiveWorkbook());
 
         }
+
         public Excel.Worksheet getActiveWorksheet()
         {
             return (Excel.Worksheet)Application.ActiveSheet;
@@ -33,12 +32,11 @@ namespace TrainingVSTO
         public Excel.Workbook getActiveWorkbook()
         {
             return (Excel.Workbook)Application.ActiveWorkbook;
-
         }
+
         public Excel.Application getActiveApp()
         {
             return (Excel.Application)Application.Application;
-
         }
 
         #region VSTO generated code
