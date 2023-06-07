@@ -133,8 +133,7 @@ namespace TrainingVSTO.Models
 
                 d3.AutoFilter(4, filterCriteria2, XlAutoFilterOperator.xlFilterValues);
 
-                Range k4 = GetCellsToSelect("K4");
-                k4.Value = "Raw Material";
+                GetCellsToSelect("K4").Value = "Raw Material";
             }
             //deletando linhas vazias em classificação e descrição
             if (k3.AutoFilter(11, "="))
@@ -446,38 +445,39 @@ namespace TrainingVSTO.Models
 
             ////Procv no dia anterior - PASSO 6
             //Gestores
-            PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
+            PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(D4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
 
             //Resp.Inventário
-            PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(R4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$R,2,0)");
+            PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$R,2,0)");
 
             //Descrição Lugar
-            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(S4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
+            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
 
 
             //Filtar gestores para- PASSO 7
-            if(Q4.AutoFilter(17,"Producao [Douglas Vale]"))
+            if (Q4.AutoFilter(17, "Producao [Douglas Vale]"))
             {
-                string[] filterCriteria = new string[]{"SW","SB"};
+                string[] filterCriteria = new string[] { "SW", "SB" };
                 L4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
                 Q4.SpecialCells(XlCellType.xlCellTypeVisible)
                     .Value = "Producao [Rodrigo Mendonça]";
 
             }
-            if(Q4.AutoFilter(17,"Producao [Rodrigo Mendonça]"))
+            if (Q4.AutoFilter(17, "Producao [Rodrigo Mendonça]"))
             {
                 string[] filterCriteria = new string[] { "AB", "ISS" };
                 L4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
                 Q4.SpecialCells(XlCellType.xlCellTypeVisible)
                     .Value = "Producao [Douglas Vale]";
             }
+            refreshFilter();
 
             //filtrar por lugar - PASSO 8
             if (GetCellsToSelect("D4").AutoFilter(4, "9ACERTO"))
             {
-                Q4.Value = "SCM/Logistica [Pedro Yak]";
-                R4.Value = "William Baisi";
-                S4.Value = "AJUSTE INVENTÁRIO_PU";
+                Q4.AutoFilter(12, "SCM/Logistica [Pedro Yak]");
+                //R4.Value = "William Baisi";
+                //S4.Value = "AJUSTE INVENTÁRIO_PU";
             }
             refreshFilter();
 
@@ -487,6 +487,7 @@ namespace TrainingVSTO.Models
                 I4.AutoFilter(9, "SUCATA");
                 I4.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
             }
+            refreshFilter();
 
             //filtros limpar dados N/D - PASSO 10
             string[] listCriteria = new string[]
@@ -497,10 +498,10 @@ namespace TrainingVSTO.Models
             };
 
             GetCellsToSelect("I4").AutoFilter(9, listCriteria, XlAutoFilterOperator.xlFilterValues);
-            
+
             Q4.Value = "Qualidade [Marcelo Santos]";
-            R4.Value = "Julio Moura";
-            S4.Value = "QUALIDADE PRODUÇAO";
+            //R4.Value = "Julio Moura";
+            //S4.Value = "QUALIDADE PRODUÇAO";
 
             refreshFilter();
         }
@@ -635,6 +636,7 @@ namespace TrainingVSTO.Models
                     }
                 }
             }
+
         }
 
 

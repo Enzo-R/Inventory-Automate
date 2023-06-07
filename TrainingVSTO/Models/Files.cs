@@ -62,7 +62,7 @@ namespace TrainingVSTO.Models
             selectSheet.Activate();
 
             //Manipulating objects
-            selectSheet.Columns["D:E"].Delete();
+            //selectSheet.Columns["D:E"].Delete();
 
             //Generate STK
             Workbooks.SetData(sheet, "A2:I2", "A4", "No Disponible", currentWbook);
@@ -97,7 +97,7 @@ namespace TrainingVSTO.Models
             currentSheet.Columns.AutoFit();
 
             //End
-            if (Directory.Exists(Excel.PathToServer))
+            if (!File.Exists(Excel.PathToServer))
             {
                 try
                 {
