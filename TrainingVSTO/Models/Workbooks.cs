@@ -428,6 +428,7 @@ namespace TrainingVSTO.Models
 
 
             //Segunda parte do processo
+            Range D4 = noDisponible.Range["D4:D" + rows];
             Range I4 = noDisponible.Range["I4: I" + rows];
             Range L4 = noDisponible.Range["L4: L" + rows];
             Range Q4 = noDisponible.Range["Q4: Q" + rows];
@@ -473,11 +474,10 @@ namespace TrainingVSTO.Models
             refreshFilter();
 
             //filtrar por lugar - PASSO 8
-            if (GetCellsToSelect("D4").AutoFilter(4, "9ACERTO"))
+            if (D4.AutoFilter(4, "9ACERTO"))
             {
-                Q4.AutoFilter(12, "SCM/Logistica [Pedro Yak]");
+                Q4.AutoFilter(17, "SCM/Logistica [Pedro Iak]");
                 R4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "William Baisi";
-                S4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "AJUSTE INVENTÁRIO_PU";
             }
             refreshFilter();
 
@@ -519,28 +519,30 @@ namespace TrainingVSTO.Models
 
             //Selecionar as colunas e executar procv - PASSO 2
             //Client
-            Range p3 = expeSheet.Range["P3: P" + rows];
-            PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expediçao'!$B:$P,15,0)");
+            Range p3 = expeSheet.Range["P3:P" + rows];
+            PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expediçao'!$B:$P,16,0)");
             p3.AutoFilter(16, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
             p3.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
 
-            //refreshFilter();
+            expeSheet.AutoFilterMode = false;
 
             //CS
-            Range q3 = expeSheet.Range["Q3: Q" + rows];
-            q3.Formula = @"=VLOOKUP(B3,'M7'!A:N,14,0)";
+            expeSheet.Range["Q3: Q" + rows].Formula = @"=VLOOKUP(B3,'M7'!A:N,14,0)";
 
             //Custo unit
-            Range r3 = expeSheet.Range["R3: R" + rows];
-            r3.Formula = @"=VLOOKUP(B3,'M7'!A:I,9,0)";
+            expeSheet.Range["R3: R" + rows].Formula = @"=VLOOKUP(B3,'M7'!A:I,9,0)";
 
             //Total BRL
-            Range s4 = expeSheet.Range["S3: S" + rows];
-            s4.Formula = @"R3*H3";
+            expeSheet.Range["S3:S" + rows].Formula = @"=R3*H3";
 
             //Total USD
-            Range t3 = expeSheet.Range["T3: T" + rows];
-            t3.Formula = @"S3/$R$1";
+            expeSheet.Range["T3:T" + rows].Formula = @"=S4/'M7'!$I$1";
+
+            //Subtotal BRL
+            expeSheet.Range["S1"].Formula = @"=SUBTOTAL(9;S3:S"+rows+")";
+
+            //Subtotal USD
+            expeSheet.Range["T1"].Formula = @"=SUBTOTAL(9;T3:T"+rows+")";
 
             //Atualizar tabela dinamica - PASSO 3
         }
