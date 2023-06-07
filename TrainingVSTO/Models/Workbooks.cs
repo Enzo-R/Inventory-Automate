@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -289,6 +289,7 @@ namespace TrainingVSTO.Models
             {
                 l4.Value = "TOYOTA";
             }
+
             refreshFilter();
             #endregion
 
