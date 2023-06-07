@@ -476,8 +476,8 @@ namespace TrainingVSTO.Models
             if (GetCellsToSelect("D4").AutoFilter(4, "9ACERTO"))
             {
                 Q4.AutoFilter(12, "SCM/Logistica [Pedro Yak]");
-                //R4.Value = "William Baisi";
-                //S4.Value = "AJUSTE INVENTÁRIO_PU";
+                R4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "William Baisi";
+                S4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "AJUSTE INVENTÁRIO_PU";
             }
             refreshFilter();
 
@@ -499,9 +499,9 @@ namespace TrainingVSTO.Models
 
             GetCellsToSelect("I4").AutoFilter(9, listCriteria, XlAutoFilterOperator.xlFilterValues);
 
-            Q4.Value = "Qualidade [Marcelo Santos]";
-            //R4.Value = "Julio Moura";
-            //S4.Value = "QUALIDADE PRODUÇAO";
+            Q4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "Qualidade [Marcelo Santos]";
+            R4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "Julio Moura";
+            S4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "QUALIDADE PRODUÇAO";
 
             refreshFilter();
         }
@@ -520,9 +520,11 @@ namespace TrainingVSTO.Models
             //Selecionar as colunas e executar procv - PASSO 2
             //Client
             Range p3 = expeSheet.Range["P3: P" + rows];
-            p3.Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
-            p3.AutoFilter(16,filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
-            PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expediçao'!$B:$P,16,0)");
+            PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expediçao'!$B:$P,15,0)");
+            p3.AutoFilter(16, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            p3.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
+
+            //refreshFilter();
 
             //CS
             Range q3 = expeSheet.Range["Q3: Q" + rows];
