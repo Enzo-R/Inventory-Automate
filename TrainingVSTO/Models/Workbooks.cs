@@ -520,7 +520,7 @@ namespace TrainingVSTO.Models
             //Selecionar as colunas e executar procv - PASSO 2
             //Client
             Range p3 = expeSheet.Range["P3:P" + rows];
-            PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expediçao'!$B:$P,16,0)");
+            PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expediçao'!$B:$P,15,0)");
             p3.AutoFilter(16, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
             p3.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
 
@@ -644,7 +644,7 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static void refreshFilter()
+        public static void refreshFilter(string range = "3:3")
         {
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
             currentSheet.AutoFilterMode = false;
@@ -652,7 +652,7 @@ namespace TrainingVSTO.Models
             try
             {
                 _ = currentSheet.EnableAutoFilter;
-                currentSheet.Rows["3:3"].AutoFilter();
+                currentSheet.Rows[range].AutoFilter();
             }
             catch (Exception)
             {
