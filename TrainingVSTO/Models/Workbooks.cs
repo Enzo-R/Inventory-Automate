@@ -585,6 +585,8 @@ namespace TrainingVSTO.Models
                 {
                     //Selecione o arquivo para o procv
                     Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+
+                    //verificar isso
                     Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
                     worksheetTemp.Activate();
 
@@ -606,6 +608,8 @@ namespace TrainingVSTO.Models
                     {
                         //Selecione o arquivo para o procv
                         Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+
+                        //verificar isso
                         Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
                         worksheetTemp.Activate();
 
@@ -627,6 +631,8 @@ namespace TrainingVSTO.Models
                         {
                             //Selecione o arquivo para o procv
                             Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+
+                            //verificar isso
                             Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
                             worksheetTemp.Activate();
 

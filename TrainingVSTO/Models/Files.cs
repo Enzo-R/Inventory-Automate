@@ -116,13 +116,20 @@ namespace TrainingVSTO.Models
                 finally
                 {
                     Clipboard.Clear();
+                    Workbooks.ReleaseObject(Globals.ThisAddIn.getActiveApp());
+                    Workbooks.ReleaseObject(Globals.ThisAddIn.getActiveWorkbook());
                     Workbooks.ReleaseObject(currentSheet);
                 }
             }
             else
             {
-                wb.SaveAs(Excel.PathToServer.Replace("M7 - STK " + Excel.dateValidate + " -.xlsx", "M7 - NEW STK " + Excel.dateValidate + " -.xlsx"));
+                wb.Save();
             }
+
+            //if (File.Exists(Excel.PathToServer))
+            //{
+            //    wb.SaveAs(Excel.PathToServer.Replace("M7 - STK " + Excel.dateValidate + " -.xlsx", "M7 - NEW STK " + Excel.dateValidate + " -.xlsx"));
+            //}
         }
     }
 }
