@@ -556,7 +556,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
-            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK "+dateValidate+" -.xlsx";
+            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK "+dateValidate+" -.xlsx";
 
             if (File.Exists(previousFile))
             {
@@ -579,7 +579,7 @@ namespace TrainingVSTO.Models
             {
                 previousDay = previousDay.AddDays(-1);
                 dateValidate = previousDay.ToString("d").Replace("/", ".");
-                previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
+                previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
 
                 if (File.Exists(previousFile))
                 {
@@ -602,7 +602,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = previousDay.AddDays(-1);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
@@ -625,7 +625,7 @@ namespace TrainingVSTO.Models
                     {
                         previousDay = previousDay.AddDays(-1);
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
+                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
 
                         if (File.Exists(previousFile))
                         {
