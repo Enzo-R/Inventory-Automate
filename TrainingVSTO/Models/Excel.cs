@@ -38,7 +38,7 @@ namespace TrainingVSTO.Models
             using (HttpClient api = new HttpClient())
             {
                 ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
-                string url = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json";
+                string url = "https:/api.bcb.gov.br/dados/serie/bcdata.sgs.10813/dados/ultimos/1?formato=json";
                 HttpResponseMessage response = await api.GetAsync(url);
 
                 if (response.IsSuccessStatusCode)

@@ -15,6 +15,7 @@ namespace TrainingVSTO
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            //Models.Files.OpenM7Model();
             //Models.Excel.getDollar();
         }
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
