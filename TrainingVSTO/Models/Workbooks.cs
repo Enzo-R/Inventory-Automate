@@ -442,6 +442,22 @@ namespace TrainingVSTO.Models
             Range S4 = noDisponible.Range["S4: S" + rows];
 
             //filtros limpar dados N/D - PASSO 5
+            string[] listCriteria = new string[]
+            {
+                "ANALISE",
+                "BLOQUEAD",
+                "VENCIDO"
+            };
+
+            GetCellsToSelect("I4").AutoFilter(9, listCriteria, XlAutoFilterOperator.xlFilterValues);
+
+            Q4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "Qualidade [Marcelo Santos]";
+            R4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "Julio Moura";
+            S4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "QUALIDADE PRODUÇAO";
+
+            refreshFilter();
+
+            //filtros limpar dados N/D - PASSO 6
             if (GetCellsToSelect("M4").AutoFilter(13, "#N/D"))
             {
                 Range all = GetCellsToSelect("A4:S4");
@@ -450,7 +466,7 @@ namespace TrainingVSTO.Models
             refreshFilter();
 
 
-            ////Procv no dia anterior - PASSO 6
+            ////Procv no dia anterior - PASSO 7
             //Gestores
             PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(D4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
 
@@ -461,7 +477,7 @@ namespace TrainingVSTO.Models
             PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
 
 
-            //Filtar gestores para- PASSO 7
+            //Filtar gestores para- PASSO 8
             if (Q4.AutoFilter(17, "Producao [Douglas Vale]"))
             {
                 string[] filterCriteria = new string[] { "SW", "SB" };
@@ -479,7 +495,7 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
-            //filtrar por lugar - PASSO 8
+            //filtrar por lugar - PASSO 9
             if (D4.AutoFilter(4, "9ACERTO"))
             {
                 Q4.AutoFilter(17, "SCM/Logistica [Pedro Iak]");
@@ -487,7 +503,7 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
-            //Deletando as sucatas - PASSO 9
+            //Deletando as sucatas - PASSO 10
             if (Q4.AutoFilter(17, "#N/D"))
             {
                 I4.AutoFilter(9, "SUCATA");
@@ -495,21 +511,6 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
-            //filtros limpar dados N/D - PASSO 10
-            string[] listCriteria = new string[]
-            {
-                "ANALISE",
-                "BLOQUEAD",
-                "VENCIDO"
-            };
-
-            GetCellsToSelect("I4").AutoFilter(9, listCriteria, XlAutoFilterOperator.xlFilterValues);
-
-            Q4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "Qualidade [Marcelo Santos]";
-            R4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "Julio Moura";
-            S4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "QUALIDADE PRODUÇAO";
-
-            refreshFilter();
         }
 
 
