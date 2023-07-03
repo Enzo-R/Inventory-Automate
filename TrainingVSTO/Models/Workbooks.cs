@@ -432,11 +432,11 @@ namespace TrainingVSTO.Models
             noDisponible.Range["K2"].Formula = @"=SUBTOTAL(9,K4:K" + rows + ")";
 
             //Valor para comparação de %
-            noDisponible.Range["M1"].Value = noDisponible.Range["K1"].Value;
+            noDisponible.Range["M1"].Value = noDisponible.Range["K1"].Text;
 
 
             //Segunda parte do processo
-            Range D4 = noDisponible.Range["D4:D" + rows];
+            Range D4 = noDisponible.Range["D4: D" + rows];
             Range I4 = noDisponible.Range["I4: I" + rows];
             Range L4 = noDisponible.Range["L4: L" + rows];
             Range Q4 = noDisponible.Range["Q4: Q" + rows];
@@ -480,6 +480,14 @@ namespace TrainingVSTO.Models
 
 
             //Filtar gestores para- PASSO 8
+            if (Q4.AutoFilter(17, "Producao [Rodrigo Mendonça]"))
+            {
+                string[] filterCriteria = new string[] { "AB", "ISS" };
+                L4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+                Q4.SpecialCells(XlCellType.xlCellTypeVisible)
+                    .Value = "Producao [Douglas Vale]";
+            }
+
             if (Q4.AutoFilter(17, "Producao [Douglas Vale]"))
             {
                 string[] filterCriteria = new string[] { "SW", "SB" };
@@ -487,13 +495,6 @@ namespace TrainingVSTO.Models
                 Q4.SpecialCells(XlCellType.xlCellTypeVisible)
                     .Value = "Producao [Rodrigo Mendonça]";
 
-            }
-            if (Q4.AutoFilter(17, "Producao [Rodrigo Mendonça]"))
-            {
-                string[] filterCriteria = new string[] { "AB", "ISS" };
-                L4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
-                Q4.SpecialCells(XlCellType.xlCellTypeVisible)
-                    .Value = "Producao [Douglas Vale]";
             }
             refreshFilter();
 
@@ -513,6 +514,13 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
+            //Deletando as sucatas - PASSO 11
+            if (Q4.AutoFilter(17, "#N/D"))
+            {
+                D4.AutoFilter(4, "MEMO");
+                I4.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
+            }
+            refreshFilter();
         }
 
 
