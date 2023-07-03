@@ -434,6 +434,14 @@ namespace TrainingVSTO.Models
             //Valor para comparação de %
             noDisponible.Range["M1"].Value = noDisponible.Range["K1"].Text;
 
+            //filtros limpar dados N/D - PASSO 5
+            if (GetCellsToSelect("M4").AutoFilter(13, "#N/D"))
+            {
+                Range all = GetCellsToSelect("A4:S4");
+                all.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
+            }
+            refreshFilter();
+
 
             //Segunda parte do processo
             Range D4 = noDisponible.Range["D4: D" + rows];
@@ -443,7 +451,19 @@ namespace TrainingVSTO.Models
             Range R4 = noDisponible.Range["R4: R" + rows];
             Range S4 = noDisponible.Range["S4: S" + rows];
 
-            //filtros limpar dados N/D - PASSO 5
+
+            ////Procv no dia anterior - PASSO 6
+            //Gestores
+            PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(D4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
+
+            //Resp.Inventário
+            PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$R,2,0)");
+
+            //Descrição Lugar
+            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
+
+
+            //filtros limpar dados N/D - PASSO 7
             string[] listCriteria = new string[]
             {
                 "ANALISE",
@@ -459,43 +479,21 @@ namespace TrainingVSTO.Models
 
             refreshFilter();
 
-            //filtros limpar dados N/D - PASSO 6
-            if (GetCellsToSelect("M4").AutoFilter(13, "#N/D"))
-            {
-                Range all = GetCellsToSelect("A4:S4");
-                all.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
-            }
-            refreshFilter();
-
-
-            ////Procv no dia anterior - PASSO 7
-            //Gestores
-            PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(D4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
-
-            //Resp.Inventário
-            PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$R,2,0)");
-
-            //Descrição Lugar
-            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.06.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
-
-
             //Filtar gestores para- PASSO 8
-            if (Q4.AutoFilter(17, "Producao [Rodrigo Mendonça]"))
-            {
-                string[] filterCriteria = new string[] { "AB", "ISS" };
-                L4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+            Q4.AutoFilter(17, "Producao [Rodrigo Mendonça]");
+            
+                string[] filterCriteria1 = new string[] { "AB", "ISS" };
+                L4.AutoFilter(12, filterCriteria1, XlAutoFilterOperator.xlFilterValues);
                 Q4.SpecialCells(XlCellType.xlCellTypeVisible)
                     .Value = "Producao [Douglas Vale]";
-            }
-
-            if (Q4.AutoFilter(17, "Producao [Douglas Vale]"))
-            {
-                string[] filterCriteria = new string[] { "SW", "SB" };
-                L4.AutoFilter(12, filterCriteria, XlAutoFilterOperator.xlFilterValues);
+            
+            Q4.AutoFilter(17, "Producao [Douglas Vale]");
+            
+                string[] filterCriteria2 = new string[] { "SW", "SB" };
+                L4.AutoFilter(12, filterCriteria2, XlAutoFilterOperator.xlFilterValues);
                 Q4.SpecialCells(XlCellType.xlCellTypeVisible)
                     .Value = "Producao [Rodrigo Mendonça]";
 
-            }
             refreshFilter();
 
             //filtrar por lugar - PASSO 9
@@ -514,11 +512,11 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
-            //Deletando as sucatas - PASSO 11
+            //Deletando MEMO - PASSO 11
             if (Q4.AutoFilter(17, "#N/D"))
             {
                 D4.AutoFilter(4, "MEMO");
-                I4.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
+                D4.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
             }
             refreshFilter();
         }
