@@ -171,7 +171,7 @@ namespace TrainingVSTO.Models
 
             Range l4 = currentSheet.Range["L4:L" + i];
             Range n4 = currentSheet.Range["N4:N" + i];
-            n4.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
+            //n4.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
 
 
             #region Filters to Client
@@ -298,7 +298,7 @@ namespace TrainingVSTO.Models
             if (l4.AutoFilter(12, "="))
             {
 
-                PreviousDayProcv("M7", l4, @"=VLOOKUP(A4,'[M7 - STK 01.06.2023 -.xlsx]M7'!$A:$L,12,0)");
+                PreviousDayProcv("M7", l4, @"=VLOOKUP(A4,'[M7 - STK 01.07.2023 -.xlsx]M7'!$A:$L,12,0)");
                 
             }
             l4.AutoFilter(12, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
@@ -307,18 +307,14 @@ namespace TrainingVSTO.Models
 
 
             //procv nas planilhas para CS
-            n4.AutoFilter(14, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
-            PreviousDayProcv("M7", n4, @"=VLOOKUP(A4,'[M7 - STK 01.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+            PreviousDayProcv("M7", n4, @"=VLOOKUP(A4,'[M7 - STK 01.07.2023 -.xlsx]M7'!$B:$O,14,0)");
 
-            //n4.AutoFilter(14, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
-            //n4.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
+            n4.AutoFilter(14, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            n4.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
+            n4.AutoFilter(14, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            n4.SpecialCells(XlCellType.xlCellTypeVisible).Cells.Clear();
             refreshFilter();
 
-            //
-            //PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expediçao'!$B:$P,15,0)");
-            //p3.AutoFilter(16, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
-            //p3.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
-            
         }
 
 
@@ -568,19 +564,19 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
-            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK "+dateValidate+" -.xlsx";
+            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK "+dateValidate+" -.xlsx";
 
             if (File.Exists(previousFile))
             {
                 //Selecione o arquivo para o procv
-                Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+                Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile, UpdateLinks: false);
 
                 //verificar isso
                 Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
                 worksheetTemp.Activate();
 
                 //troque o dia colocado para o dia anterior
-                string realV = procv.Replace("01.06.2023", dateValidate);
+                string realV = procv.Replace("01.07.2023", dateValidate);
 
                 cell.Formula = realV;
 
@@ -591,19 +587,19 @@ namespace TrainingVSTO.Models
             {
                 previousDay = previousDay.AddDays(-1);
                 dateValidate = previousDay.ToString("d").Replace("/", ".");
-                previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
 
                 if (File.Exists(previousFile))
                 {
                     //Selecione o arquivo para o procv
-                    Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+                    Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile, UpdateLinks: false);
 
                     //verificar isso
                     Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
                     worksheetTemp.Activate();
 
                     //troque o dia colocado para o dia anterior
-                    string realV = procv.Replace("01.06.2023", dateValidate);
+                    string realV = procv.Replace("01.07.2023", dateValidate);
 
                     cell.Formula = realV;
 
@@ -614,19 +610,19 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = previousDay.AddDays(-1);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
                         //Selecione o arquivo para o procv
-                        Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+                        Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile, UpdateLinks: false);
 
                         //verificar isso
                         Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
                         worksheetTemp.Activate();
 
                         //troque o dia colocado para o dia anterior
-                        string realV = procv.Replace("01.06.2023", dateValidate);
+                        string realV = procv.Replace("01.07.2023", dateValidate);
 
                         cell.Formula = realV;
 
@@ -637,19 +633,19 @@ namespace TrainingVSTO.Models
                     {
                         previousDay = previousDay.AddDays(-1);
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                        previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
 
                         if (File.Exists(previousFile))
                         {
                             //Selecione o arquivo para o procv
-                            Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile);
+                            Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile, UpdateLinks: false);
 
                             //verificar isso
                             Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
                             worksheetTemp.Activate();
 
                             //troque o dia colocado para o dia anterior
-                            string realV = procv.Replace("01.06.2023", dateValidate);
+                            string realV = procv.Replace("01.07.2023", dateValidate);
 
                             cell.Formula = realV;
 
