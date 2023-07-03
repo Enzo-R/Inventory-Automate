@@ -128,7 +128,6 @@ namespace TrainingVSTO.Models
 
             //if (File.Exists(Excel.PathToServer))
             //{
-            //    wb.SaveAs(Excel.PathToServer.Replace("M7 - STK " + Excel.dateValidate + " -.xlsx", "M7 - NEW STK " + Excel.dateValidate + " -.xlsx"));
             //}
         }
     }

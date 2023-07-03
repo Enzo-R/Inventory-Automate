@@ -171,7 +171,7 @@ namespace TrainingVSTO.Models
 
             Range l4 = currentSheet.Range["L4:L" + i];
             Range n4 = currentSheet.Range["N4:N" + i];
-            //n4.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
+            n4.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
 
 
             #region Filters to Client
@@ -310,9 +310,15 @@ namespace TrainingVSTO.Models
             n4.AutoFilter(14, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
             PreviousDayProcv("M7", n4, @"=VLOOKUP(A4,'[M7 - STK 01.06.2023 -.xlsx]M7'!$A:$N,14,0)");
 
-            n4.AutoFilter(14, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
-            n4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+            //n4.AutoFilter(14, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            //n4.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(L4,'Clientes'!A:B,2,0)";
             refreshFilter();
+
+            //
+            //PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.06.2023 -.xlsx]FG_Expediçao'!$B:$P,15,0)");
+            //p3.AutoFilter(16, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            //p3.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(B3,'M7'!A:L,12,0)";
+            
         }
 
 
@@ -543,7 +549,7 @@ namespace TrainingVSTO.Models
             expeSheet.Range["S3:S" + rows].Formula = @"=R3*H3";
 
             //Total USD
-            expeSheet.Range["T3:T" + rows].Formula = @"=S4/'M7'!$I$1";
+            expeSheet.Range["T3:T" + rows].Formula = @"=S3/'M7'!$I$1";
 
             //Subtotal BRL
             expeSheet.Range["S1"].Formula = @"=SUBTOTAL(9,S3:S"+rows+")";
@@ -562,7 +568,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
-            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK "+dateValidate+" -.xlsx";
+            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK "+dateValidate+" -.xlsx";
 
             if (File.Exists(previousFile))
             {
@@ -585,7 +591,7 @@ namespace TrainingVSTO.Models
             {
                 previousDay = previousDay.AddDays(-1);
                 dateValidate = previousDay.ToString("d").Replace("/", ".");
-                previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
+                previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
 
                 if (File.Exists(previousFile))
                 {
@@ -608,7 +614,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = previousDay.AddDays(-1);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
@@ -631,7 +637,7 @@ namespace TrainingVSTO.Models
                     {
                         previousDay = previousDay.AddDays(-1);
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 06-23\M7 - STK " + dateValidate + " -.xlsx";
+                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
 
                         if (File.Exists(previousFile))
                         {
