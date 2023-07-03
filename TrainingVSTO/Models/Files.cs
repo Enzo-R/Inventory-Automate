@@ -66,6 +66,7 @@ namespace TrainingVSTO.Models
 
             //Generate STK
             Workbooks.SetData(sheet, "A2:I2", "A4", "No Disponible", currentWbook);
+            Clipboard.Clear();
             workbook.Close(false);
             Workbooks.NoDispProcess();
             Finals(Globals.ThisAddIn.getActiveWorkbook());
@@ -85,6 +86,7 @@ namespace TrainingVSTO.Models
 
             //Manipulating objects
             Workbooks.SetData(sheet, "A2:O2", "A3", "FG_Expediçao", currentWbook);
+            Clipboard.Clear();
             workbook.Close(false);
             Workbooks.FG_expedicao();
             Finals(Globals.ThisAddIn.getActiveWorkbook());
