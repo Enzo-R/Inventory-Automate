@@ -41,6 +41,7 @@ namespace TrainingVSTO.Models
             Sheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
             Workbooks.M7Formulas();
             Sheet.Columns.AutoFit();
+            Sheet.Columns[1].EntireColumn.Hidden = true;
 
             //Create Power Pivot
             Workbooks.DynimicTable();

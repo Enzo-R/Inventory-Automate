@@ -71,6 +71,40 @@ namespace TrainingVSTO.Models
 
             FilterDataToClient();
 
+            //Variação.
+            Range Q4 = currentSheet.Range["Q4:Q" + rows];
+            Range R4 = currentSheet.Range["R4:R" + rows];
+            Range S4 = currentSheet.Range["S4:S" + rows];
+            Range T4 = currentSheet.Range["T4:T" + rows];
+            Range U4 = currentSheet.Range["U4:U" + rows];
+            Range V4 = currentSheet.Range["V4:V" + rows];
+
+            //Concatenar colunas e adicionar novas.
+            Range AnewC = currentSheet.Columns[1];
+            AnewC.Insert();
+            currentSheet.Range["A3:A" + rowsCount].Formula = "=CONCAT(B3,C3)";
+
+            currentSheet.Range["S2"].Formula = @"=SUBTOTAL(9," + S4 + ")";
+
+            currentSheet.Range["T2"].Formula = @"=SUBTOTAL(9," + T4 + ")";
+
+            currentSheet.Range["U2"].Formula = @"=SUBTOTAL(9," + U4 + ")";
+
+            currentSheet.Range["V2"].Formula = @"=SUBTOTAL(9," + V4 + ")";
+
+            //Inserindo forumlas
+            VlookUp("M7", -1, Q4, @"=(H4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0))/VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0)");
+
+            VlookUp("M7", -1, R4, @"=H4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0)");
+
+            VlookUp("M7", -1, S4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+
+            VlookUp("M7", -7, T4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+
+            VlookUp("M7", -15, U4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+
+            VlookUp("M7", -30, V4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+
         }
 
 
@@ -563,6 +597,84 @@ namespace TrainingVSTO.Models
         }
 
 
+        public static void VlookUp(string sheet, int days, Range cells, string formula)
+        {
+            Globals.ThisAddIn.getActiveWorksheet();
+
+            //Obtenha o nome do arquivo competo
+            DateTime imim = DateTime.Today.AddMonths(-1);
+            DateTime previousDay = DateTime.Today.AddDays(days);
+            string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
+            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+            //
+            string defaultData = "30.06.2023";
+
+            if (!File.Exists(previousFile))
+            {
+                for (int d = -1; d > -10; d--)
+                {
+                    previousDay = previousDay.AddDays(d);
+                    dateValidate = previousDay.ToString("d").Replace("/", ".");
+                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+
+                    if (File.Exists(previousFile))
+                    {
+                        //Selecione o arquivo para o procv
+                        Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile, UpdateLinks: false);
+                        Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
+                        worksheetTemp.Activate();
+
+                        string realV = formula.Replace(defaultData, dateValidate);
+
+                        cells.Formula = realV;
+
+                        workbookTemp.Close(false);
+                        break;
+                    }
+                }
+            }
+            else if (!File.Exists(previousFile) && previousFile.Contains("07-23"))
+            {
+                for (int d = -1; d > -10; d--)
+                {
+                    imim = DateTime.Today.AddMonths(-1);
+                    previousDay = DateTime.Today.AddDays(d);
+                    dateValidate = previousDay.ToString("d").Replace("/", ".");
+                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                    string month = imim.ToString("MM/yy").Replace("/", "-");
+                    string newPath = previousFile.Replace("07-23", month);
+
+                    if (File.Exists(newPath))
+                    {
+                        //Selecione o arquivo para o procv
+                        Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(newPath, UpdateLinks: false);
+                        Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
+                        worksheetTemp.Activate();
+
+                        string realV = formula.Replace(defaultData, dateValidate);
+
+                        cells.Formula = realV;
+
+                        workbookTemp.Close(false);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                 //Selecione o arquivo para o procv
+                 Workbook workbookTemp = Globals.ThisAddIn.getActiveApp().Workbooks.Open(previousFile, UpdateLinks: false);
+                 Worksheet worksheetTemp = workbookTemp.Worksheets[sheet];
+                 worksheetTemp.Activate();
+                 //
+                 string realV = formula.Replace(defaultData, dateValidate);
+                 cells.Formula = realV;
+                 //close temp
+                 workbookTemp.Close(false);
+            }
+        }
+    
+
         public static void PreviousDayProcv(string sheet, Range cell, string procv)
         {
             Globals.ThisAddIn.getActiveWorksheet();
@@ -661,7 +773,6 @@ namespace TrainingVSTO.Models
                     }
                 }
             }
-
         }
 
 
