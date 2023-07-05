@@ -72,12 +72,7 @@ namespace TrainingVSTO.Models
             FilterDataToClient();
 
             //Variação.
-            Range Q4 = currentSheet.Range["Q4:Q" + rows];
-            Range R4 = currentSheet.Range["R4:R" + rows];
-            Range S4 = currentSheet.Range["S4:S" + rows];
-            Range T4 = currentSheet.Range["T4:T" + rows];
-            Range U4 = currentSheet.Range["U4:U" + rows];
-            Range V4 = currentSheet.Range["V4:V" + rows];
+
 
             //Concatenar colunas e adicionar novas.
             Range AnewC = currentSheet.Columns[1];
@@ -92,16 +87,24 @@ namespace TrainingVSTO.Models
 
             currentSheet.Range["V2"].Formula = @"=SUBTOTAL(9,V4:S"+ rowsCount +")";
 
+            //ranges
+            Range Q4 = currentSheet.Range["Q4:Q" + rows]; Q4.Style = "Percent";
+            Range R4 = currentSheet.Range["R4:R" + rows];
+            Range S4 = currentSheet.Range["S4:S" + rows]; S4.NumberFormat = "_-[$$-en-US]* #,##0.00_";
+            Range T4 = currentSheet.Range["T4:T" + rows]; T4.NumberFormat = "_-[$$-en-US]* #,##0.00_";
+            Range U4 = currentSheet.Range["U4:U" + rows]; U4.NumberFormat = "_-[$$-en-US]* #,##0.00_";
+            Range V4 = currentSheet.Range["V4:V" + rows]; V4.NumberFormat = "_-[$$-en-US]* #,##0.00_";
+
             //Inserindo forumlas
-            //VlookUp("M7", -1, Q4, @"=(H4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0))/VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0)");
+            VlookUp("M7", -1, Q4, @"=(H4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0))/VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0)");
 
-            //VlookUp("M7", -1, R4, @"=H4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0)");
+            VlookUp("M7", -1, R4, @"=H4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0)");
 
-            //VlookUp("M7", -1, S4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+            VlookUp("M7", -1, S4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
 
-            //VlookUp("M7", -7, T4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+            VlookUp("M7", -7, T4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
 
-            //VlookUp("M7", -15, U4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+            VlookUp("M7", -15, U4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
 
             VlookUp("M7", -30, V4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
 
@@ -610,15 +613,6 @@ namespace TrainingVSTO.Models
 
             if (!File.Exists(previousFile))
             {
-                //if (true)
-                //{
-
-                //}
-                //else
-                //{
-
-                //}
-
                 for (int d = -1; d > -10; d--)
                 {
                     previousDay = DateTime.Today.AddDays(days+d);
@@ -642,7 +636,7 @@ namespace TrainingVSTO.Models
                 }
                 if (!File.Exists(previousFile) && previousFile.Contains("07-23"))
                 {
-                    for (int d = -1; d > -10; d--)
+                    for (int d = -0; d > -10; d--)
                     {
                         DateTime imim = DateTime.Today.AddMonths(-1);
                         previousDay = DateTime.Today.AddDays(days + d);
