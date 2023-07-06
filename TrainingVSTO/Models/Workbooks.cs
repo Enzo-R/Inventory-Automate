@@ -88,12 +88,14 @@ namespace TrainingVSTO.Models
             currentSheet.Range["V2"].Formula = @"=SUBTOTAL(9,V4:S"+ rowsCount +")";
 
             //ranges
+            Range H4 = currentSheet.Range["H4:H" + rows]; 
+            Range N4 = currentSheet.Range["N4:N" + rows]; 
             Range Q4 = currentSheet.Range["Q4:Q" + rows]; Q4.Style = "Percent";
             Range R4 = currentSheet.Range["R4:R" + rows];
-            Range S4 = currentSheet.Range["S4:S" + rows]; S4.NumberFormat = "_-[$$-en-US]* #,##0.00_";
-            Range T4 = currentSheet.Range["T4:T" + rows]; T4.NumberFormat = "_-[$$-en-US]* #,##0.00_";
-            Range U4 = currentSheet.Range["U4:U" + rows]; U4.NumberFormat = "_-[$$-en-US]* #,##0.00_";
-            Range V4 = currentSheet.Range["V4:V" + rows]; V4.NumberFormat = "_-[$$-en-US]* #,##0.00_";
+            Range S4 = currentSheet.Range["S4:S" + rows]; 
+            Range T4 = currentSheet.Range["T4:T" + rows]; 
+            Range U4 = currentSheet.Range["U4:U" + rows]; 
+            Range V4 = currentSheet.Range["V4:V" + rows]; 
 
             //Inserindo forumlas
             VlookUp("M7", -1, Q4, @"=(H4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0))/VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0)");
@@ -107,6 +109,43 @@ namespace TrainingVSTO.Models
             VlookUp("M7", -15, U4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
 
             VlookUp("M7", -30, V4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
+
+            //filtrando nullos
+            Q4.AutoFilter(17, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            Q4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+            refreshFilter();
+
+            R4.AutoFilter(18, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            R4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+
+            refreshFilter();
+
+            S4.AutoFilter(19, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            S4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+
+            refreshFilter();
+
+            T4.AutoFilter(20, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            T4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+
+            refreshFilter();
+
+            U4.AutoFilter(21, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            U4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+
+            refreshFilter();
+
+            V4.AutoFilter(22, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
+            V4.SpecialCells(XlCellType.xlCellTypeVisible).Clear();
+
+            refreshFilter();
+
+            S4.NumberFormat = "_-[$$-en-US]* #,##0.00_ ;_-[$$-en-US]* -#,##0.00 ;_-[$$-en-US]* " + "-" + "??_ ;_-@_ ";
+            T4.NumberFormat = "_-[$$-en-US]* #,##0.00_ ;_-[$$-en-US]* -#,##0.00 ;_-[$$-en-US]* " + "-" + "??_ ;_-@_ ";
+            U4.NumberFormat = "_-[$$-en-US]* #,##0.00_ ;_-[$$-en-US]* -#,##0.00 ;_-[$$-en-US]* " + "-" + "??_ ;_-@_ ";
+            V4.NumberFormat = "_-[$$-en-US]* #,##0.00_ ;_-[$$-en-US]* -#,##0.00 ;_-[$$-en-US]* " + "-" + "??_ ;_-@_ ";
+
+
 
         }
 
