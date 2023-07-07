@@ -128,10 +128,6 @@ namespace TrainingVSTO.Models
             {
                 wb.Save();
             }
-
-            //if (File.Exists(Excel.PathToServer))
-            //{
-            //}
         }
     }
 }
