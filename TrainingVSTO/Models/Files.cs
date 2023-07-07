@@ -41,6 +41,7 @@ namespace TrainingVSTO.Models
             Sheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
             Workbooks.M7Formulas();
             Sheet.Columns.AutoFit();
+            Sheet.Columns[1].EntireColumn.Hidden = true;
 
             //Create Power Pivot
             Workbooks.DynimicTable();
@@ -66,6 +67,7 @@ namespace TrainingVSTO.Models
 
             //Generate STK
             Workbooks.SetData(sheet, "A2:I2", "A4", "No Disponible", currentWbook);
+            Clipboard.Clear();
             workbook.Close(false);
             Workbooks.NoDispProcess();
             Finals(Globals.ThisAddIn.getActiveWorkbook());
@@ -85,6 +87,7 @@ namespace TrainingVSTO.Models
 
             //Manipulating objects
             Workbooks.SetData(sheet, "A2:O2", "A3", "FG_Expediçao", currentWbook);
+            Clipboard.Clear();
             workbook.Close(false);
             Workbooks.FG_expedicao();
             Finals(Globals.ThisAddIn.getActiveWorkbook());
@@ -125,11 +128,6 @@ namespace TrainingVSTO.Models
             {
                 wb.Save();
             }
-
-            //if (File.Exists(Excel.PathToServer))
-            //{
-            //    wb.SaveAs(Excel.PathToServer.Replace("M7 - STK " + Excel.dateValidate + " -.xlsx", "M7 - NEW STK " + Excel.dateValidate + " -.xlsx"));
-            //}
         }
     }
 }
