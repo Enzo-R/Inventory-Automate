@@ -21,7 +21,7 @@ namespace TrainingVSTO.Models
         //@"S:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - ex -.xlsx"
         public static string PathToM7DOpen
         {
-            get { return @"S:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - STK ex.xlsx"; }
+            get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - STK ex.xlsx"; }
         }
   
         public static string PathToM7DModel
@@ -30,7 +30,7 @@ namespace TrainingVSTO.Models
         }
 
 
-        public static string PathToServer = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+        public static string PathToServer = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
         
         //api to return the convertion of dolar value
         public static async void getDollar()
