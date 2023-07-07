@@ -499,7 +499,8 @@ namespace TrainingVSTO.Models
             noDisponible.Range["K2"].Formula = @"=SUBTOTAL(9,K4:K" + rows + ")";
 
             //Valor para comparação de %
-            noDisponible.Range["M1"].Value = noDisponible.Range["K1"].Text;
+            noDisponible.Range["K1"].Copy();
+            noDisponible.Range["M1"].PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone, false, false);
 
             //filtros limpar dados N/D - PASSO 5
             if (GetCellsToSelect("M4").AutoFilter(13, "#N/D"))
@@ -629,7 +630,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(days);
             string dateValidate = previousDay.ToString("d").Replace("/", ".");
-            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
 
             string defaultData = "30.06.2023";
 
@@ -639,7 +640,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(days+d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
@@ -663,7 +664,7 @@ namespace TrainingVSTO.Models
                         DateTime imim = DateTime.Today.AddMonths(-1);
                         previousDay = DateTime.Today.AddDays(days + d);
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
                         string month = imim.ToString("MM/yy").Replace("/", "-");
                         string newPath = previousFile.Replace("07-23", month);
 
@@ -706,7 +707,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
-            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK "+dateValidate+" -.xlsx";
+            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK "+dateValidate+" -.xlsx";
             string defaultData = "01.07.2023";
 
             if (!File.Exists(previousFile))
@@ -715,7 +716,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(-1 + d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
