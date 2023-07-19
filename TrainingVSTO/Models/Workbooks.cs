@@ -81,11 +81,11 @@ namespace TrainingVSTO.Models
 
             currentSheet.Range["S2"].Formula = @"=SUBTOTAL(9,S4:S"+ rowsCount + ")";
 
-            currentSheet.Range["T2"].Formula = @"=SUBTOTAL(9,T4:S"+ rowsCount +")";
+            currentSheet.Range["T2"].Formula = @"=SUBTOTAL(9,T4:T"+ rowsCount +")";
 
-            currentSheet.Range["U2"].Formula = @"=SUBTOTAL(9,U4:S"+ rowsCount +")";
+            currentSheet.Range["U2"].Formula = @"=SUBTOTAL(9,U4:U"+ rowsCount +")";
 
-            currentSheet.Range["V2"].Formula = @"=SUBTOTAL(9,V4:S"+ rowsCount +")";
+            currentSheet.Range["V2"].Formula = @"=SUBTOTAL(9,V4:V"+ rowsCount +")";
 
             //ranges
             Range H4 = currentSheet.Range["H4:H" + rows]; 
