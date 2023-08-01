@@ -58,11 +58,11 @@ namespace TrainingVSTO.Models
             Range range2 = GetCellsToSelect("K4");
             int rowsCount = range2.Count + 3;
 
-            Range f2 = currentSheet.Range["M4:M" + rowsCount];
-            f2.Formula = @"=J4/$I$1";
+            Range m4 = currentSheet.Range["M4:M" + rowsCount];
+            m4.Formula = @"=J4/$I$1";
 
-            Range f3 = currentSheet.Range["O4:O" + rowsCount];
-            f3.Formula = @"=J4/5.0758";
+            Range o4 = currentSheet.Range["O4:O" + rowsCount];
+            o4.Formula = @"=J4/5.0758";
 
 
             currentSheet.Range["J2"].Formula = @"=SUBTOTAL(9,J4:J" + rowsCount + ")";
@@ -372,7 +372,7 @@ namespace TrainingVSTO.Models
             if (l4.AutoFilter(12, "="))
             {
 
-                PreviousDayProcv("M7", l4, @"=VLOOKUP(A4,'[M7 - STK 01.07.2023 -.xlsx]M7'!$A:$L,12,0)");
+                PreviousDayProcv("M7", l4, @"=VLOOKUP(A4,'[M7 - STK 01.08.2023 -.xlsx]M7'!$A:$L,12,0)");
                 
             }
             l4.AutoFilter(12, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
@@ -381,7 +381,7 @@ namespace TrainingVSTO.Models
 
 
             //procv nas planilhas para CS
-            PreviousDayProcv("M7", n4, @"=VLOOKUP(A4,'[M7 - STK 01.07.2023 -.xlsx]M7'!$B:$O,14,0)");
+            PreviousDayProcv("M7", n4, @"=VLOOKUP(A4,'[M7 - STK 01.08.2023 -.xlsx]M7'!$B:$O,14,0)");
         }
 
 
@@ -522,13 +522,13 @@ namespace TrainingVSTO.Models
 
             ////Procv no dia anterior - PASSO 6
             //Gestores
-            PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(D4,'[M7 - STK 01.07.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
+            PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(D4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
 
             //Resp.Inventário
-            PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(Q4,'[M7 - STK 01.07.2023 -.xlsx]No Disponible'!$Q:$R,2,0)");
+            PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(Q4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$Q:$R,2,0)");
 
             //Descrição Lugar
-            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.07.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
+            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
 
 
 
@@ -588,7 +588,7 @@ namespace TrainingVSTO.Models
             //Selecionar as colunas e executar procv - PASSO 2
             //Client
             Range p3 = expeSheet.Range["P3:P" + rows];
-            PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.07.2023 -.xlsx]FG_Expediçao'!$B:$P,15,0)");
+            PreviousDayProcv("FG_Expediçao", p3, @"=VLOOKUP(B3,'[M7 - STK 01.08.2023 -.xlsx]FG_Expediçao'!$B:$P,15,0)");
             p3.AutoFilter(16, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
             p3.SpecialCells(XlCellType.xlCellTypeVisible).Formula = @"=VLOOKUP(B3,'M7'!B:M,12,0)";
 
@@ -630,7 +630,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(days);
             string dateValidate = previousDay.ToString("d").Replace("/", ".");
-            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
 
             string defaultData = "30.06.2023";
 
@@ -640,7 +640,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(days+d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
@@ -657,16 +657,16 @@ namespace TrainingVSTO.Models
                         break;
                     }
                 }
-                if (!File.Exists(previousFile) && previousFile.Contains("07-23"))
+                if (!File.Exists(previousFile) && previousFile.Contains("08-23"))
                 {
                     for (int d = -0; d > -10; d--)
                     {
                         DateTime imim = DateTime.Today.AddMonths(-1);
                         previousDay = DateTime.Today.AddDays(days + d);
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
                         string month = imim.ToString("MM/yy").Replace("/", "-");
-                        string newPath = previousFile.Replace("07-23", month);
+                        string newPath = previousFile.Replace("08-23", month);
 
                         if (File.Exists(newPath))
                         {
@@ -707,8 +707,8 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
-            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK "+dateValidate+" -.xlsx";
-            string defaultData = "01.07.2023";
+            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK "+dateValidate+" -.xlsx";
+            string defaultData = "01.08.2023";
 
             if (!File.Exists(previousFile))
             {
@@ -716,7 +716,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(-1 + d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 07-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
