@@ -39,7 +39,7 @@ namespace TrainingVSTO.Models
 
             // Put the M7 data to a new file model
             Sheet.Range["A4"].PasteSpecial(XlPasteType.xlPasteAll);
-            Workbooks.M7Formulas();
+            Workbooks.M7();
             Sheet.Columns.AutoFit();
             Sheet.Columns[1].EntireColumn.Hidden = true;
 
