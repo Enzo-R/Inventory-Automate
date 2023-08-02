@@ -23,9 +23,9 @@ namespace TrainingVSTO.Models
         {
             get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - STK ex.xlsx"; }
         }        
-        public static string PathToVariant
+        public static string PathToPbix
         {
-            get { return @"S:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - Variation.xlsx"; }
+            get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\INVENTORY -Pbix-.xlsx"; }
         }
   
         public static string PathToM7DModel

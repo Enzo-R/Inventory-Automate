@@ -74,6 +74,8 @@ namespace TrainingVSTO.Models
             //Variação.
             Variation(currentSheet, rowsCount);
 
+            currentSheet.Activate();
+
         }
 
 
@@ -362,8 +364,7 @@ namespace TrainingVSTO.Models
             //number format
             //S4.NumberFormat = "_-[$$-en-US]* #,##0.00_ ;_-[$$-en-US]* -#,##0.00 ;_-[$$-en-US]* " + "-" + "??_ ;_-@_ ";
 
-            Range all = GetCellsToSelect("A4:S4");
-            all.Copy();
+            Range All1 = GetCellsToSelect("B4:S4");
 
             //iniciando objeto
             Workbook M7Pbix = Globals.ThisAddIn.getActiveApp().Workbooks.Open(Excel.PathToPbix, UpdateLinks: false);
@@ -372,7 +373,47 @@ namespace TrainingVSTO.Models
             Worksheet DIO = M7Pbix.Sheets["DIO Amount"];
 
             //Passando os dados para m7
-            GetCellsToSelect("");
+            M7.Activate();
+            Range All2 = GetCellsToSelect("A2:S2");
+            All2.EntireRow.Delete();
+            All1.Copy();
+            M7.Range["A2"].PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone);
+
+            //tranformando os dados
+            M7Pbix.Sheets.Add();
+            Worksheet temp = M7Pbix.Sheets["Planilha1"];
+            temp.Range["A1"].PasteSpecial(XlPasteType.xlPasteValues);
+            Clipboard.Clear();
+            temp.Range["B:B"].EntireColumn.Delete();
+            temp.Range["C:C"].EntireColumn.Delete();
+            temp.Range["C:C"].EntireColumn.Delete();
+            temp.Range["E:E"].EntireColumn.Delete();
+            temp.Range["E:E"].EntireColumn.Delete();
+            temp.Range["E:E"].EntireColumn.Delete();
+            temp.Range["H:H"].EntireColumn.Delete();
+            temp.Range["H:H"].EntireColumn.Delete();
+            temp.Range["H:H"].EntireColumn.Delete();
+            Range a1 = GetCellsToSelect("A1");
+            int tmpAllCount = a1.Count;
+            Range j1 = temp.Range["J1:J" + tmpAllCount];
+            j1.Formula = "=TODAY()";
+            Range TempAll = temp.Range["A1:J" + tmpAllCount];
+
+            //Passando os dados para m7 de variação
+            M7V.Activate();
+            int rowsLength = GetCellsToSelect("A1").Count + 1;
+            Range lastRow = M7V.Range["A" + rowsLength];
+            TempAll.Copy();
+            lastRow.PasteSpecial(XlPasteType.xlPasteValues);
+
+            M7V.Range["J:J"].NumberFormat = "dd/mm/yyyy";
+            M7V.Range["I:I"].NumberFormat = "0.00";
+
+            Range i2 = GetCellsToSelect("I2");
+            i2.AutoFilter(9,"0,00",XlAutoFilterOperator.xlOr, "-0,00");
+            i2.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
+            refreshFilter();
+
         }
 
         public static void DynimicTable()
