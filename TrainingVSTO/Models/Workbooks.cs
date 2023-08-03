@@ -401,15 +401,15 @@ namespace TrainingVSTO.Models
 
             //Passando os dados para m7 de variação
             M7V.Activate();
-            int rowsLength = GetCellsToSelect("A1").Count + 1;
+            int rowsLength = GetCellsToSelect("A1").Count + 2;
             Range lastRow = M7V.Range["A" + rowsLength];
             TempAll.Copy();
             lastRow.PasteSpecial(XlPasteType.xlPasteValues);
 
             M7V.Range["J:J"].NumberFormat = "dd/mm/yyyy";
-            M7V.Range["I:I"].NumberFormat = "0.00";
+            M7V.Range["I:I"].NumberFormat = @"_-* #,##0_-;-* #,##0_-;_-* " + "-" + "??_-;_-@_-";
 
-            Range i2 = GetCellsToSelect("I2");
+            Range i2 = GetCellsToSelect("I1");
             i2.AutoFilter(9,"0,00",XlAutoFilterOperator.xlOr, "-0,00");
             i2.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
             refreshFilter();
@@ -543,12 +543,15 @@ namespace TrainingVSTO.Models
 
 
             //Segunda parte do processo
-            Range D4 = noDisponible.Range["D4: D" + rows];
-            Range I4 = noDisponible.Range["I4: I" + rows];
-            Range L4 = noDisponible.Range["L4: L" + rows];
-            Range Q4 = noDisponible.Range["Q4: Q" + rows];
-            Range R4 = noDisponible.Range["R4: R" + rows];
-            Range S4 = noDisponible.Range["S4: S" + rows];
+            Range r = GetCellsToSelect("A4");
+            int rowsCount = r.Count + 3;
+
+            Range D4 = noDisponible.Range["D4: D" + rowsCount];
+            Range I4 = noDisponible.Range["I4: I" + rowsCount];
+            Range L4 = noDisponible.Range["L4: L" + rowsCount];
+            Range Q4 = noDisponible.Range["Q4: Q" + rowsCount];
+            Range R4 = noDisponible.Range["R4: R" + rowsCount];
+            Range S4 = noDisponible.Range["S4: S" + rowsCount];
 
 
             ////Procv no dia anterior - PASSO 6
