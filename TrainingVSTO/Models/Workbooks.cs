@@ -312,6 +312,14 @@ namespace TrainingVSTO.Models
 
             //procv nas planilhas para CS
             PreviousDayProcv("M7", n4, @"=VLOOKUP(A4,'[M7 - STK 01.08.2023 -.xlsx]M7'!$B:$O,14,0)");
+
+            if (n4.AutoFilter(14, "#N/D"))
+            {
+                Range visible = n4.SpecialCells(XlCellType.xlCellTypeVisible);
+                Range firstCell = visible.Cells[1];
+                string c = firstCell.Row.ToString();
+                visible.Formula = "=VLOOKUP(N" + c + ",Clientes!A:B,2,0)";
+            }
         }
 
 
@@ -401,18 +409,25 @@ namespace TrainingVSTO.Models
 
             //Passando os dados para m7 de variação
             M7V.Activate();
-            int rowsLength = GetCellsToSelect("A1").Count + 2;
+            int rowsLength = GetCellsToSelect("A1").Count + 1;
             Range lastRow = M7V.Range["A" + rowsLength];
             TempAll.Copy();
             lastRow.PasteSpecial(XlPasteType.xlPasteValues);
 
             M7V.Range["J:J"].NumberFormat = "dd/mm/yyyy";
-            M7V.Range["I:I"].NumberFormat = @"_-* #,##0_-;-* #,##0_-;_-* " + "-" + "??_-;_-@_-";
+            M7V.Range["I:I"].NumberFormat = @"#,##0.00_ ;[Red]-#,##0.00 ";
 
-            Range i2 = GetCellsToSelect("I1");
+            Range i2 = GetCellsToSelect("I2");
             i2.AutoFilter(9,"0,00",XlAutoFilterOperator.xlOr, "-0,00");
             i2.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
-            refreshFilter();
+            refreshFilter("1:1");
+
+            i2.Sort(i2.Columns[1], XlSortOrder.xlDescending, Type.Missing, Type.Missing,
+                    XlSortOrder.xlAscending, Type.Missing, XlSortOrder.xlAscending,
+                    XlYesNoGuess.xlGuess, Type.Missing, Type.Missing,
+                    XlSortOrientation.xlSortColumns, XlSortMethod.xlPinYin,
+                    XlSortDataOption.xlSortNormal, XlSortDataOption.xlSortNormal,
+                    XlSortDataOption.xlSortNormal);
 
         }
 
