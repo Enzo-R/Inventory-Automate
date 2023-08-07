@@ -14,6 +14,7 @@ using Microsoft.Office.Tools.Excel;
 using Worksheet = Microsoft.Office.Interop.Excel.Worksheet;
 using Workbook = Microsoft.Office.Interop.Excel.Workbook;
 using System.Net.NetworkInformation;
+using Application = Microsoft.Office.Interop.Excel.Application;
 
 namespace TrainingVSTO.Models
 {
@@ -318,13 +319,17 @@ namespace TrainingVSTO.Models
                 Range visible = n4.SpecialCells(XlCellType.xlCellTypeVisible);
                 Range firstCell = visible.Cells[1];
                 string c = firstCell.Row.ToString();
-                visible.Formula = "=VLOOKUP(N" + c + ",Clientes!A:B,2,0)";
+                visible.Formula = "=VLOOKUP(M" + c + ",Clientes!A:B,2,0)";
             }
+            refreshFilter() ;
         }
 
 
         public static void Variation(Worksheet currentSheet, int rowsCount)
         {
+            Application excelApp = Globals.ThisAddIn.Application;
+            excelApp.DisplayAlerts = false;
+
             //Concatenar colunas e adicionar novas.
             Range AnewC = currentSheet.Columns[1];
             AnewC.Insert();
@@ -332,18 +337,10 @@ namespace TrainingVSTO.Models
 
             currentSheet.Range["S2"].Formula = @"=SUBTOTAL(9,S4:S" + rowsCount + ")";
 
-            currentSheet.Range["T2"].Formula = @"=SUBTOTAL(9,T4:T" + rowsCount + ")";
-
-            currentSheet.Range["U2"].Formula = @"=SUBTOTAL(9,U4:U" + rowsCount + ")";
-
-            currentSheet.Range["V2"].Formula = @"=SUBTOTAL(9,V4:V" + rowsCount + ")";
-
             //ranges
-            Range H4 = currentSheet.Range["H4:H" + rowsCount];
-            Range N4 = currentSheet.Range["N4:N" + rowsCount];
             Range Q4 = currentSheet.Range["Q4:Q" + rowsCount]; Q4.Style = "Percent";
             Range R4 = currentSheet.Range["R4:R" + rowsCount];
-            Range S4 = currentSheet.Range["S4:S" + rowsCount];
+            Range S4 = currentSheet.Range["S4:S" + rowsCount]; S4.NumberFormat = @"#,##0.00_ ;[Red]-#,##0.00";
 
             //Inserindo forumlas
             VlookUp("M7", -1, Q4, @"=(H4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0))/VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$H,8,0)");
@@ -352,26 +349,42 @@ namespace TrainingVSTO.Models
 
             VlookUp("M7", -1, S4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
 
+            string[] filterCriteriaNull1 = new string[]
+            {
+                "#N/D",
+                "#DIV/0!",
+            };
+
             //filtrando nullos
-            Q4.AutoFilter(17, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
-            Q4.SpecialCells(XlCellType.xlCellTypeVisible).Value = 0;
+            Q4.AutoFilter(17, filterCriteriaNull1, XlAutoFilterOperator.xlFilterValues);
+            Range q = Q4.SpecialCells(XlCellType.xlCellTypeVisible);
+            q.Value = 0;
             refreshFilter();
 
-            R4.AutoFilter(18, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
-            R4.SpecialCells(XlCellType.xlCellTypeVisible).Value = 0;
-
-            S4.AutoFilter(19, "#N/D");
-            Range visibleCells = S4.SpecialCells(XlCellType.xlCellTypeVisible);
+            //aplicando segundo filtro para valores nullos
+            R4.AutoFilter(18, "#N/D");
+            
+            Range visibleCells = R4.SpecialCells(XlCellType.xlCellTypeVisible);
             Range firstCell = visibleCells.Cells[1];
             string c = firstCell.Row.ToString();
-            VlookUp("M7", -1, S4.SpecialCells(XlCellType.xlCellTypeVisible), @"=N" + c + "-VLOOKUP(B" + c + ",'[M7 - STK 30.06.2023 -.xlsx]M7'!$B:$N,13,0)");
-            S4.AutoFilter(19, "#N/D");
-            S4.SpecialCells(XlCellType.xlCellTypeVisible).Value = 0;
+
+            VlookUp("M7", -1, visibleCells, @"=B" + c + "-VLOOKUP(B" + c + ",'[M7 - STK 30.06.2023 -.xlsx]M7'!$B:$H,7,0)");
+            R4.AutoFilter(18, "#N/D");
+            visibleCells.Value = 0;
             refreshFilter();
 
-            //number format
-            //S4.NumberFormat = "_-[$$-en-US]* #,##0.00_ ;_-[$$-en-US]* -#,##0.00 ;_-[$$-en-US]* " + "-" + "??_ ;_-@_ ";
+            //1
+            S4.AutoFilter(19, "#N/D");
+            Range visibleCells1 = S4.SpecialCells(XlCellType.xlCellTypeVisible);
+            Range firstCell1 = visibleCells1.Cells[1];
+            string c1 = firstCell1.Row.ToString();
 
+            VlookUp("M7", -1, visibleCells1, @"=B" + c1 + "-VLOOKUP(B" + c1 + ",'[M7 - STK 30.06.2023 -.xlsx]M7'!$B:$N,13,0)");
+            S4.AutoFilter(19, "#N/D");
+            visibleCells1.Value = 0;
+            refreshFilter();
+
+            //Segunda parte
             Range All1 = GetCellsToSelect("B4:S4");
 
             //iniciando objeto
@@ -418,7 +431,7 @@ namespace TrainingVSTO.Models
             M7V.Range["I:I"].NumberFormat = @"#,##0.00_ ;[Red]-#,##0.00 ";
 
             Range i2 = GetCellsToSelect("I2");
-            i2.AutoFilter(9,"0,00",XlAutoFilterOperator.xlOr, "-0,00");
+            i2.AutoFilter(9, "0,00", XlAutoFilterOperator.xlOr, "-0,00");
             i2.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
             refreshFilter("1:1");
 
@@ -429,6 +442,7 @@ namespace TrainingVSTO.Models
                     XlSortDataOption.xlSortNormal, XlSortDataOption.xlSortNormal,
                     XlSortDataOption.xlSortNormal);
 
+            temp.Delete();
         }
 
         public static void DynimicTable()
@@ -679,7 +693,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(days);
             string dateValidate = previousDay.ToString("d").Replace("/", ".");
-            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
+            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
 
             string defaultData = "30.06.2023";
 
@@ -689,7 +703,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(days+d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
@@ -713,7 +727,7 @@ namespace TrainingVSTO.Models
                         DateTime imim = DateTime.Today.AddMonths(-1);
                         previousDay = DateTime.Today.AddDays(days + d);
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
+                        previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
                         string month = imim.ToString("MM/yy").Replace("/", "-");
                         string newPath = previousFile.Replace("08-23", month);
 
@@ -756,7 +770,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
-            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK "+dateValidate+" -.xlsx";
+            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK "+dateValidate+" -.xlsx";
             string defaultData = "01.08.2023";
 
             if (!File.Exists(previousFile))
@@ -765,7 +779,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(-1 + d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {

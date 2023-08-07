@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 using TrainingVSTO;
 using TrainingVSTO.Models;
+using Application = Microsoft.Office.Interop.Excel.Application;
 
 namespace TrainingVSTO
 {
@@ -23,6 +24,9 @@ namespace TrainingVSTO
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
+            Application excelApp = Globals.ThisAddIn.Application;
+            excelApp.DisplayAlerts = false;
+
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
 
                 Worksheet Sheet = workbook.Sheets["Original"];
