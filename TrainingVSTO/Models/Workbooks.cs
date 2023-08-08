@@ -319,7 +319,7 @@ namespace TrainingVSTO.Models
                 Range visible = n4.SpecialCells(XlCellType.xlCellTypeVisible);
                 Range firstCell = visible.Cells[1];
                 string c = firstCell.Row.ToString();
-                visible.Formula = "=VLOOKUP(M" + c + ",Clientes!A:B,2,0)";
+                visible.Formula = "=VLOOKUP(L" + c + ",Clientes!A:B,2,0)";
             }
             refreshFilter() ;
         }
@@ -368,7 +368,7 @@ namespace TrainingVSTO.Models
             Range firstCell = visibleCells.Cells[1];
             string c = firstCell.Row.ToString();
 
-            VlookUp("M7", -1, visibleCells, @"=B" + c + "-VLOOKUP(B" + c + ",'[M7 - STK 30.06.2023 -.xlsx]M7'!$B:$H,7,0)");
+            VlookUp("M7", -1, visibleCells, @"=H" + c + "-VLOOKUP(B" + c + ",'[M7 - STK 30.06.2023 -.xlsx]M7'!$B:$H,7,0)");
             R4.AutoFilter(18, "#N/D");
             visibleCells.Value = 0;
             refreshFilter();
@@ -379,7 +379,7 @@ namespace TrainingVSTO.Models
             Range firstCell1 = visibleCells1.Cells[1];
             string c1 = firstCell1.Row.ToString();
 
-            VlookUp("M7", -1, visibleCells1, @"=B" + c1 + "-VLOOKUP(B" + c1 + ",'[M7 - STK 30.06.2023 -.xlsx]M7'!$B:$N,13,0)");
+            VlookUp("M7", -1, visibleCells1, @"=N" + c1 + "-VLOOKUP(B" + c1 + ",'[M7 - STK 30.06.2023 -.xlsx]M7'!$B:$N,13,0)");
             S4.AutoFilter(19, "#N/D");
             visibleCells1.Value = 0;
             refreshFilter();
