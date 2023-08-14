@@ -389,7 +389,7 @@ namespace TrainingVSTO.Models
 
             //iniciando objeto
             Workbook M7Pbix = Globals.ThisAddIn.getActiveApp().Workbooks.Open(Excel.PathToPbix, UpdateLinks: false);
-            Worksheet M7 = M7Pbix.Sheets["M7"];
+            Worksheet M7 = M7Pbix.Sheets["M7 Dayli"];
             Worksheet M7V = M7Pbix.Sheets["M7 Variation"];
             Worksheet DIO = M7Pbix.Sheets["DIO Amount"];
 
@@ -399,11 +399,16 @@ namespace TrainingVSTO.Models
             All2.EntireRow.Delete();
             All1.Copy();
             M7.Range["A2"].PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone);
+            Clipboard.Clear();
+
+            //passando para a temp
+            Range All3 = GetCellsToSelect("A1:S1");
+            All3.Copy();
 
             //tranformando os dados
             M7Pbix.Sheets.Add();
             Worksheet temp = M7Pbix.Sheets["Planilha1"];
-            temp.Range["A1"].PasteSpecial(XlPasteType.xlPasteValues);
+            temp.Range["A2"].PasteSpecial(XlPasteType.xlPasteValues);
             Clipboard.Clear();
             temp.Range["B:B"].EntireColumn.Delete();
             temp.Range["C:C"].EntireColumn.Delete();
@@ -414,10 +419,16 @@ namespace TrainingVSTO.Models
             temp.Range["H:H"].EntireColumn.Delete();
             temp.Range["H:H"].EntireColumn.Delete();
             temp.Range["H:H"].EntireColumn.Delete();
+
+            //colocando a data
             Range a1 = GetCellsToSelect("A1");
             int tmpAllCount = a1.Count;
             Range j1 = temp.Range["J1:J" + tmpAllCount];
             j1.Formula = "=TODAY()";
+
+            //aplicando o filtro
+            Range row1 = temp.Rows[1];
+            row1.AutoFilter();
 
             //apagando os sem valores
             Range i2 = GetCellsToSelect("I2");
@@ -596,9 +607,10 @@ namespace TrainingVSTO.Models
             PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(D4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$D:$R,15,0)");
 
             //Descrição Lugar
-            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(R4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$R:$S,2,0)");
-
-
+            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
+            S4.Copy();
+            S4.PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone);
+            Clipboard.Clear();
 
             //filtrar por lugar - PASSO 7
             if (D4.AutoFilter(4, "9ACERTO"))
