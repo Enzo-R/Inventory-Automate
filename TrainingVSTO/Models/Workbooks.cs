@@ -418,6 +418,20 @@ namespace TrainingVSTO.Models
             int tmpAllCount = a1.Count;
             Range j1 = temp.Range["J1:J" + tmpAllCount];
             j1.Formula = "=TODAY()";
+
+            //apagando os sem valores
+            Range i2 = GetCellsToSelect("I2");
+            temp.Range["I:I"].NumberFormat = @"#,##0.00_ ;[Red]-#,##0.00 ";
+            i2.AutoFilter(9, "0,00");
+            i2.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
+
+            i2.Sort(i2.Columns[1], XlSortOrder.xlDescending, Type.Missing, Type.Missing,
+                    XlSortOrder.xlAscending, Type.Missing, XlSortOrder.xlAscending,
+                    XlYesNoGuess.xlGuess, Type.Missing, Type.Missing,
+                    XlSortOrientation.xlSortColumns, XlSortMethod.xlPinYin,
+                    XlSortDataOption.xlSortNormal, XlSortDataOption.xlSortNormal,
+                    XlSortDataOption.xlSortNormal);
+
             Range TempAll = temp.Range["A1:J" + tmpAllCount];
 
             //Passando os dados para m7 de variação
@@ -430,17 +444,6 @@ namespace TrainingVSTO.Models
             M7V.Range["J:J"].NumberFormat = "dd/mm/yyyy";
             M7V.Range["I:I"].NumberFormat = @"#,##0.00_ ;[Red]-#,##0.00 ";
 
-            Range i2 = GetCellsToSelect("I2");
-            i2.AutoFilter(9, "0,00", XlAutoFilterOperator.xlOr, "-0,00");
-            i2.SpecialCells(XlCellType.xlCellTypeVisible).EntireRow.Delete();
-            refreshFilter("1:1");
-
-            i2.Sort(i2.Columns[1], XlSortOrder.xlDescending, Type.Missing, Type.Missing,
-                    XlSortOrder.xlAscending, Type.Missing, XlSortOrder.xlAscending,
-                    XlYesNoGuess.xlGuess, Type.Missing, Type.Missing,
-                    XlSortOrientation.xlSortColumns, XlSortMethod.xlPinYin,
-                    XlSortDataOption.xlSortNormal, XlSortDataOption.xlSortNormal,
-                    XlSortDataOption.xlSortNormal);
 
             temp.Delete();
 
@@ -590,10 +593,10 @@ namespace TrainingVSTO.Models
             PreviousDayProcv("No Disponible", Q4, @"=VLOOKUP(D4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$D:$Q,14,0)");
 
             //Resp.Inventário
-            PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(Q4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$Q:$R,2,0)");
+            PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(D4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$D:$R,15,0)");
 
             //Descrição Lugar
-            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
+            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(R4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$R:$S,2,0)");
 
 
 
