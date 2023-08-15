@@ -25,7 +25,7 @@ namespace TrainingVSTO.Models
         }        
         public static string PathToPbix
         {
-            get { return @"S:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\INVENTORY -Pbix-.xlsx"; }
+            get { return @"S:\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\PowerBI\M7\INVENTORY -Pbix-.xlsx"; }
         }
         public static string PathToOneDrive
         {
