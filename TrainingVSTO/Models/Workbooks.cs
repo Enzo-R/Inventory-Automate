@@ -463,6 +463,7 @@ namespace TrainingVSTO.Models
             M7Pbix.Save();
         }
 
+
         public static void DynimicTable()
         {
 
@@ -540,6 +541,9 @@ namespace TrainingVSTO.Models
 
         public static void NoDispProcess()
         {
+            Application excelApp = Globals.ThisAddIn.Application;
+            excelApp.DisplayAlerts = false;
+
             //trocar o formato numerico.
             GetCellsToSelect("B4").NumberFormat = "0";
             GetCellsToSelect("D4").NumberFormat = "0";
@@ -659,6 +663,9 @@ namespace TrainingVSTO.Models
 
         public static void FG_expedicao()
         {
+            Application excelApp = Globals.ThisAddIn.Application;
+            excelApp.DisplayAlerts = false;
+
             //Selecionar a planilha expedição
             Worksheet expeSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets["FG_Expediçao"];
             expeSheet.Activate();
@@ -712,7 +719,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(days);
             string dateValidate = previousDay.ToString("d").Replace("/", ".");
-            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
+            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
 
             string defaultData = "30.06.2023";
 
@@ -722,7 +729,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(days+d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
@@ -746,7 +753,7 @@ namespace TrainingVSTO.Models
                         DateTime imim = DateTime.Today.AddMonths(-1);
                         previousDay = DateTime.Today.AddDays(days + d);
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
+                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
                         string month = imim.ToString("MM/yy").Replace("/", "-");
                         string newPath = previousFile.Replace("08-23", month);
 
@@ -789,7 +796,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
-            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK "+dateValidate+" -.xlsx";
+            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK "+dateValidate+" -.xlsx";
             string defaultData = "01.08.2023";
 
             if (!File.Exists(previousFile))
@@ -798,7 +805,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(-1 + d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 08-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
@@ -864,6 +871,9 @@ namespace TrainingVSTO.Models
 
         public static void GetData(string tmpSheet, string range)
         {
+            Application excelApp = Globals.ThisAddIn.Application;
+            excelApp.DisplayAlerts = false;
+
             Worksheet currentSheet = Globals.ThisAddIn.getActiveWorkbook().Sheets[tmpSheet];
             Range cells = currentSheet.Range[range];
             Range select = currentSheet.Range[cells, cells.End[XlDirection.xlDown]];
@@ -874,6 +884,9 @@ namespace TrainingVSTO.Models
 
         public static void SetData(string tmpSheet, string range , string cell, string sheet, Workbook wb)
         {
+            Application excelApp = Globals.ThisAddIn.Application;
+            excelApp.DisplayAlerts = false;
+
             GetData(tmpSheet, range);
 
             Worksheet Wsheet = wb.Sheets[sheet];

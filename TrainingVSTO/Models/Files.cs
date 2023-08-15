@@ -91,6 +91,7 @@ namespace TrainingVSTO.Models
             workbook.Close(false);
             Workbooks.FG_expedicao();
             Finals(Globals.ThisAddIn.getActiveWorkbook());
+            Cloud(Globals.ThisAddIn.getActiveWorkbook());
 
         }
 
@@ -129,5 +130,22 @@ namespace TrainingVSTO.Models
                 wb.Save();
             }
         }
+
+        public static void Cloud(Workbook wb)
+        {
+            Worksheet currentSheet = Globals.ThisAddIn.getActiveWorksheet();
+            currentSheet.Columns.AutoFit();
+
+            //End
+            if (!File.Exists(Excel.PathToOneDrive))
+            {
+                wb.SaveAs(Excel.PathToOneDrive);
+            }
+            else
+            {
+                wb.Save();
+            }
+        }
+
     }
 }
