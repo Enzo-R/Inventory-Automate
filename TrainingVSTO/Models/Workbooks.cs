@@ -52,7 +52,7 @@ namespace TrainingVSTO.Models
             int rows = range.SpecialCells(XlCellType.xlCellTypeVisible).Count + 3;
 
             Range f1 = currentSheet.Range["K4:K" + rows];
-            f1.Formula = @"=VLOOKUP(B4,'Base Contas'!A:C,3,0)";
+            f1.Formula = @"=VLOOKUP(B4,'Base Referencias'!A:C,3,0)";
 
             FilterDataToM7();
 
@@ -319,7 +319,7 @@ namespace TrainingVSTO.Models
                 Range visible = n4.SpecialCells(XlCellType.xlCellTypeVisible);
                 Range firstCell = visible.Cells[1];
                 string c = firstCell.Row.ToString();
-                visible.Formula = "=VLOOKUP(L" + c + ",Clientes!A:B,2,0)";
+                visible.Formula = "=VLOOKUP(L" + c + ",Base Referencias!E:F,2,0)";
             }
             refreshFilter() ;
         }
