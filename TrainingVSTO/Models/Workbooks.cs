@@ -613,7 +613,7 @@ namespace TrainingVSTO.Models
             PreviousDayProcv("No Disponible", R4, @"=VLOOKUP(D4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$D:$R,15,0)");
 
             //Descrição Lugar
-            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
+            PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$D:$S,16,0)");
             S4.Copy();
             S4.PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone);
             Clipboard.Clear();
