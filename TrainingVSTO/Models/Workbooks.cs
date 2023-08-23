@@ -322,8 +322,6 @@ namespace TrainingVSTO.Models
                 visible.Formula = "=VLOOKUP(L" + c + ",Base Referencias!E:F,2,0)";
             }
             refreshFilter() ;
-
-
         }
 
 
@@ -351,16 +349,12 @@ namespace TrainingVSTO.Models
 
             VlookUp("M7", -1, S4, @"=N4-VLOOKUP(A4,'[M7 - STK 30.06.2023 -.xlsx]M7'!$A:$N,14,0)");
 
-            string[] filterCriteriaNull1 = new string[]
-            {
-                "#N/D",
-                "#DIV/0!",
-            };
-
             //filtrando nullos
-            Q4.AutoFilter(17, filterCriteriaNull1, XlAutoFilterOperator.xlFilterValues);
-            Range q = Q4.SpecialCells(XlCellType.xlCellTypeVisible);
-            q.Value = 0;
+            Q4.AutoFilter(17, "#N/D");
+            Q4.SpecialCells(XlCellType.xlCellTypeVisible).Value = 0;
+            refreshFilter();
+            Q4.AutoFilter(17, "#DIV/0!");
+            Q4.SpecialCells(XlCellType.xlCellTypeVisible).Value = 0;
             refreshFilter();
 
             //aplicando segundo filtro para valores nullos
