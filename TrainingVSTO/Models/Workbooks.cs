@@ -322,6 +322,8 @@ namespace TrainingVSTO.Models
                 visible.Formula = "=VLOOKUP(L" + c + ",Base Referencias!E:F,2,0)";
             }
             refreshFilter() ;
+
+
         }
 
 
@@ -647,11 +649,11 @@ namespace TrainingVSTO.Models
             if (L4.AutoFilter(12, "AB", XlAutoFilterOperator.xlOr, "ISS", XlAutoFilterOperator.xlFilterValues))
             {
                 Q4.SpecialCells(XlCellType.xlCellTypeVisible)
-                    .Value = "Producao [Douglas Vale]";
+                    .Value = "Producao [Douglas Vale] (TBD)";
             }
             refreshFilter();
 
-            Q4.AutoFilter(17, "Producao [Douglas Vale]");
+            Q4.AutoFilter(17, "Producao [Douglas Vale] (TBD)");
             if (L4.AutoFilter(12, "SB", XlAutoFilterOperator.xlOr, "SW", XlAutoFilterOperator.xlFilterValues))
             {
                 Q4.SpecialCells(XlCellType.xlCellTypeVisible)
