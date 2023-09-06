@@ -24,9 +24,6 @@ namespace TrainingVSTO
         }
         private void OpenFile_Click(object sender, RibbonControlEventArgs e)
         {
-            Application excelApp = Globals.ThisAddIn.Application;
-            excelApp.DisplayAlerts = false;
-
             Workbook workbook = Globals.ThisAddIn.getActiveWorkbook();
 
                 Worksheet Sheet = workbook.Sheets["Original"];
