@@ -639,19 +639,6 @@ namespace TrainingVSTO.Models
             refreshFilter();
 
             //Atribuindo as PERDAS - PASSO 10
-            Q4.AutoFilter(17, "#N/D");
-            Range found = D4.Find("PERDA");
-            if (found != null)
-            {
-                if(D4.AutoFilter(4, "PERDA"))
-                {
-                    Q4.SpecialCells(XlCellType.xlCellTypeVisible)
-                        .Value = "Producao [Rodrigo Mendonça]";
-                    R4.SpecialCells(XlCellType.xlCellTypeVisible)
-                        .Value = "Rodrigo Mendonça";
-                }
-            }
-            refreshFilter();
 
 
             //Filtar gestores para - PASSO 11
