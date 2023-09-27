@@ -610,9 +610,6 @@ namespace TrainingVSTO.Models
 
             //Descrição Lugar
             PreviousDayProcv("No Disponible", S4, @"=VLOOKUP(Q4,'[M7 - STK 01.08.2023 -.xlsx]No Disponible'!$Q:$S,3,0)");
-            S4.Copy();
-            S4.PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone);
-            Clipboard.Clear();
 
             //filtrar por lugar - PASSO 7
             if (D4.AutoFilter(4, "9ACERTO"))
@@ -646,13 +643,13 @@ namespace TrainingVSTO.Models
             if (L4.AutoFilter(12, "AB", XlAutoFilterOperator.xlOr, "ISS", XlAutoFilterOperator.xlFilterValues))
             {
                 Q4.SpecialCells(XlCellType.xlCellTypeVisible)
-                    .Value = "Producao [Douglas Vale] (TBD)";
+                    .Value = "Producao [Sergio Castro]";
                 R4.SpecialCells(XlCellType.xlCellTypeVisible)
-                    .Value = "Douglas Vale (TBD)";
+                    .Value = "Sergio Castro";
             }
             refreshFilter();
 
-            Q4.AutoFilter(17, "Producao [Douglas Vale] (TBD)");
+            Q4.AutoFilter(17, "Producao [Sergio Castro]");
             if (L4.AutoFilter(12, "SB", XlAutoFilterOperator.xlOr, "SW", XlAutoFilterOperator.xlFilterValues))
             {
                 Q4.SpecialCells(XlCellType.xlCellTypeVisible)

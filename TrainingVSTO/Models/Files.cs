@@ -91,7 +91,7 @@ namespace TrainingVSTO.Models
             workbook.Close(false);
             Workbooks.FG_expedicao();
             Finals(Globals.ThisAddIn.getActiveWorkbook());
-            Cloud(Globals.ThisAddIn.getActiveWorkbook());
+            //Cloud(Globals.ThisAddIn.getActiveWorkbook());
 
         }
 
