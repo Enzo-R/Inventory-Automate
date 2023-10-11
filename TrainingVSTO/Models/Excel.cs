@@ -21,11 +21,11 @@ namespace TrainingVSTO.Models
         //@"C\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - ex -.xlsx"
         public static string PathToM7DOpen
         {
-            get { return @"S:\Log_Planej_Adm\PERSONAL\Enzo_Rodrigues\Default Files\M7 - STK ex.xlsx"; }
+            get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo_Rodrigues\Default Files\M7 - STK ex.xlsx"; }
         }        
         public static string PathToPbix
         {
-            get { return @"S:\Log_Planej_Adm\PAINEIS POWER BI\015 - INVENTORY\INVENTORY -Pbix-.xlsx"; }
+            get { return @"C:\Log_Planej_Adm\PAINEIS POWER BI\015 - INVENTORY\INVENTORY -Pbix-.xlsx"; }
         }
         public static string PathToOneDrive
         {
@@ -53,7 +53,7 @@ namespace TrainingVSTO.Models
 
                 if (response.IsSuccessStatusCode)
                 {
-                    using (FileStream fileStream = File.Create("S:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\local.html"))
+                    using (FileStream fileStream = File.Create("C:\\Users\\Enzo\\OneDrive\\Área de Trabalho\\Joyson\\local.html"))
                     {
                         await response.Content.CopyToAsync(fileStream);
                     }

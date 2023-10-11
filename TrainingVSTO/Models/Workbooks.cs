@@ -178,7 +178,6 @@ namespace TrainingVSTO.Models
             Range l4 = currentSheet.Range["L4:L" + i];
             Range n4 = currentSheet.Range["N4:N" + i];
 
-
             #region Filters to Client
 
             if (f4.AutoFilter(6, "*MAN*", XlAutoFilterOperator.xlAnd, Type.Missing, true))
@@ -302,10 +301,9 @@ namespace TrainingVSTO.Models
             //procv nas planilhas para Clients
             if (l4.AutoFilter(12, "="))
             {
-
                 PreviousDayProcv("M7", l4, @"=VLOOKUP(A4,'[M7 - STK 01.08.2023 -.xlsx]M7'!$A:$L,12,0)");
-                
             }
+
             l4.AutoFilter(12, filterCriteriaNull, XlAutoFilterOperator.xlFilterValues);
             l4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "Others";
             refreshFilter();
@@ -319,9 +317,9 @@ namespace TrainingVSTO.Models
                 Range visible = n4.SpecialCells(XlCellType.xlCellTypeVisible);
                 Range firstCell = visible.Cells[1];
                 string c = firstCell.Row.ToString();
-                visible.Formula = "=VLOOKUP(L"+c+",'Base Referencias'!E:F,2,0)";
+                visible.Formula = "=VLOOKUP(L" + c + ",'Base Referencias'!E:F,2,0)";
             }
-            refreshFilter() ;
+            refreshFilter();
         }
 
 
@@ -387,6 +385,7 @@ namespace TrainingVSTO.Models
             Workbook M7Pbix = Globals.ThisAddIn.getActiveApp().Workbooks.Open(Excel.PathToPbix, UpdateLinks: false);
             Worksheet M7 = M7Pbix.Sheets["M7 Dayli"];
             Worksheet M7V = M7Pbix.Sheets["M7 Variation"];
+            Worksheet noDisp = M7Pbix.Sheets["NoDisp Dayli"];
 
             //Passando os dados para m7
             M7.Activate();
@@ -457,6 +456,33 @@ namespace TrainingVSTO.Models
 
             M7Pbix.Save();
         }
+
+
+        public static void PBIX(Worksheet currentSheet, int rowsCount)
+        {
+            Application excelApp = Globals.ThisAddIn.Application;
+            excelApp.DisplayAlerts = false;
+
+            //Segunda parte
+            Range All1 = GetCellsToSelect("B4:S4");
+
+            //iniciando objeto
+            Workbook M7Pbix = Globals.ThisAddIn.getActiveApp().Workbooks.Open(Excel.PathToPbix, UpdateLinks: false);
+            Worksheet M7 = M7Pbix.Sheets["M7 Dayli"];
+            Worksheet M7V = M7Pbix.Sheets["M7 Variation"];
+            Worksheet noDisp = M7Pbix.Sheets["NoDisp Dayli"];
+
+            //Passando os dados para m7
+            M7.Activate();
+            Range All2 = GetCellsToSelect("A2:R2");
+            All2.EntireRow.Delete();
+            All1.Copy();
+            M7.Range["A2"].PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone);
+            Clipboard.Clear();
+
+            M7Pbix.Save();
+        }
+
 
 
         public static void DynimicTable()
@@ -718,10 +744,13 @@ namespace TrainingVSTO.Models
         {
             Globals.ThisAddIn.getActiveWorksheet();
 
+            //DateTime dte;
+            //int mes = dte.Month;
+
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(days);
             string dateValidate = previousDay.ToString("d").Replace("/", ".");
-            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 09-23\M7 - STK " + dateValidate + " -.xlsx";
+            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 10-23\M7 - STK " + dateValidate + " -.xlsx";
 
             string defaultData = "30.06.2023";
 
@@ -731,7 +760,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(days+d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 09-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 10-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
@@ -748,16 +777,16 @@ namespace TrainingVSTO.Models
                         break;
                     }
                 }
-                if (!File.Exists(previousFile) && previousFile.Contains("09-23"))
+                if (!File.Exists(previousFile) && previousFile.Contains("10-23"))
                 {
                     for (int d = -0; d > -10; d--)
                     {
                         DateTime imim = DateTime.Today.AddMonths(-1);
                         previousDay = DateTime.Today.AddDays(days + d);
                         dateValidate = previousDay.ToString("d").Replace("/", ".");
-                        previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 09-23\M7 - STK " + dateValidate + " -.xlsx";
+                        previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 10-23\M7 - STK " + dateValidate + " -.xlsx";
                         string month = imim.ToString("MM/yy").Replace("/", "-");
-                        string newPath = previousFile.Replace("09-23", month);
+                        string newPath = previousFile.Replace("10-23", month);
 
                         if (File.Exists(newPath))
                         {
@@ -798,7 +827,7 @@ namespace TrainingVSTO.Models
             //Obtenha o nome do arquivo competo
             DateTime previousDay = DateTime.Today.AddDays(-1);
             string dateValidate = previousDay.ToString("dd/MM/yyyy").Replace("/", ".");
-            string previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 09-23\M7 - STK " +dateValidate+" -.xlsx";
+            string previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 10-23\M7 - STK " +dateValidate+" -.xlsx";
             string defaultData = "01.08.2023";
 
             if (!File.Exists(previousFile))
@@ -807,7 +836,7 @@ namespace TrainingVSTO.Models
                 {
                     previousDay = DateTime.Today.AddDays(-1 + d);
                     dateValidate = previousDay.ToString("d").Replace("/", ".");
-                    previousFile = @"S:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 09-23\M7 - STK " + dateValidate + " -.xlsx";
+                    previousFile = @"C:\Log_Planej_Adm\CY Inventory Tracking\Relatório Estoque Geral\2023\M7 - STK 10-23\M7 - STK " + dateValidate + " -.xlsx";
 
                     if (File.Exists(previousFile))
                     {
