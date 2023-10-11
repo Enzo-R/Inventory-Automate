@@ -455,34 +455,8 @@ namespace TrainingVSTO.Models
             temp.Delete();
 
             M7Pbix.Save();
+            M7Pbix.Close(false);
         }
-
-
-        public static void PBIX(Worksheet currentSheet, int rowsCount)
-        {
-            Application excelApp = Globals.ThisAddIn.Application;
-            excelApp.DisplayAlerts = false;
-
-            //Segunda parte
-            Range All1 = GetCellsToSelect("B4:S4");
-
-            //iniciando objeto
-            Workbook M7Pbix = Globals.ThisAddIn.getActiveApp().Workbooks.Open(Excel.PathToPbix, UpdateLinks: false);
-            Worksheet M7 = M7Pbix.Sheets["M7 Dayli"];
-            Worksheet M7V = M7Pbix.Sheets["M7 Variation"];
-            Worksheet noDisp = M7Pbix.Sheets["NoDisp Dayli"];
-
-            //Passando os dados para m7
-            M7.Activate();
-            Range All2 = GetCellsToSelect("A2:R2");
-            All2.EntireRow.Delete();
-            All1.Copy();
-            M7.Range["A2"].PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone);
-            Clipboard.Clear();
-
-            M7Pbix.Save();
-        }
-
 
 
         public static void DynimicTable()
@@ -643,8 +617,16 @@ namespace TrainingVSTO.Models
                 R4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "William Baisi";
             }
             refreshFilter();
+            
+            //filtrar por lugar - PASSO 8
+            if (I4.AutoFilter(4, "ENGENH"))
+            {
+                Q4.AutoFilter(17, "Engenharia Produtos [Luiz Facioli]");
+                R4.SpecialCells(XlCellType.xlCellTypeVisible).Value = "Marcelo Perobelli";
+            }
+            refreshFilter();
 
-            //Deletando as sucatas - PASSO 8
+            //Deletando as sucatas - PASSO 9
             if (Q4.AutoFilter(17, "#N/D"))
             {
                 I4.AutoFilter(9, "SUCATA");
@@ -652,7 +634,7 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
-            //Deletando MEMO - PASSO 9
+            //Deletando MEMO - PASSO 10
             if (Q4.AutoFilter(17, "#N/D"))
             {
                 D4.AutoFilter(4, "MEMO");
@@ -660,8 +642,15 @@ namespace TrainingVSTO.Models
             }
             refreshFilter();
 
-            //Atribuindo as PERDAS - PASSO 10
-
+            //Atribuindo aos N/D - PASSO 10
+            if (Q4.AutoFilter(17, "#N/D"))
+            {
+                Range visible = Q4.SpecialCells(XlCellType.xlCellTypeVisible);
+                Range firstCell = visible.Cells[1];
+                string l = firstCell.Row.ToString();
+                visible.Formula = @"=VLOOKUP(D"+ l +",'Base Referencias'!H:J,3,0)";
+            }
+            refreshFilter();
 
             //Filtar gestores para - PASSO 11
             Q4.AutoFilter(17, "Producao [Sergio Castro]");
@@ -683,6 +672,8 @@ namespace TrainingVSTO.Models
                     .Value = "Sergio Castro";
             }
             refreshFilter();
+
+            PBIX(noDisponible, "B4:S4", 2);
         }
 
 
@@ -726,7 +717,7 @@ namespace TrainingVSTO.Models
             //Subtotal USD
             expeSheet.Range["T1"].Formula = @"=SUBTOTAL(9,T3:T"+rows+")";
 
-
+            expeSheet.Columns["O:O"].Delete();
 
             //Apagando valores nulls - PASSO 3
             Range R3 = expeSheet.Range["R3: R" + rows];
@@ -737,6 +728,34 @@ namespace TrainingVSTO.Models
                 }
             
             refreshFilter("2:2");
+
+            PBIX(expeSheet, "B3:S3", 3);
+        }
+
+        public static void PBIX(Worksheet currentSheet, string range, int sheetNum)
+        {
+            Application excelApp = Globals.ThisAddIn.Application;
+            excelApp.DisplayAlerts = false;
+
+            currentSheet.Activate();
+
+            //Segunda parte
+            Range All1 = GetCellsToSelect(range);
+
+            //iniciando objeto
+            Workbook M7Pbix = Globals.ThisAddIn.getActiveApp().Workbooks.Open(Excel.PathToPbix, UpdateLinks: false);
+            Worksheet sheets = M7Pbix.Sheets[sheetNum];
+
+            //Passando os dados para o destino
+            sheets.Activate();
+            Range All2 = GetCellsToSelect("A2:R2");
+            All2.EntireRow.Delete();
+            All1.Copy();
+            sheets.Range["A2"].PasteSpecial(XlPasteType.xlPasteValues, XlPasteSpecialOperation.xlPasteSpecialOperationNone);
+            Clipboard.Clear();
+
+            M7Pbix.Save();
+            M7Pbix.Close(false);
         }
 
 
