@@ -18,10 +18,9 @@ namespace TrainingVSTO.Models
         public static DateTime dateToday = DateTime.Today;
         public static string dateValidate = dateToday.ToString("d").Replace("/", ".");
         
-        //@"C\Log_Planej_Adm\PERSONAL\Enzo Rodrigues\Default Files\M7 - ex -.xlsx"
         public static string PathToM7DOpen
         {
-            get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo_Rodrigues\Default Files\M7 - STK ex.xlsx"; }
+            get { return @"C:\Log_Planej_Adm\PERSONAL\Enzo_Rodrigues\Default Files\M7 - STK ex.xlsx"; }
         }        
         public static string PathToPbix
         {
